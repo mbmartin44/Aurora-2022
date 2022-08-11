@@ -1,0 +1,22 @@
+1. Install Gmail API
+pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+
+For any of this to work Google API has to be setup correctly, which it is now
+
+
+
+Additional Notes on Android Deployment
+https://medium.com/@Lola_Dam/packaging-pyqt-application-using-pyqtdeploy-for-both-linux-and-android-32ac7824708b
+
+
+
+Useful Links:
+https://developers.google.com/gmail/api/quickstart/python
+https://developers.google.com/gmail/api/guides/sending#python
+https://developers.google.com/gmail/api/reference/rest/v1/users.messages/send
+https://developers.google.com/workspace/guides/create-credentials#desktop-app
+https://mailtrap.io/blog/send-emails-with-gmail-api/
+https://www.youtube.com/watch?v=29eJb5IIBDs&ab_channel=JieJenn
+
+C# Conversion Notes:
+https://stackoverflow.com/questions/71397381/gmail-api-oauth2-how-to-send-emails-with-traditional-c-sharp-smtp-method-bei
