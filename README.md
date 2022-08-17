@@ -1,4 +1,4 @@
-# CapstoneFall2022: The official repository of the Fall 2022 Seizure Detection Capstone
+# Aurora 2022: The official repository of the Fall 2022 Seizure Detection Capstone
 
 ## - Overview of folders / subprojects
 
