@@ -3,7 +3,7 @@ name: Application UI Feature
 about: 'Propose a new application / UI feature or functionality '
 title: "[UI Feature]"
 labels: Application
-assignees: Reesem12
+assignees: mbmartin44, Reesem12
 
 ---
 
