@@ -1,4 +1,19 @@
-﻿using System;
+﻿/*
+ * Author: Keaton Shelton
+ * Date: August 25th, 2022
+ * Arguments: n/a
+ * Returns: n/a
+ * 
+ * Abstract:
+ *      This class contains the various functions and routines
+ *  that are needed for the email client to work.
+ *  
+ *  Revisions:
+ *  01ks - July 16th, 2022 - Convert from Python to C#
+ *  02ks - July 16th, 2022 - Remove complexity and shift to single sender
+ *  03ks - July 21st, 2022 - Add in attachment support
+ */
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
