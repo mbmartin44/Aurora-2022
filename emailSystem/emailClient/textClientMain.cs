@@ -1,4 +1,17 @@
-﻿using System;
+﻿/*
+ * Author: Keaton Shelton
+ * Date: August 25th, 2022
+ * Arguments: n/a
+ * Returns: n/a
+ * 
+ * Abstract:
+ *      This class contains the various functions and routines
+ *  that are needed for the texting client to work.
+ *  
+ *  Revisions:
+ *  01ks - August 25th, 2022 - Original
+ */
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
