@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mail;
+using Email_Client;
+using Text_Client;
 
-namespace Email_Client
+namespace Network_Dev
 {
-    class MailPackage
+    class NetworkTest
     {
         static void Main()
         {
@@ -22,50 +24,7 @@ namespace Email_Client
             const string host = "smtp.gmail.com";
             const int port = 587;
 
-            sendMail(fromAddress, tooAddress, fromPassword, subject, body, host, port, attach);
-        }
-
-        //Email with attachment
-        static void sendMail(MailAddress from, MailAddress too, string password, string subject, string body, string host, int port, Attachment attach)
-        {
-            using (var smtp = new SmtpClient(host))
-            {
-                smtp.Host = host;
-                smtp.Port = port;
-                smtp.EnableSsl = true;
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential(from.Address, password);
-
-                using (var message = new MailMessage(from, too))
-                {
-                    message.Subject = subject;
-                    message.Body = body;
-                    message.Attachments.Add(attach);
-                    smtp.Send(message);
-                };
-            };
-        }
-
-        //Email with no attachment
-        static void sendMail(MailAddress from, MailAddress too, string password, string subject, string body, string host, int port)
-        {
-            using (var smtp = new SmtpClient(host))
-            {
-                smtp.Host = host;
-                smtp.Port = port;
-                smtp.EnableSsl = true;
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential(from.Address, password);
-
-                using (var message = new MailMessage(from, too))
-                {
-                    message.Subject = subject;
-                    message.Body = body;
-                    smtp.Send(message);
-                };
-            };
+            MailPackage.sendMail(fromAddress, tooAddress, fromPassword, subject, body, host, port, attach);
         }
     }
 }
