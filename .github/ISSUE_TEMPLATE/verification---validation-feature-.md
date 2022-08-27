@@ -2,10 +2,13 @@
 name: 'Verification & Validation Feature '
 about: Propose a new feature for the V&V project
 title: "[Verification Feature]"
-labels: Testing/Verification
+labels: Feature, Testing/Verification
 assignees: jhlongmire42
 
 ---
+
+** ONLY FOR ISOLATED FEATURES (SHOULD AFFECT NO OTHER PROJECTS)
+** SHOULD BE SI ISSUE IF AFFECTING OTHER PROJECTS
 
 ** Give a description of the new feature **
 
