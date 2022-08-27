@@ -1,7 +1,7 @@
 ---
 name: Aurora Systems Integration Bug
 about: Identified bug in main's subsystems-integration code or architecture
-title: "[SI Bug]"
+title: "[SI Bug] - "
 labels: Aurora Integration, BUG
 assignees: mbmartin44
 

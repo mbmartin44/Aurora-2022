@@ -1,7 +1,7 @@
 ---
 name: Networking Feature Request
 about: Propose a new feature for the networking project
-title: "[Networking]"
+title: "[Networking] - "
 labels: Feature, Networking
 assignees: kshelton7821
 

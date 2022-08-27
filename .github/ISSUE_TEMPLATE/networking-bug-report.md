@@ -1,7 +1,7 @@
 ---
 name: Networking Bug Report
 about: Resolving a bug discovered in main's networking code
-title: "[Network bug]"
+title: "[Network bug] - "
 labels: BUG, Networking
 assignees: kshelton7821
 

@@ -1,7 +1,7 @@
 ---
 name: 'Aurora Systems Integration '
 about: 'Aurora full-project scope changes '
-title: "[Aurora SI]"
+title: "[Aurora SI] - "
 labels: Aurora Integration
 assignees: mbmartin44
 

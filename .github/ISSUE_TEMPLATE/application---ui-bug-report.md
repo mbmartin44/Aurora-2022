@@ -1,9 +1,9 @@
 ---
 name: Application / UI Bug report
 about: Identified bug in main's application bug
-title: "[UI Bug]"
+title: "[UI Bug] - "
 labels: Application, BUG
-assignees: Reesem12
+assignees: mbmartin44, Reesem12
 
 ---
 

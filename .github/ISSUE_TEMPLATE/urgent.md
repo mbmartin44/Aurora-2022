@@ -1,7 +1,7 @@
 ---
 name: URGENT
 about: Open an urgent issue requiring immediate action
-title: "[URGENT]"
+title: "[URGENT] - "
 labels: URGENT
 assignees: mbmartin44, kshelton7821, Reesem12, jhlongmire42, 8qf
 

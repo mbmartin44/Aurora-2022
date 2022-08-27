@@ -1,7 +1,7 @@
 ---
 name: Aurora Systems Integration Feature
 about: New subsystems integration changes
-title: "[Aurora SI]"
+title: "[Aurora SI] - "
 labels: Aurora Integration, Feature
 assignees: mbmartin44
 
