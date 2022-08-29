@@ -1,0 +1,6 @@
+framework module neurosdk {
+  umbrella header "neurosdk.h"
+
+  export *
+  module * { export * }
+}

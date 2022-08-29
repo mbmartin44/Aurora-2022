@@ -1,11 +1,14 @@
 ---
 name: Networking Feature Request
 about: Propose a new feature for the networking project
-title: ''
-labels: Networking
+title: "[Networking] - "
+labels: Feature, Networking
 assignees: kshelton7821
 
 ---
+
+** ONLY FOR ISOLATED FEATURES (SHOULD AFFECT NO OTHER PROJECTS)
+** SHOULD BE SI ISSUE IF AFFECTING OTHER PROJECTS
 
 ** Give a description of the new feature **
 

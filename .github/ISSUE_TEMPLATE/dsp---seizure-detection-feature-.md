@@ -2,10 +2,13 @@
 name: 'DSP / Seizure Detection Feature '
 about: Propose a new feature for the DSP / detection project
 title: "[DSP Feature]"
-labels: DSP/Detection
+labels: DSP/Detection, Feature
 assignees: 8qf, mbmartin44
 
 ---
+
+** ONLY FOR ISOLATED FEATURES (SHOULD AFFECT NO OTHER PROJECTS)
+** SHOULD BE SI ISSUE IF AFFECTING OTHER PROJECTS
 
 ** Give a description of the new feature **
 

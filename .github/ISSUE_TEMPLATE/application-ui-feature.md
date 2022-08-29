@@ -1,12 +1,15 @@
 ---
 name: Application UI Feature
 about: 'Propose a new application / UI feature or functionality '
-title: "[UI Feature]"
-labels: Application
-assignees: mbmartin44, Reesem12
+title: "[UI Feature] - "
+labels: Application, Feature
+assignees: Reesem12
 
 ---
 
+** ONLY FOR ISOLATED FEATURES (SHOULD AFFECT NO OTHER PROJECTS)
+** SHOULD BE SI ISSUE IF AFFECTING OTHER PROJECTS
+
 ** Give a description of the new feature **
 
-** Identify any issues that may arise for other projects (networking, DSP, V&V)
+** List any expected setbacks or difficulties**
