@@ -12,6 +12,7 @@
  *  01ks - July 16th, 2022 - Convert from Python to C#
  *  02ks - July 16th, 2022 - Remove complexity and shift to single sender
  *  03ks - July 21st, 2022 - Add in attachment support
+ *  04ks - August 25th, 2022 - Re-Organization
  */
 using System;
 using System.Collections.Generic;

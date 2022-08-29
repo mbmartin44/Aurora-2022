@@ -13,6 +13,7 @@
  *  01ks - ? - Original
  *  02ks - August 25th, 2022 - Update Structure
  *  03ks - August 25th, 2022 - Add in texting test function
+ *  04ks - August 29th, 2022 - Add in MMS test function
  */
 using System;
 using System.Net;
@@ -46,9 +47,15 @@ namespace Network_Dev
 
                 //Send email with picture
                 //MailPackage.sendMail(fromAddress, tooAddress, fromPassword, subject, body, host, port, attach);
+                //Works
 
                 //Send normal text
-                TextPackage.sendText(fromAddress, number, fromPassword, subject, body, host, port);
+                //TextPackage.sendText(fromAddress, number, fromPassword, subject, body, host, port);
+                //Works
+
+                //Send MMS
+                TextPackage.sendMMS(fromAddress, number, fromPassword, subject, body, host, port, attach);
+                //Works
             }
             catch (Exception e)
             {

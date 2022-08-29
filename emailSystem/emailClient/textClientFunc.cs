@@ -10,6 +10,7 @@
  *  
  *  Revisions:
  *  01ks - August 25th, 2022 - Original
+ *  02ks - August 29th, 2022 - Add in MMS support
  */
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,23 @@ namespace Text_Client
 {
     class TextPackage
     {
-        //Text Message Test Function
+        //Normal Text Message Test Function
         public static void sendText(MailAddress from, string number, string password, string subject, string body, string host, int port)
         {
             string cricket = "@mms.cricketwireless.net";
             MailAddress too = new MailAddress(number + cricket, "Keaton Shelton");
             //Test Send to me on Cricket
             MailPackage.sendMail(from, too, password, subject, body, host, port);
+        }
+
+        //MMS Test Function
+        public static void sendMMS(MailAddress from, string number, string password, string subject, string body, string host, int port, Attachment attachment)
+        {
+            string cricket = "@mms.cricketwireless.net";
+            MailAddress too = new MailAddress(number + cricket, "Keaton Shelton");
+
+            //Test Send MMS on Cricket
+            MailPackage.sendMail(from, too, password, subject, body, host, port, attachment);
         }
     }
 }
