@@ -40,27 +40,25 @@ namespace Text_Client
          *11. Metro: @mymetropcs.com sms/mms
          *12. Ting: @message.ting.com sms/mms
          */
-        public string[] sms = {"@tmomail.net", "@txt.att.net", "@vmobl.com", "@sms.myboostmobile.com", "@vtext.com", "@messaging.sprintpcs.com",
+        private static readonly string[] sms = {"@tmomail.net", "@txt.att.net", "vtext.com", "@vmobl.com", "@sms.myboostmobile.com", "@vtext.com", "@messaging.sprintpcs.com",
             "@email.uscc.net", "@sms.circketwireless.net", "@mmst5.tracfone.com", "@mymetropcs.com", "@message.ting.com"};
-
+        private static readonly string[] mms = { "@tmomail.net", "@mms.att.net", "@vzwpix.com", "@vmpix.com", "@myboostmobile.com", "@mypixmessages.com", "@pm.sprint.com",
+            "@mms.uscc.net", "@mms.cricketwireless.net", "@mmst5.tracfone.com", "@mymetropcs.com", "@message.ting.com"};
 
 
         //Normal Text Message Test Function
-        public static void sendText(MailAddress from, string number, string password, string subject, string body, string host, int port)
+        public static void sendText(MailAddress from, string number, int carrier, string password, string subject, string body, string host, int port)
         {
-            string cricket = "@mms.cricketwireless.net";
-            MailAddress too = new MailAddress(number + cricket, "Keaton Shelton");
-            //Test Send to me on Cricket
+            MailAddress too = new MailAddress(number + sms[carrier], from.DisplayName);
+            //Test Send SMS
             MailPackage.sendMail(from, too, password, subject, body, host, port);
         }
 
         //MMS Test Function
-        public static void sendMMS(MailAddress from, string number, string password, string subject, string body, string host, int port, Attachment attachment)
+        public static void sendMMS(MailAddress from, string number, int carrier, string password, string subject, string body, string host, int port, Attachment attachment)
         {
-            string cricket = "@mms.cricketwireless.net";
-            MailAddress too = new MailAddress(number + cricket, "Keaton Shelton");
-
-            //Test Send MMS on Cricket
+            MailAddress too = new MailAddress(number + mms[carrier], "Keaton Shelton");
+            //Test Send MMS
             MailPackage.sendMail(from, too, password, subject, body, host, port, attachment);
         }
     }

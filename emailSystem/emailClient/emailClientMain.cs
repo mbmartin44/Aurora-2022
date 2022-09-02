@@ -20,6 +20,7 @@ using System.Net;
 using System.Net.Mail;
 using Email_Client;
 using Text_Client;
+using Contacts;
 
 namespace Network_Dev
 {
@@ -29,33 +30,32 @@ namespace Network_Dev
         {
             try
             {
-                Console.WriteLine("Initializing Mail Client");
-
-                //Test Run
-
+                bool run = true;
+                Console.WriteLine("Initializing Client");
+                //Required Initialization
                 var fromAddress = new MailAddress("brainanalytics2022@gmail.com", "Auto Sender");
                 var tooAddress = new MailAddress("keaton.shelton2@gmail.com", "Keaton Shelton");
-                string number = "8652366111";
-                const string fromPassword = "xgfxsygrzzcenjlv";
-                const string subject = "Test Subject";
-                const string body = "Why Hello There General Kenobi";
-                //Attachment Example below (image type)
-                //System.Net.Mail.Attachment attach1 = new System.Net.Mail.Attachment("C:\\Users\\kmshelton\\Downloads\\image004.png");
-                Attachment attach = new Attachment(".\\eeg.png");
-                const string host = "smtp.gmail.com";
-                const int port = 587;
+                while (run)
+                {
+                    string number;
+                    const string fromPassword = "xgfxsygrzzcenjlv";
+                    string subject;
+                    string body;
+                    //Attachment Examples below (image type)
+                    //System.Net.Mail.Attachment attach1 = new System.Net.Mail.Attachment("C:\\Users\\kmshelton\\Downloads\\image004.png");
+                    //Attachment attach = new Attachment(".\\eeg.png");
+                    const string host = "smtp.gmail.com";
+                    const int port = 587;
 
-                //Send email with picture
-                //MailPackage.sendMail(fromAddress, tooAddress, fromPassword, subject, body, host, port, attach);
-                //Works
+                    Console.WriteLine("");
+                    Console.WriteLine("Menu Selection:");
+                    Console.WriteLine("1. Add Contact");
+                    Console.WriteLine("2. List Contacts");
+                    Console.WriteLine("3. Write Subject");
+                    Console.WriteLine("4. List Subject");
+                     Console.WriteLine("5. Write Body");
 
-                //Send normal text
-                //TextPackage.sendText(fromAddress, number, fromPassword, subject, body, host, port);
-                //Works
-
-                //Send MMS
-                TextPackage.sendMMS(fromAddress, number, fromPassword, subject, body, host, port, attach);
-                //Works
+                }
             }
             catch (Exception e)
             {
