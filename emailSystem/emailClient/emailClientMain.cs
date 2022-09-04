@@ -37,7 +37,7 @@ namespace Network_Dev
                 var tooAddress = new MailAddress("keaton.shelton2@gmail.com", "Keaton Shelton");
                 while (run)
                 {
-                    string number;
+                    string number, answer;
                     const string fromPassword = "xgfxsygrzzcenjlv";
                     string subject;
                     string body;
@@ -53,8 +53,9 @@ namespace Network_Dev
                     Console.WriteLine("2. List Contacts");
                     Console.WriteLine("3. Write Subject");
                     Console.WriteLine("4. List Subject");
-                     Console.WriteLine("5. Write Body");
+                    Console.WriteLine("5. Write Body");
 
+                    answer = Console.ReadLine();
                 }
             }
             catch (Exception e)
