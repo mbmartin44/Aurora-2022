@@ -47,19 +47,31 @@ namespace Text_Client
 
 
         //Normal Text Message Test Function
-        public static void sendText(MailAddress from, string number, int carrier, string password, string subject, string body, string host, int port)
+        public static void sendText(MailAddress from, Contacts.ContactsPackage too, int carrier, string password, string subject, string body, string host, int port)
         {
-            MailAddress too = new MailAddress(number + sms[carrier], from.DisplayName);
-            //Test Send SMS
-            MailPackage.sendMail(from, too, password, subject, body, host, port);
+            try 
+            {
+                //Test Send SMS
+                MailPackage.sendMail(from, too, password, subject, body, host, port);
+            }
+            catch(Exception e) 
+            {
+                Console.WriteLine("Error: " + e.ToString());
+            }
         }
 
         //MMS Test Function
-        public static void sendMMS(MailAddress from, string number, int carrier, string password, string subject, string body, string host, int port, Attachment attachment)
+        public static void sendMMS(MailAddress from, Contacts.ContactsPackage too, int carrier, string password, string subject, string body, string host, int port, Attachment attachment)
         {
-            MailAddress too = new MailAddress(number + mms[carrier], "Keaton Shelton");
-            //Test Send MMS
-            MailPackage.sendMail(from, too, password, subject, body, host, port, attachment);
+            try
+            {
+                //Test Send MMS
+                MailPackage.sendMailAttach(from, too, password, subject, body, host, port, attachment);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Error: " + e.ToString());
+            }
         }
     }
 }
