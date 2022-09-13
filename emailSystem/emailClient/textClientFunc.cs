@@ -19,6 +19,7 @@ using System.Text;
 using System.Net;
 using System.Net.Mail;
 using Email_Client;
+using Contacts;
 
 namespace Text_Client
 {
@@ -51,8 +52,13 @@ namespace Text_Client
         {
             try 
             {
+                MailAddress temp = new MailAddress(too.phone + sms[carrier], too.nameAddress.DisplayName);
+                Contacts.ContactsPackage person = new Contacts.ContactsPackage();
+                person.nameAddress = temp;
+                person.carrierID = too.carrierID;
+                person.phone = too.phone;
                 //Test Send SMS
-                MailPackage.sendMail(from, too, password, subject, body, host, port);
+                MailPackage.sendMail(from, person, password, subject, body, host, port);
             }
             catch(Exception e) 
             {
