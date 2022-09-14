@@ -45,33 +45,33 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11268}
+      Script: {instanceID: 11372}
     - Class: 114
-      Script: {instanceID: 11438}
+      Script: {instanceID: 11554}
     - Class: 114
-      Script: {instanceID: 11440}
+      Script: {instanceID: 11556}
     - Class: 114
-      Script: {instanceID: 11478}
+      Script: {instanceID: 11594}
     - Class: 114
-      Script: {instanceID: 11776}
+      Script: {instanceID: 11898}
     - Class: 114
-      Script: {instanceID: 11864}
+      Script: {instanceID: 11996}
     - Class: 114
-      Script: {instanceID: 11914}
+      Script: {instanceID: 12046}
     - Class: 114
-      Script: {instanceID: 12058}
+      Script: {instanceID: 12198}
     - Class: 114
-      Script: {instanceID: 12152}
+      Script: {instanceID: 12312}
     - Class: 114
-      Script: {instanceID: 12260}
+      Script: {instanceID: 12426}
     - Class: 114
-      Script: {instanceID: 12532}
+      Script: {instanceID: 12708}
     - Class: 114
-      Script: {instanceID: 12598}
+      Script: {instanceID: 12778}
     - Class: 114
-      Script: {instanceID: 12754}
+      Script: {instanceID: 12938}
     - Class: 114
-      Script: {instanceID: 13112}
+      Script: {instanceID: 13324}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -548,4 +548,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Android_new_design_04_26_22_3.apk
+  playerPath: C:/Users/reese/OneDrive/Documents/Aurora-2022/test_09_14_22_RM.apk

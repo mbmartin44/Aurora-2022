@@ -7,7 +7,7 @@ using UnityEngine;
 
 class SignalGraph : Graph
 {
-    private Queue<double> samplesQueue = new Queue<double>();
+    private Queue<double> samplesQueue = new Queue<double>(50);
 
     public override void InitGraph(int samplesCount)
     {

@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{B13CD495-54FF-1661-BF0D-2A2655D9963B}</ProjectGuid>
+    <ProjectGuid>{8C6C8623-8027-C9D9-7EC8-CC74F9C2ADD7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -266,11 +266,14 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="NugetForUnity">
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Assets/NuGet/Editor/NugetForUnity.dll</HintPath>
+    </Reference>
     <Reference Include="neurosdk">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Assets/Plugins/iOS/neurosdk.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Assets/Plugins/iOS/neurosdk.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.22f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -633,42 +636,42 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.22f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.TestRunner">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/reese/Downloads/brainbit-examples-master-unity/brainbit-examples-master-unity/unity/BrainBitSample/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/reese/OneDrive/Documents/Aurora-2022/app/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{4E6C69CB-4B96-A08E-A593-436EFE2B5D8E}</Project>
+      <Project>{931036EE-CC9C-8454-A049-58A200A6B1C9}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
   </ItemGroup>

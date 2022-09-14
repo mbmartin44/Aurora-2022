@@ -5,6 +5,8 @@ using Neuro;
 using Neuro.Native;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Net;
+using System.Net.Mail;
 
 public sealed class UIController : MonoBehaviour
 {
@@ -100,6 +102,10 @@ public sealed class UIController : MonoBehaviour
     private double spectrumPowerT3Value = 0;
     private double spectrumPowerT4Value = 0;
 
+
+
+
+
     private void Awake()
     {
         channelsController = new ChannelsController();
@@ -147,13 +153,23 @@ public sealed class UIController : MonoBehaviour
     {
         this.device = device;
     }
+    
+    
 
     #region DeviceInfo
     public void ShowDeviceInfo()
     {
         modesVariations.SetActive(false);
         deviceInfoOutput.SetActive(true);
+        Sending();
         GetDeviceInfo();
+        
+
+
+
+
+
+
     }
 
     public void CloseDeviceInfo()
@@ -198,10 +214,10 @@ public sealed class UIController : MonoBehaviour
         modesVariations.SetActive(true);
         signalOutput.SetActive(false);
         channelsController.destroySignal(device);
-        signalO1Graph.Close(); 
-        signalO2Graph.Close(); 
-        signalT3Graph.Close(); 
-        signalT4Graph.Close(); 
+        signalO1Graph.Close();
+        signalO2Graph.Close();
+        signalT3Graph.Close();
+        signalT4Graph.Close();
     }
     #endregion
 
@@ -210,7 +226,8 @@ public sealed class UIController : MonoBehaviour
     {
         modesVariations.SetActive(false);
         resistOutput.SetActive(true);
-        channelsController.createResistance(device, (channel, lastsample) => {
+        channelsController.createResistance(device, (channel, lastsample) =>
+        {
             AnyChannel anyChannel = (AnyChannel)channel;
             switch (anyChannel.Info.Name)
             {
@@ -243,7 +260,8 @@ public sealed class UIController : MonoBehaviour
     {
         modesVariations.SetActive(false);
         eegOutput.SetActive(true);
-        channelsController.createEeg(device, (channel, samples) => {
+        channelsController.createEeg(device, (channel, samples) =>
+        {
             AnyChannel anyChannel = (AnyChannel)channel;
             switch (anyChannel.Info.Name)
             {
@@ -284,7 +302,8 @@ public sealed class UIController : MonoBehaviour
     {
         modesVariations.SetActive(false);
         eegIndexOutput.SetActive(true);
-        channelsController.createEegIdx(device, (ids)=> {
+        channelsController.createEegIdx(device, (ids) =>
+        {
             indexValues = ids;
         });
     }
@@ -345,10 +364,11 @@ public sealed class UIController : MonoBehaviour
     {
         modesVariations.SetActive(false);
         specrtumPowerOutput.SetActive(true);
-        channelsController.createSpectrumPower(device, (channel, power) => {
+        channelsController.createSpectrumPower(device, (channel, power) =>
+        {
             AnyChannel anyChannel = (AnyChannel)channel;
             Debug.Log($"Channel name = {anyChannel.Info.Name}");
-            switch(anyChannel.Info.Name) 
+            switch (anyChannel.Info.Name)
             {
                 case "O1":
                     spectrumPowerO1Value = power * 1e3;
@@ -441,18 +461,24 @@ public sealed class UIController : MonoBehaviour
         }
         else
         {
-            channelsController?.createBattery(device, (power) => {
+            channelsController?.createBattery(device, (power) =>
+            {
                 devicePower = power;
             });
         }
-        
+
     }
+
+
+
 
     private void GetDeviceInfo()
     {
+
         string info = "";
         info += "*Common params*\n";
         info += string.Format("Name: [{0}]\n", device.ReadParam<string>(Neuro.Native.Parameter.Name));
+        //info += string.Format("Name: [{0}]\n", input_params.ip_address);
         info += string.Format("Address: [{0}]\n", device.ReadParam<string>(Neuro.Native.Parameter.Address));
         info += string.Format("Serial Number: [{0}]\n", device.ReadParam<string>(Neuro.Native.Parameter.SerialNumber));
 
@@ -482,5 +508,59 @@ public sealed class UIController : MonoBehaviour
             info += string.Format("{0}\n", command);
         }
         deviceInfoText.text = info;
+
+    }
+
+
+    public void Sending()
+    {
+        //Password - xgfxsygrzzcenjlv
+        //Console.WriteLine("Initializing Mail Client");
+
+        //Test
+
+        var fromAddress = new MailAddress("brainanalytics2022@gmail.com", "THIS IS NOT A DRILL");
+        //var tooAddress = new MailAddress("8652366111@txt.att.net", "TAKE COVER IMMEDIATELY");
+        var tooAddress = new MailAddress("9313355335@vtext.com", "TAKE COVER IMMEDIATELY");
+        const string fromPassword = "xgfxsygrzzcenjlv";
+        const string subject = "TESTING_APP_TEXT";
+        const string body = "Why Hello There General Kenobi";
+        //System.Net.Mail.Attachment attach = new System.Net.Mail.Attachment("C:\\Users\\reese\\OneDrive\\Documents\\KeatonEmail\\Email System\\eeg.png");
+        const string host = "smtp.gmail.com";
+        const int port = 587;
+
+
+
+
+
+
+        sendMail(fromAddress, tooAddress, fromPassword, subject, body, host, port);
+    }
+
+
+
+
+
+
+    static void sendMail(MailAddress from, MailAddress too, string password, string subject, string body, string host, int port)
+    {
+        using (var smtp = new SmtpClient(host))
+        {
+            smtp.Host = host;
+            smtp.Port = port;
+            smtp.EnableSsl = true;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential(from.Address, password);
+
+            using (var message = new MailMessage(from, too))
+            {
+                message.Subject = subject;
+                message.Body = body;
+                //message.Attachments.Add(attach);
+                smtp.Send(message);
+            };
+        };
     }
 }
+
