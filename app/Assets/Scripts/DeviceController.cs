@@ -35,7 +35,7 @@ public class DeviceController : MonoBehaviour
 
     private void createDeviceEnumerator()
     {
-#if UNITY_IOS
+#if UNITY_IOS || UNITY_EDITOR
         deviceEnumerator = new DeviceEnumerator(Neuro.Native.DeviceType.BrainbitAny);
 #elif UNITY_ANDROID
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
