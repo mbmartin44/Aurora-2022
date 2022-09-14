@@ -41,7 +41,7 @@ namespace Text_Client
          *11. Metro: @mymetropcs.com sms/mms
          *12. Ting: @message.ting.com sms/mms
          */
-        private static readonly string[] sms = {"@tmomail.net", "@txt.att.net", "vtext.com", "@vmobl.com", "@sms.myboostmobile.com", "@vtext.com", "@messaging.sprintpcs.com",
+        private static readonly string[] sms = {"@tmomail.net", "@txt.att.net", "@vtext.com", "@vmobl.com", "@sms.myboostmobile.com", "@vtext.com", "@messaging.sprintpcs.com",
             "@email.uscc.net", "@sms.circketwireless.net", "@mmst5.tracfone.com", "@mymetropcs.com", "@message.ting.com"};
         private static readonly string[] mms = { "@tmomail.net", "@mms.att.net", "@vzwpix.com", "@vmpix.com", "@myboostmobile.com", "@mypixmessages.com", "@pm.sprint.com",
             "@mms.uscc.net", "@mms.cricketwireless.net", "@mmst5.tracfone.com", "@mymetropcs.com", "@message.ting.com"};
@@ -52,7 +52,7 @@ namespace Text_Client
         {
             try 
             {
-                MailAddress temp = new MailAddress(too.phone + sms[carrier], too.nameAddress.DisplayName);
+                MailAddress temp = new MailAddress(too.phone + sms[carrier - 1], too.nameAddress.DisplayName);
                 Contacts.ContactsPackage person = new Contacts.ContactsPackage();
                 person.nameAddress = temp;
                 person.carrierID = too.carrierID;
@@ -71,8 +71,13 @@ namespace Text_Client
         {
             try
             {
+                MailAddress temp = new MailAddress(too.phone + sms[carrier - 1], too.nameAddress.DisplayName);
+                Contacts.ContactsPackage person = new Contacts.ContactsPackage();
+                person.nameAddress = temp;
+                person.carrierID = too.carrierID;
+                person.phone = too.phone;
                 //Test Send MMS
-                MailPackage.sendMailAttach(from, too, password, subject, body, host, port, attachment);
+                MailPackage.sendMailAttach(from, person, password, subject, body, host, port, attachment);
             }
             catch(Exception e)
             {
