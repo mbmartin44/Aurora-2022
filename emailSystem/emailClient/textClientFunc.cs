@@ -42,7 +42,7 @@ namespace Text_Client
          *12. Ting: @message.ting.com sms/mms
          */
         private static readonly string[] sms = {"@tmomail.net", "@txt.att.net", "@vtext.com", "@vmobl.com", "@sms.myboostmobile.com", "@vtext.com", "@messaging.sprintpcs.com",
-            "@email.uscc.net", "@sms.circketwireless.net", "@mmst5.tracfone.com", "@mymetropcs.com", "@message.ting.com"};
+            "@email.uscc.net", "@mms.cricketwireless.net", "@mmst5.tracfone.com", "@mymetropcs.com", "@message.ting.com"};
         private static readonly string[] mms = { "@tmomail.net", "@mms.att.net", "@vzwpix.com", "@vmpix.com", "@myboostmobile.com", "@mypixmessages.com", "@pm.sprint.com",
             "@mms.uscc.net", "@mms.cricketwireless.net", "@mmst5.tracfone.com", "@mymetropcs.com", "@message.ting.com"};
 
