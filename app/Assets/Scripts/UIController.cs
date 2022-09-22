@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using System.Net;
 using System.Net.Mail;
 
+
 public sealed class UIController : MonoBehaviour
 {
     ChannelsController channelsController = null;
@@ -161,8 +162,13 @@ public sealed class UIController : MonoBehaviour
     {
         modesVariations.SetActive(false);
         deviceInfoOutput.SetActive(true);
-        Sending();
+        //Sending();
+        string phone = "9313355335";
+        var anInstanceofSMS = new SendSMS();
+        anInstanceofSMS.Send(phone);
         GetDeviceInfo();
+        
+        
         
 
 
