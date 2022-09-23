@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Text_Driver 
-{
+
     public class textDriverFunc : MonoBehaviour
     {
         AndroidJavaObject currentActivity;
 
-        public void Send(bool detect)
+        public void Send(string phone)
         {
-            if((Application.platform == RuntimePlatform.Android) && detect)
+            if(Application.platform == RuntimePlatform.Android)
             {
                 RunAndroidUiThread();
             }
@@ -43,4 +42,3 @@ namespace Text_Driver
             }
         }
     }
-}
