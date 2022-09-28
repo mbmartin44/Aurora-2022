@@ -14,20 +14,22 @@
  *    and execute the primary function on a true condition.
 */
 using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using UnityEngine;
 
-namespace Email_Interface
+namespace PrimaryInterface
 {
-    class clientInterface
+    public class clientInterface : MonoBehaviour
     {
         //Main Use Function
         public async void signalWatch(List<ContactsPackage> people, Attachment attach, bool detect, bool validAtt)
         {
-            if(detect) {
+            if (detect)
+            {
                 var fromAddress = new MailAddress("brainanalytics2022@gmail.com", "Seizure App Auto Sender");
                 const string fromPassword = "xgfxsygrzzcenjlv";
                 const string host = "smtp.gmail.com";
@@ -38,9 +40,9 @@ namespace Email_Interface
 
 
                 //Send emails and text messages from contacts list
-                foreach(var x in people)
+                foreach (var x in people)
                 {
-                    if(validAtt) 
+                    if (validAtt)
                     {
                         textDriverFunc texter = new textDriverFunc();
                         texter.Send(x);
@@ -65,14 +67,14 @@ namespace Email_Interface
     }
 
     //Contacts Class
-    class ContactsPackage
+    public class ContactsPackage
     {
         public MailAddress nameAddress { get; set; }
         public string phone { get; set; }
     }
 
     //Email Class
-    class MailPackage
+    public class MailPackage
     {
         //Email with attachment
         public static void sendMailAttach(MailAddress from, ContactsPackage too, string password, string subject, string body, string host, int port, Attachment attach)
@@ -97,9 +99,9 @@ namespace Email_Interface
                     };
                 };
             }
-            catch(Exception e) 
+            catch (System.Exception e)
             {
-                Console.WriteLine("Error: " + e.ToString());
+                Debug.LogError("Error: " + e.ToString());
             }
         }
 
@@ -125,9 +127,9 @@ namespace Email_Interface
                     };
                 };
             }
-            catch(Exception e) 
+            catch (System.Exception e)
             {
-                Console.WriteLine("Error: " + e.ToString());
+                Debug.LogError("Error: " + e.ToString());
             }
         }
     }
@@ -136,29 +138,30 @@ namespace Email_Interface
     public class textDriverFunc : MonoBehaviour
     {
         AndroidJavaObject currentActivity;
+        ContactsPackage current;
 
         public void Send(ContactsPackage person)
         {
-            if(Application.platform == RuntimePlatform.Android)
+            if (Application.platform == RuntimePlatform.Android)
             {
-                RunAndroidUiThread(person);
+                RunAndroidUiThread();
+                current = person;
             }
         }
 
-        void RunAndroidUiThread(ContactsPackage temp) 
+        void RunAndroidUiThread()
         {
             AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            currentActivity.Call("runOnUiThread", new AndroidJavaRunnable(SendProcess(temp)));
+            currentActivity.Call("runOnUiThread", new AndroidJavaRunnable(SendProcess));
         }
 
-        void SendProcess(ContactsPackage reciever)
+        void SendProcess()
         {
             AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
 
-            string phone = reciever.phone;
+            string phone = current.phone;
             string text = "Hello there general kenobi";
-            string alert;
 
             try
             {
@@ -166,11 +169,11 @@ namespace Email_Interface
                 AndroidJavaObject SMSManagerObject = SMSManagerClass.CallStatic<AndroidJavaObject>("getDefault");
                 SMSManagerObject.Call("sendTextMessage", phone, null, text, null, null);
             }
-            catch(Exception e)
+            catch (System.Exception e)
             {
                 Debug.Log("Error : " + e.StackTrace.ToString());
             }
         }
     }
-
 }
+
