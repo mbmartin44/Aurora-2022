@@ -348,3 +348,11 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Unity Generated files
+/.vscode
+/obj
+/Temp
+/Library
+/APKs/LocalAPKs/*.apk
+*.bak
