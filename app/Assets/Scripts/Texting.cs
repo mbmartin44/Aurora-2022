@@ -28,7 +28,7 @@ public class SendSMS : MonoBehaviour
 
         // SMS Information
 
-        string phone = "9313355335";
+        string phone = "93131987"; 
         string text = "Hello World. This SMS is sent using Android SMS Manager.";
         string alert;
 

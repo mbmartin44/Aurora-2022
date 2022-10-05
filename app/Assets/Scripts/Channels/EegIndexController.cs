@@ -43,6 +43,8 @@ public class EegIndexController
 
     private void OnEegIdxRecieved(object sender, int e)
     {
+        
+        //EegIndexValues values = eegIndexChannel.ReadData(signalOffsets[signalChannel.Info.Name], readLength);
         EegIndexValues values = eegIndexChannel.ReadData(eegIndexChannel.TotalLength - 1, 1)[0];
         onEegIdxChanged?.Invoke(values);
     }

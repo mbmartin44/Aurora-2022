@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 class SignalGraph : Graph
 {
@@ -69,10 +71,64 @@ class SignalGraph : Graph
             }
             lastX = xPosition;
             lastY = yPosition;
+
+
+
+
+            //RectTransform labelX = Instantiate(labelTemplateX);
+            //labelX.SetParent(container);
+            //labelX.gameObject.SetActive(true);
+            //labelX.anchoredPosition = new Vector2(xPosition, -7f);
+            //labelX.GetComponent<Text>().text = i.ToString();
+
+
+
+
+
         }
+
+        //List<RectTransform> temp = new List<RectTransform>();
+        
+        int seperatorCount = 10;
+        for (int i = -4; i < seperatorCount; i++)
+        {
+            RectTransform labelY = Instantiate(labelTemplateY);
+            labelY.SetParent(container);
+            labelY.gameObject.SetActive(true);
+            float normalizedValue = i * 1f / seperatorCount;
+
+            //RectTransform Dash = Instantiate(DashTemplate);
+            //Dash.SetParent(container);
+            //Dash.gameObject.SetActive(true);
+
+            
+
+
+
+
+
+
+
+            //float normalizedValue = graphHeight / (yMax * 2.0f) * ((float)samples[i] + yMax);
+            if (i < 5)
+            {
+                //Dash.anchoredPosition = new Vector2(-60f, normalizedValue * graphHeight);
+
+                labelY.anchoredPosition = new Vector2(-30f, normalizedValue * graphHeight);
+                labelY.GetComponent<Text>().text = Mathf.RoundToInt(normalizedValue * yMax * .001f).ToString();
+
+
+            }
+           
+
+
+        }
+
+
+
     }
 
-    public override void UpdateGraph(double[] newSamples)
+public override void UpdateGraph(double[] newSamples)
     {
         for (int i = 0; i < newSamples.Length; i++)
         {
