@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32510.428
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailClientLib", "EmailClientLib\EmailClientLib.csproj", "{F200702D-6716-411F-8A11-4D75A7B2E1E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LyapunovDetection", "LyapunovDetection\LyapunovDetection.csproj", "{DC669D51-8FAE-40BB-8AB0-EEDB0849541A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Subsystems", "Subsystems", "{90889F1E-1166-414C-9159-B60ECEA8D4A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F200702D-6716-411F-8A11-4D75A7B2E1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F200702D-6716-411F-8A11-4D75A7B2E1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F200702D-6716-411F-8A11-4D75A7B2E1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F200702D-6716-411F-8A11-4D75A7B2E1E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC669D51-8FAE-40BB-8AB0-EEDB0849541A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC669D51-8FAE-40BB-8AB0-EEDB0849541A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC669D51-8FAE-40BB-8AB0-EEDB0849541A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC669D51-8FAE-40BB-8AB0-EEDB0849541A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F200702D-6716-411F-8A11-4D75A7B2E1E9} = {90889F1E-1166-414C-9159-B60ECEA8D4A4}
+		{DC669D51-8FAE-40BB-8AB0-EEDB0849541A} = {90889F1E-1166-414C-9159-B60ECEA8D4A4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5B1AD85-BD46-4CF9-AA0C-29CCCB539879}
+	EndGlobalSection
+EndGlobal
