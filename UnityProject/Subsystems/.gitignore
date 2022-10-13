@@ -1,0 +1,6 @@
+*.pdb
+*.cache
+/EmailClientLib/bin/*
+/LyapunovDetection/bin/*
+/EmailClientLib/obj/*
+/LyapunovDetection/obj/**

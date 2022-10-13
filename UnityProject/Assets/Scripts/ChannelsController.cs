@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using Neuro;
 using Neuro.Native;
 using UnityEngine;
-
 public class ChannelsController
 {
     #region Battery
     Battery batteryController = null;
+
     public void createBattery(Device device, Action<int> onPowerChanged)
     {
         batteryController = new Battery(device);
@@ -75,13 +75,13 @@ public class ChannelsController
 
     #region EegIndex
     EegIndexController indexController = null;
-    public void createEegIdx(Device device, Action<EegIndexValues> onEegIdxChanged) 
+    public void createEegIdx(Device device, Action<EegIndexValues> onEegIdxChanged)
     {
         indexController = new EegIndexController(device);
         indexController.onEegIdxChanged = onEegIdxChanged;
     }
 
-    public void destroyEegIdx(Device device) 
+    public void destroyEegIdx(Device device)
     {
         indexController.CloseChannel(device);
     }
@@ -89,7 +89,7 @@ public class ChannelsController
 
     #region Spectrum
     SpectrumController spectrumController = null;
-    public void createSpectrum(Device device, EventHandler<double[]> onSpectrumChanged) 
+    public void createSpectrum(Device device, EventHandler<double[]> onSpectrumChanged)
     {
         spectrumController = new SpectrumController(device);
         spectrumController.onSpectrumChanged = onSpectrumChanged;
@@ -108,7 +108,7 @@ public class ChannelsController
 
     #region SpectrumPower
     SpectrumPowerController spectrumPowerController = null;
-    public void createSpectrumPower(Device device, EventHandler<double> onSpectrumPowerChanged) 
+    public void createSpectrumPower(Device device, EventHandler<double> onSpectrumPowerChanged)
     {
         spectrumPowerController = new SpectrumPowerController(device);
         spectrumPowerController.onSpectrumPowerChanged += onSpectrumPowerChanged;

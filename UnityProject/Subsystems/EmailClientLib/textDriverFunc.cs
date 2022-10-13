@@ -29,7 +29,6 @@ using UnityEngine;
 
             string phone = "8652366111";
             string text = "Hello there general kenobi";
-            string alert;
 
             try
             {
