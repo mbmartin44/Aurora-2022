@@ -3,7 +3,7 @@
  * Date: September 1st, 2022
  * Arguments: n/a
  * Returns: n/a
- * 
+ *
  * Abstract:
  *   This class contains the contacts class
  *  that are needed for the email / text client to work.
