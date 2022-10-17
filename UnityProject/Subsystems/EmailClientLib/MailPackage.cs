@@ -25,7 +25,7 @@ using UnityEngine;
 class MailPackage
 {
     //Email with attachment
-    public static void sendMailAttach(ContactsPackage too, Attachment attach)
+    public static void SendMailAttach(ContactsPackage too, Attachment attach)
     {
         var fromAddress = new MailAddress("brainanalytics2022@gmail.com", "Seizure App Auto Sender");
         const string fromPassword = "xgfxsygrzzcenjlv";
@@ -61,7 +61,7 @@ class MailPackage
 
 
     //Email with no attachment
-    public static void sendMail(ContactsPackage too)
+    public static void SendMail(ContactsPackage too)
     {
         var fromAddress = new MailAddress("brainanalytics2022@gmail.com", "Seizure App Auto Sender");
         const string fromPassword = "xgfxsygrzzcenjlv";

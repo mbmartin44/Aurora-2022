@@ -242,13 +242,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clientInterface.cs" />
-    <Compile Include="contacts.cs" />
-    <Compile Include="emailClientFunc.cs" />
-    <Compile Include="emailClientMain.cs" />
+    <Compile Include="ContactsPackage.cs" />
+    <Compile Include="MailPackage.cs" />
+    <Compile Include="NetOut.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="textClientFunc.cs" />
-    <Compile Include="textDriverFunc.cs" />
+    <Compile Include="TextDriver.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="netstandard">
