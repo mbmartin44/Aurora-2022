@@ -1,0 +1,4 @@
+/bin
+/obj
+/TSData/TestOutputs/OutputExamples/*.d2
+/TSData/TestOutputs/OutputExamples/*.l1
