@@ -1,14 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
 namespace L1D2
 {
-    public class L1D2Algorithm
+    public class L1D2Algorithm : MonoBehaviour
     {
         // Private constants
         private const double IOTA = 10e-15;
@@ -705,7 +703,7 @@ namespace L1D2
                     {
                         if (i <= gTest[testN].divergeT)
                         {
-                            writetext.WriteLine( gDivergence[i][testN] + "\t");
+                            writetext.WriteLine(gDivergence[i][testN] + "\t");
                         }
                         else
                         {
