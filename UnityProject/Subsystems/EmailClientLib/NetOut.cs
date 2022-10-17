@@ -25,7 +25,8 @@ using System.Net.Mail;
 using UnityEngine;
 
 
-class ClientInterface : MonoBehaviour
+
+class NetOut : MonoBehaviour
 {
     //Main Use Function
     public static async void SignalWatch(List<ContactsPackage> people, bool detect, Attachment attach)
