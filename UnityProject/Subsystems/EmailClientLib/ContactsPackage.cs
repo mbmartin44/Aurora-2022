@@ -23,13 +23,13 @@ class ContactsPackage
     public MailAddress nameAddress { get; set; }
     public string phone { get; set; }
     
-    ContactsPackage()
+    public ContactsPackage()
     {
         this.nameAddress = new MailAddress("null@hotmail.net", "Default");
         this.phone = "0000000000";
     }
 
-    ContactsPackage(MailAddress nameAddress, string phone)
+    public ContactsPackage(MailAddress nameAddress, string phone)
     {
         this.nameAddress = nameAddress;
         this.phone = phone;
