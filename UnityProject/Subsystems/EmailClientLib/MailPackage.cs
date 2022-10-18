@@ -25,7 +25,7 @@ using UnityEngine;
 class MailPackage
 {
     //Email with attachment
-    public static void SendMailAttach(ContactsPackage too, Attachment attach)
+    public static void SendMail(ContactsPackage too, Attachment attach)
     {
         var fromAddress = new MailAddress("brainanalytics2022@gmail.com", "Seizure App Auto Sender");
         const string fromPassword = "xgfxsygrzzcenjlv";
