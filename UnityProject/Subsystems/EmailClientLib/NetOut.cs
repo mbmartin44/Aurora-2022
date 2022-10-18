@@ -15,6 +15,7 @@
  *    
  * Revisions:
  * 01ks - October 17th, 2022 - Name Fix, remove namespace, remove supporting classes
+ * 02jl - October 18th, 2022 - SignalWatchSingle Creation Start
 */
 using System;
 using System.Text;
@@ -38,7 +39,7 @@ class NetOut : MonoBehaviour
             {
                 TextDriver texter = new TextDriver();
                 texter.Send(x);
-                MailPackage.sendMailAttach(x, attach);
+                MailPackage.SendMail(x, attach);
                 await System.Threading.Tasks.Task.Delay(2000);
             }
         }
@@ -48,7 +49,29 @@ class NetOut : MonoBehaviour
         }
     }
 
-    public static async void SignalWatchBasic(List<ContactsPackage> people, bool detect)
+    //02jl
+    public static void SignalWatchSingle(List<ContactsPackage> people, bool detect, Attachment attach, int select)
+    {
+        try
+        {
+            if (detect)
+            {
+                var text2 = new TextDriver();
+                text2.Send(people[select]);
+                MailPackage.SendMail(people[select], attach);
+            }
+            else
+            {
+                return;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error " + e.ToString());
+        }
+    }
+
+    public static async void SignalWatch(List<ContactsPackage> people, bool detect)
     {
         if (detect)
         {
@@ -57,7 +80,7 @@ class NetOut : MonoBehaviour
             {
                 TextDriver texter = new TextDriver();
                 texter.Send(x);
-                MailPackage.sendMail(x);
+                MailPackage.SendMail(x);
                 await System.Threading.Tasks.Task.Delay(2000);
 
             }
