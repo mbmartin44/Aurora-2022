@@ -47,7 +47,7 @@ class TextDriver : MonoBehaviour
         AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
 
         string phone = current.phone;
-        string text = "Hello there general kenobi";
+        string text = "This is an automated message from Seizure Detection App that an event has been recorded";
 
         try
         {
