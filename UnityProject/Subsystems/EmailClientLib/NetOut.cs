@@ -16,6 +16,7 @@
  * Revisions:
  * 01ks - October 17th, 2022 - Name Fix, remove namespace, remove supporting classes
  * 02jl - October 18th, 2022 - SignalWatchSingle Creation Start
+ * 03jl - October 19th, 2022 - SignalWatchSingle for non-attachment
 */
 using System;
 using System.Text;
@@ -88,6 +89,28 @@ class NetOut : MonoBehaviour
         else
         {
             return;
+        }
+    }
+
+    //03jl
+    public static void SignalWatchSingle(List<ContactsPackage> people, bool detect, int select)
+    {
+        try
+        {
+            if (detect)
+            {
+                var text2 = new TextDriver();
+                text2.Send(people[select]);
+                MailPackage.SendMail(people[select]);
+            }
+            else
+            {
+                return;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error " + e.ToString());
         }
     }
 }
