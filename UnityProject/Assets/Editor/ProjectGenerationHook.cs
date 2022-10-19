@@ -13,13 +13,30 @@ public class ProjectGenerationHook
 	{
 		ProjectFilesGenerator.ProjectFileGeneration += (name, content) =>
 		{
-			const string assemblyName = "EmailClientLib";
-			const string projectFilePath = @"..\Subsystems\EmailClientLib\EmailClientLib.csproj";
-			const string projectGuid = "{F200702D-6716-411F-8A11-4D75A7B2E1E9}";
+			// Email Client Lib Project Info:
+			const string EmailClientLibAssemblyName = "EmailClientLib";
+			const string EmailClientLibProjectFilePath = @"..\Subsystems\EmailClientLib\EmailClientLib.csproj";
+			const string EmailClientLibProjectGuid = "{F200702D-6716-411F-8A11-4D75A7B2E1E9}";
 
-			content = RemoveAssemblyReferenceFromProject(content, assemblyName);
-			content = AddProjectReferenceToProject(content, assemblyName, projectFilePath, projectGuid);
-			content = AddCopyAssemblyToAssetsPostBuildEvent(content, assemblyName);
+			content = RemoveAssemblyReferenceFromProject(content, EmailClientLibAssemblyName);
+			content = AddProjectReferenceToProject(content, EmailClientLibAssemblyName, EmailClientLibProjectFilePath, EmailClientLibProjectGuid);
+			content = AddCopyAssemblyToAssetsPostBuildEvent(content, EmailClientLibAssemblyName);
+
+			Debug.Log("ProjectGenerationHook:" + name);
+			Debug.Log("Content: " + content);
+			return content;
+		};
+
+		ProjectFilesGenerator.ProjectFileGeneration += (name, content) =>
+		{
+			// L1D2 Project Info:
+			const string L1D2AssemblyName = "L1D2";
+			const string L1D2ProjectFilePath = @"..\Subsystems\L1D2\L1D2.csproj";
+			const string L1D2ProjectGuid = "{5A236C0A-F657-4285-9922-D18294769868}";
+
+			content = RemoveAssemblyReferenceFromProject(content, L1D2AssemblyName);
+			content = AddProjectReferenceToProject(content, L1D2AssemblyName, L1D2ProjectFilePath, L1D2ProjectGuid);
+			content = AddCopyAssemblyToAssetsPostBuildEvent(content, L1D2AssemblyName);
 
 			Debug.Log("ProjectGenerationHook:" + name);
 			Debug.Log("Content: " + content);
