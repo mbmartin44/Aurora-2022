@@ -1,5 +1,5 @@
 name: Meta Check
-on: pull_request
+on: push
 
 jobs:
   meta-check:
