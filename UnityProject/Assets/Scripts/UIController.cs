@@ -53,7 +53,7 @@ public sealed class UIController : MonoBehaviour
     public Text T4Resist;
     private double rawT4Resist = 0;
 
-    private InputField InputField;
+    //private InputField InputField;
 
     [Header("== EEG UI ==")]
     public GameObject eegOutput;
@@ -178,6 +178,7 @@ public sealed class UIController : MonoBehaviour
         //string phone = "9313191687";
         //var anInstanceofSMS = new SendSMS();
         //anInstanceofSMS.Send(phone);
+        
         contact.phone = "9313355335";
         people.Add(contact);
         NetOut.SignalWatch(people,true);
@@ -251,6 +252,7 @@ public sealed class UIController : MonoBehaviour
         Title.SetActive(false);
         resistOutput.SetActive(true);
         
+        
 
         
 
@@ -283,7 +285,7 @@ public sealed class UIController : MonoBehaviour
         Title.SetActive(true);
         resistOutput.SetActive(false);
         channelsController.destroyResistance(device);
-        String myText = InputField.GetComponent<InputField>().text;
+        //String myText = InputField.GetComponent<InputField>().text;
         
         
         
