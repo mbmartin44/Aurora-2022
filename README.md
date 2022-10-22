@@ -1,5 +1,7 @@
 # Aurora Fall 2022 Official
 
+[![Meta File Check](https://github.com/mbmartin44/Aurora-2022/actions/workflows/unity-metaCheck.yml/badge.svg?branch=main)](https://github.com/mbmartin44/Aurora-2022/actions/workflows/unity-metaCheck.yml)
+
 ## Project Links:
 
 Project Management / Issue Tracker Homepage
@@ -22,6 +24,3 @@ Validation & Verification MATLAB Project
 
 ### Application Folder -
 UI / Android Mobile Application Project
-
-## Automated Codebase Test Statuses
-[![GitHub Super-Linter](https://github.com/mbmartin44/Aurora-2022/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
