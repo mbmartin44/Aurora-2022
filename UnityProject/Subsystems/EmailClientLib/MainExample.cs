@@ -54,7 +54,7 @@ class MainExample
 
         //Using NetOut Intermediate Class
         //Call SignalWatchBasic (for attachment support don't use basic)
-        NetOut.SignalWatchBasic(people, seizure);
+        NetOut.SignalWatch(people, seizure);
 
         //With Attachments
         NetOut.SignalWatch(people, seizure, attach);
