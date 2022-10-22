@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/ReeseUI.unity
+    guid: a9ddc9e4f6b6f7e46b5ea40f18672d2c
   m_configObjects: {}
