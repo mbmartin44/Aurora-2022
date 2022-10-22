@@ -8,9 +8,15 @@ public class Graph : MonoBehaviour
 {
     public RectTransform container;
     public RectTransform background;
+    public RectTransform labelTemplateX;
+    public RectTransform labelTemplateY;
+    //public RectTransform DashTemplate;
+    
 
     protected int samplesCount = 0;
     protected List<RectTransform> connections = new List<RectTransform>();
+
+    
 
     public virtual void InitGraph(int samplesCount)
     {
@@ -32,7 +38,13 @@ public class Graph : MonoBehaviour
     protected virtual void ShowGraph(double[] samples)
     {
         container.sizeDelta = new Vector2(background.rect.width, background.rect.height);
+        
+        
         container.anchoredPosition = new Vector2(container.sizeDelta.x * 0.5f, container.sizeDelta.y * 0.5f);
+
+       
+
+
         /*float graphHeight = container.sizeDelta.y;
         float yMax = 10000f;
         float xSize = container.sizeDelta.x / samplesCount;
@@ -68,8 +80,12 @@ public class Graph : MonoBehaviour
         gameObject.transform.SetParent(container, false);
         gameObject.GetComponent<Image>().color = Color.black;
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+        
+
         SetConnectionSizes(rectTransform, dotPositionA, dotPositionB);
         return rectTransform;
+       
+        
     }
 
     /*private void FixedUpdate()
@@ -134,8 +150,15 @@ public class Graph : MonoBehaviour
         rectTransform.anchorMin = new Vector2(0, 0);
         rectTransform.anchorMax = new Vector2(0, 0);
         rectTransform.sizeDelta = new Vector2(distance, 1f);
+        
         rectTransform.anchoredPosition = dotPositionA + dir * distance * .5f;
         rectTransform.localEulerAngles = new Vector3(0, 0, GetAngleFromVectorFloat(dir));
+        labelTemplateY = container.Find("labelTemplateY").GetComponent<RectTransform>();
+        //DashTemplate = container.Find("DashTemplate").GetComponent<RectTransform>();
+        labelTemplateX = container.Find("labelTemplateX").GetComponent<RectTransform>();
+
+
+
     }
 
     private float GetAngleFromVectorFloat(Vector3 dir)

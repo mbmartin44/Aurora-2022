@@ -18,7 +18,7 @@ using System.Net;
 using System.Net.Mail;
 
 
-class ContactsPackage
+public class ContactsPackage
 {
     public MailAddress nameAddress { get; set; }
     public string phone { get; set; }

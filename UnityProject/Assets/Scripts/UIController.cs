@@ -5,14 +5,26 @@ using Neuro;
 using Neuro.Native;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Net;
+using System.Net.Mail;
+
+
 
 public sealed class UIController : MonoBehaviour
 {
+    ContactsPackage contact;
+    List<ContactsPackage> people;
+
+
+
+
+
     ChannelsController channelsController = null;
     Device device = null;
 
     public GameObject modesVariations;
     public GameObject deviceSearchLabel;
+    public GameObject Title;
 
     [Header("== DeviceState UI ==")]
     public Text deviceConnectionState;
@@ -40,6 +52,8 @@ public sealed class UIController : MonoBehaviour
     private double rawT3Resist = 0;
     public Text T4Resist;
     private double rawT4Resist = 0;
+
+    private InputField InputField;
 
     [Header("== EEG UI ==")]
     public GameObject eegOutput;
@@ -100,6 +114,10 @@ public sealed class UIController : MonoBehaviour
     private double spectrumPowerT3Value = 0;
     private double spectrumPowerT4Value = 0;
 
+
+
+
+
     private void Awake()
     {
         channelsController = new ChannelsController();
@@ -147,18 +165,38 @@ public sealed class UIController : MonoBehaviour
     {
         this.device = device;
     }
+    
+    
 
     #region DeviceInfo
     public void ShowDeviceInfo()
     {
         modesVariations.SetActive(false);
+        Title.SetActive(false);
         deviceInfoOutput.SetActive(true);
+        //Sending();
+        //string phone = "9313191687";
+        //var anInstanceofSMS = new SendSMS();
+        //anInstanceofSMS.Send(phone);
+        contact.phone = "9313355335";
+        people.Add(contact);
+        NetOut.SignalWatch(people,true);
         GetDeviceInfo();
+        
+        
+        
+
+
+
+
+
+
     }
 
     public void CloseDeviceInfo()
     {
         modesVariations.SetActive(true);
+        Title.SetActive(true);
         deviceInfoOutput.SetActive(false);
     }
     #endregion
@@ -167,6 +205,7 @@ public sealed class UIController : MonoBehaviour
     public void ShowSignal()
     {
         modesVariations.SetActive(false);
+        Title.SetActive(false);
         signalOutput.SetActive(true);
         channelsController.createSignal(device, (channel, samples) =>
         {
@@ -198,10 +237,10 @@ public sealed class UIController : MonoBehaviour
         modesVariations.SetActive(true);
         signalOutput.SetActive(false);
         channelsController.destroySignal(device);
-        signalO1Graph.Close(); 
-        signalO2Graph.Close(); 
-        signalT3Graph.Close(); 
-        signalT4Graph.Close(); 
+        signalO1Graph.Close();
+        signalO2Graph.Close();
+        signalT3Graph.Close();
+        signalT4Graph.Close();
     }
     #endregion
 
@@ -209,8 +248,16 @@ public sealed class UIController : MonoBehaviour
     public void ShowResistance()
     {
         modesVariations.SetActive(false);
+        Title.SetActive(false);
         resistOutput.SetActive(true);
-        channelsController.createResistance(device, (channel, lastsample) => {
+        
+
+        
+
+
+
+        /*channelsController.createResistance(device, (channel, lastsample) =>
+        {
             AnyChannel anyChannel = (AnyChannel)channel;
             switch (anyChannel.Info.Name)
             {
@@ -227,14 +274,23 @@ public sealed class UIController : MonoBehaviour
                     rawT4Resist = lastsample;
                     break;
             }
-        });
+        });*/
     }
 
     public void CloseResistance()
     {
         modesVariations.SetActive(true);
+        Title.SetActive(true);
         resistOutput.SetActive(false);
         channelsController.destroyResistance(device);
+        String myText = InputField.GetComponent<InputField>().text;
+        
+        
+        
+        
+
+
+
     }
     #endregion
 
@@ -242,8 +298,11 @@ public sealed class UIController : MonoBehaviour
     public void ShowEEG()
     {
         modesVariations.SetActive(false);
+        Title.SetActive(false);
         eegOutput.SetActive(true);
-        channelsController.createEeg(device, (channel, samples) => {
+        channelsController.createEeg(device, (channel, samples) =>
+        
+        {
             AnyChannel anyChannel = (AnyChannel)channel;
             switch (anyChannel.Info.Name)
             {
@@ -270,6 +329,7 @@ public sealed class UIController : MonoBehaviour
     public void CloseEEG()
     {
         modesVariations.SetActive(true);
+        Title.SetActive(true);
         eegOutput.SetActive(false);
         channelsController.destroyEeg(device);
         eegO1Graph.Close();
@@ -283,8 +343,10 @@ public sealed class UIController : MonoBehaviour
     public void ShowEegIndex()
     {
         modesVariations.SetActive(false);
+        Title.SetActive(false);
         eegIndexOutput.SetActive(true);
-        channelsController.createEegIdx(device, (ids)=> {
+        channelsController.createEegIdx(device, (ids) =>
+        {
             indexValues = ids;
         });
     }
@@ -292,6 +354,7 @@ public sealed class UIController : MonoBehaviour
     public void CloseEegIndex()
     {
         modesVariations.SetActive(true);
+        Title.SetActive(true);
         eegIndexOutput.SetActive(false);
         channelsController.destroyEegIdx(device);
     }
@@ -301,6 +364,7 @@ public sealed class UIController : MonoBehaviour
     public void ShowSpectrum()
     {
         modesVariations.SetActive(false);
+        Title.SetActive(false);
         spectrumOutput.SetActive(true);
         channelsController.createSpectrum(device, (channel, samples) =>
         {
@@ -331,6 +395,7 @@ public sealed class UIController : MonoBehaviour
     public void CloseSpectrum()
     {
         modesVariations.SetActive(true);
+        Title.SetActive(true);
         spectrumOutput.SetActive(false);
         channelsController.destroySpectrum(device);
         spectrumO1Graph.Close();
@@ -344,11 +409,13 @@ public sealed class UIController : MonoBehaviour
     public void ShowSpectrumPower()
     {
         modesVariations.SetActive(false);
+        Title.SetActive(false);
         specrtumPowerOutput.SetActive(true);
-        channelsController.createSpectrumPower(device, (channel, power) => {
+        channelsController.createSpectrumPower(device, (channel, power) =>
+        {
             AnyChannel anyChannel = (AnyChannel)channel;
             Debug.Log($"Channel name = {anyChannel.Info.Name}");
-            switch(anyChannel.Info.Name) 
+            switch (anyChannel.Info.Name)
             {
                 case "O1":
                     spectrumPowerO1Value = power * 1e3;
@@ -369,6 +436,7 @@ public sealed class UIController : MonoBehaviour
     public void CloseSpectrumPower()
     {
         modesVariations.SetActive(true);
+        Title.SetActive(true);
         specrtumPowerOutput.SetActive(false);
         channelsController.destroySpectrumPower(device);
     }
@@ -378,6 +446,7 @@ public sealed class UIController : MonoBehaviour
     public void ShowEmotions()
     {
         modesVariations.SetActive(false);
+        Title.SetActive(false);
         emotionsOutput.SetActive(true);
         channelsController.createEmotions(device,
             (sample) =>
@@ -410,6 +479,7 @@ public sealed class UIController : MonoBehaviour
     public void CloseEmotions()
     {
         modesVariations.SetActive(true);
+        Title.SetActive(true);
         emotionsOutput.SetActive(false);
         channelsController.destroyEmotions(device);
     }
@@ -423,6 +493,7 @@ public sealed class UIController : MonoBehaviour
     public void OnDeviceStateChange(bool disconnected)
     {
         modesVariations?.SetActive(!disconnected);
+        Title?.SetActive(!disconnected);
         deviceSearchLabel?.SetActive(disconnected);
         deviceConnectionState.text = disconnected ? "Disconnected" : "Connected";
 
@@ -441,18 +512,24 @@ public sealed class UIController : MonoBehaviour
         }
         else
         {
-            channelsController?.createBattery(device, (power) => {
+            channelsController?.createBattery(device, (power) =>
+            {
                 devicePower = power;
             });
         }
-        
+
     }
+
+
+
 
     private void GetDeviceInfo()
     {
+
         string info = "";
         info += "*Common params*\n";
         info += string.Format("Name: [{0}]\n", device.ReadParam<string>(Neuro.Native.Parameter.Name));
+        //info += string.Format("Name: [{0}]\n", input_params.ip_address);
         info += string.Format("Address: [{0}]\n", device.ReadParam<string>(Neuro.Native.Parameter.Address));
         info += string.Format("Serial Number: [{0}]\n", device.ReadParam<string>(Neuro.Native.Parameter.SerialNumber));
 
@@ -482,5 +559,17 @@ public sealed class UIController : MonoBehaviour
             info += string.Format("{0}\n", command);
         }
         deviceInfoText.text = info;
+
     }
+
+
+
+
+
+
+
+
+
+
 }
+
