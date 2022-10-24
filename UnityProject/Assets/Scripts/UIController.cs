@@ -61,6 +61,8 @@ public sealed class UIController : MonoBehaviour
     public Graph eegO2Graph;
     public Graph eegT3Graph;
     public Graph eegT4Graph;
+    public Text timeUpdate;
+    public bool update;
 
     [Header("== EEG Index UI ==")]
     public GameObject eegIndexOutput;
@@ -310,6 +312,8 @@ public sealed class UIController : MonoBehaviour
         modesVariations.SetActive(false);
         Title.SetActive(false);
         eegOutput.SetActive(true);
+        update = true;
+        timeUpdating();
         channelsController.createEeg(device, (channel, samples) =>
         
         {
@@ -346,6 +350,9 @@ public sealed class UIController : MonoBehaviour
         eegO2Graph.Close();
         eegT3Graph.Close();
         eegT4Graph.Close();
+        update = false;
+        
+
     }
     #endregion
 
@@ -586,12 +593,29 @@ public sealed class UIController : MonoBehaviour
         return theNameFinal;
     }
 
+    public async void timeUpdating()
+    {
+        if(update == true)
+        {
+            for (int i = 1; i < 1000; i++)
+            {
+                timeUpdate.text = string.Format("{0}", i);
+                await System.Threading.Tasks.Task.Delay(2000);
+                if (!update)
+                {
+                    return;
+                }
+            }
 
-
-
-
-
-
+        }
+        else
+        {
+            return;
+        }
+        
+        
+        
+    }
 
 
 
