@@ -21,7 +21,7 @@ using System.Net;
 using System.Net.Mail;
 using UnityEngine;
 
-public class TextDriver : MonoBehaviour
+class TextDriver : MonoBehaviour
 {
     AndroidJavaObject currentActivity;
     ContactsPackage current;
@@ -35,14 +35,14 @@ public class TextDriver : MonoBehaviour
         }
     }
 
-    void RunAndroidUiThread()
+    private void RunAndroidUiThread()
     {
         AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
         currentActivity.Call("runOnUiThread", new AndroidJavaRunnable(SendProcess));
     }
 
-    void SendProcess()
+    private void SendProcess()
     {
         AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
 
