@@ -21,7 +21,7 @@ using System.Net;
 using System.Net.Mail;
 using UnityEngine;
 
-class TextDriver : MonoBehaviour
+public class TextDriver : MonoBehaviour
 {
     AndroidJavaObject currentActivity;
     ContactsPackage current;

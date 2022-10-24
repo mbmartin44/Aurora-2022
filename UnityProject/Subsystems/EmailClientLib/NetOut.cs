@@ -28,7 +28,7 @@ using UnityEngine;
 
 
 
-class NetOut : MonoBehaviour
+public class NetOut : MonoBehaviour
 {
     //Main Use Function
     public static async void SignalWatch(List<ContactsPackage> people, bool detect, Attachment attach)

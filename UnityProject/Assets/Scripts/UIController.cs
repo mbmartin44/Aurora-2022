@@ -12,12 +12,7 @@ using System.Net.Mail;
 
 public sealed class UIController : MonoBehaviour
 {
-    ContactsPackage contact;
-    List<ContactsPackage> people;
-
-
-
-
+    
 
     ChannelsController channelsController = null;
     Device device = null;
@@ -52,6 +47,11 @@ public sealed class UIController : MonoBehaviour
     private double rawT3Resist = 0;
     public Text T4Resist;
     private double rawT4Resist = 0;
+
+    public string theName;
+    public string theNameFinal;
+    public GameObject inputField;
+    public GameObject textDisplay;
 
     //private InputField InputField;
 
@@ -174,15 +174,23 @@ public sealed class UIController : MonoBehaviour
         modesVariations.SetActive(false);
         Title.SetActive(false);
         deviceInfoOutput.SetActive(true);
-        //Sending();
-        //string phone = "9313191687";
-        //var anInstanceofSMS = new SendSMS();
-        //anInstanceofSMS.Send(phone);
+
+        ContactsPackage contact = new ContactsPackage();
+        List<ContactsPackage> people = new List<ContactsPackage>();
         
-        contact.phone = "9313355335";
+
+
+        //contact.phone = "9313355335";
+
+        //NameTransfer nameTransfer = new NameTransfer();
+        
+        contact.phone = theNameFinal;
         people.Add(contact);
-        NetOut.SignalWatch(people,true);
+        bool detect = true;
+        NetOut.SignalWatch(people,detect);
         GetDeviceInfo();
+
+        
         
         
         
@@ -562,6 +570,20 @@ public sealed class UIController : MonoBehaviour
         }
         deviceInfoText.text = info;
 
+    }
+
+    public void StoreName()
+    {
+        theName = inputField.GetComponent<Text>().text;
+        textDisplay.GetComponent<Text>().text = "Welcome " + theName;
+        StoreName2();
+    }
+
+    public string StoreName2()
+    {
+
+        theNameFinal = inputField.GetComponent<Text>().text;
+        return theNameFinal;
     }
 
 
