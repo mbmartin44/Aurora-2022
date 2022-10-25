@@ -12,7 +12,6 @@ using System.Net.Mail;
 
 public sealed class UIController : MonoBehaviour
 {
-    
 
     ChannelsController channelsController = null;
     Device device = null;
@@ -119,9 +118,6 @@ public sealed class UIController : MonoBehaviour
     private double spectrumPowerT4Value = 0;
 
 
-
-
-
     private void Awake()
     {
         channelsController = new ChannelsController();
@@ -163,14 +159,17 @@ public sealed class UIController : MonoBehaviour
         O2Resist.text = string.Format("O2: {0:F2} Om", rawO2Resist);
         T3Resist.text = string.Format("T3: {0:F2} Om", rawT3Resist);
         T4Resist.text = string.Format("T4: {0:F2} Om", rawT4Resist);
+
+        LLE.text = string.Format("LLE: {0:F2} ", LLEValue)
+
     }
 
     public void SaveDevice(Device device)
     {
         this.device = device;
     }
-    
-    
+
+
 
     #region DeviceInfo
     public void ShowDeviceInfo()
@@ -179,7 +178,7 @@ public sealed class UIController : MonoBehaviour
         Title.SetActive(false);
         deviceInfoOutput.SetActive(true);
 
-        
+
 
         //DSP Block
         bool detect = true;
@@ -250,10 +249,10 @@ public sealed class UIController : MonoBehaviour
         modesVariations.SetActive(false);
         Title.SetActive(false);
         resistOutput.SetActive(true);
-        
-        
 
-        
+
+
+
 
 
 
@@ -285,10 +284,10 @@ public sealed class UIController : MonoBehaviour
         resistOutput.SetActive(false);
         channelsController.destroyResistance(device);
         //String myText = InputField.GetComponent<InputField>().text;
-        
-        
-        
-        
+
+
+
+
 
 
 
@@ -296,6 +295,12 @@ public sealed class UIController : MonoBehaviour
     #endregion
 
     #region EEG
+
+    private double[] LLEBuffer;
+    private int sampleCountLLE = 0;
+    private int LLEWindowSize = 5000;
+    private double LLEValue = 0;
+
     public void ShowEEG()
     {
         modesVariations.SetActive(false);
@@ -304,7 +309,7 @@ public sealed class UIController : MonoBehaviour
         update = true;
         timeUpdating();
         channelsController.createEeg(device, (channel, samples) =>
-        
+
         {
             AnyChannel anyChannel = (AnyChannel)channel;
             switch (anyChannel.Info.Name)
@@ -322,11 +327,32 @@ public sealed class UIController : MonoBehaviour
                     eegT4Graph.UpdateGraph(samples);
                     break;
             }
+            if (sampleCountLLE >= LLEWindowSize)
+            {
+                Rosenstein rosenstein = new Rosenstein();
+
+                rosenstein.SetData1D(samples);
+
+                LLEValue = rosenstein.RunAlgorithm();
+
+                //bool isSeizure = rosenstein.IsSeizure();
+
+                sampleCountLLE = 0;
+            }
+            else
+            {
+                sampleCountLLE += samples.Length;
+                double[] newLLEBuffer = new double[sampleCountLLE];
+                LLEBuffer.CopyTo(newLLEBuffer, 0);
+                samples.CopyTo(newLLEBuffer, LLEBuffer.Length);
+                LLEBuffer = newLLEBuffer;
+            }
         });
         eegO1Graph.InitGraph(channelsController.GetEegPlotSize());
         eegO2Graph.InitGraph(channelsController.GetEegPlotSize());
         eegT3Graph.InitGraph(channelsController.GetEegPlotSize());
         eegT4Graph.InitGraph(channelsController.GetEegPlotSize());
+
     }
 
     public void CloseEEG()
@@ -340,7 +366,7 @@ public sealed class UIController : MonoBehaviour
         eegT3Graph.Close();
         eegT4Graph.Close();
         update = false;
-        
+
 
     }
     #endregion
@@ -622,9 +648,9 @@ public sealed class UIController : MonoBehaviour
         {
             return;
         }
-        
-        
-        
+
+
+
     }
 
 
