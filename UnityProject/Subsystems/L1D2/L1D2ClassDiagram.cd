@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Rosenstein Largest Lyapunov Algorithm&#xD;&#xA;">
+    <Position X="3.592" Y="3.985" Height="0.467" Width="1.7" />
+  </Comment>
+  <Class Name="FileIO" Collapsed="true">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAEAAAAAIAAAAAAAASAQAAAJAAIAgAAALpAAA=</HashCode>
+      <FileName>Src\Test Interface\File Tests\FileIO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileTestData" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAgABAAAAAAAAAACAAAAAJAAAAAAAAJpAAA=</HashCode>
+      <FileName>Src\Test Interface\File Tests\FileTestData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Constants" Collapsed="true">
+    <Position X="0.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAQAAEIAAABAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Src\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VRosenstein" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAAAAAACA=</HashCode>
+      <FileName>Src\VRosenstein.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TRosenstein" Collapsed="true">
+    <Position X="2.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAABAIAAAAAAAAAAAAAAQAAAoAAAAAAAAgg=</HashCode>
+      <FileName>Src\Test Interface\File Tests\TRosenstein.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HRosenstein" Collapsed="true">
+    <Position X="4.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Src\Hardware Interface\HRosenstein.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FalseNearest" Collapsed="true">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oQAAAwAAEQIAwARAAFAAIggQCAAAAZAAAAAABAKAgAI=</HashCode>
+      <FileName>Src\Test Interface\Parameter Estimation Tests\FalseNearest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VAlgorithm" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEQAgAAAAAAAAAAAAAEAAAABAAABQAEEAQABBAAEAA=</HashCode>
+      <FileName>Src\VAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rosenstein" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAABwABAQQAIAVAAAAAAggAIBgAAAQgAAJAAECIACI=</HashCode>
+      <FileName>Src\Rosenstein.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Kantz" Collapsed="true">
+    <Position X="9.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAEQADQAIwoAAABEAAAogAKkgIAIAqCAAAAAYAACA=</HashCode>
+      <FileName>Src\Kantz.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

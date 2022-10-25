@@ -9,9 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>L1D2</RootNamespace>
     <AssemblyName>L1D2</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,9 +35,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExCSS.Unity">
@@ -118,12 +126,38 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="L1D2Algorithm.cs" />
+    <Compile Include="Src\Test Interface\Parameter Estimation Tests\FalseNearest.cs" />
+    <Compile Include="Src\Hardware Interface\HRosenstein.cs" />
+    <Compile Include="Src\Util.cs" />
+    <Compile Include="Src\Kantz.cs" />
+    <Compile Include="Src\VRosenstein.cs" />
+    <Compile Include="Src\Test Interface\File Tests\TRosenstein.cs" />
+    <Compile Include="Src\Constants.cs" />
+    <Compile Include="Src\Test Interface\File Tests\FileIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Src\Test Interface\File Tests\FileTestData.cs" />
+    <Compile Include="Src\VAlgorithm.cs" />
+    <Compile Include="Src\Rosenstein.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="L1D2_examp.c" />
-    <Compile Include="Main_L1D2.cs" />
+    <Compile Include="Src\Test Interface\TestMain.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Tests Results\Original Example\l1d2_example.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tests Results\Example Outputs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="L1D2ClassDiagram.cd" />
+    <None Include="Tests Results\Original Example\correctOutput.d2" />
+    <None Include="Tests Results\Original Example\correctOutput.l1" />
+    <None Include="Tests Results\Test Data\lorenz.dat" />
+    <None Include="Tests Results\Test Data\lorenz.l1d2" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y $(TargetPath) ..\..\..\..\Assets\</PostBuildEvent>
+  </PropertyGroup>
 </Project>
