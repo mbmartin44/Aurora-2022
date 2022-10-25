@@ -47,6 +47,7 @@ public sealed class UIController : MonoBehaviour
     private double rawT3Resist = 0;
     public Text T4Resist;
     private double rawT4Resist = 0;
+    public Text LLE;
 
     public string thePhone;
     public string theEmail;
@@ -160,7 +161,7 @@ public sealed class UIController : MonoBehaviour
         T3Resist.text = string.Format("T3: {0:F2} Om", rawT3Resist);
         T4Resist.text = string.Format("T4: {0:F2} Om", rawT4Resist);
 
-        LLE.text = string.Format("LLE: {0:F2} ", LLEValue)
+        LLE.text = string.Format("LLE: {0:F2} ", LLEValue);
 
     }
 
