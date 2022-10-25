@@ -81,7 +81,7 @@ public class NetOut : MonoBehaviour
             {
                 TextDriver texter = new TextDriver();
                 texter.Send(x);
-                MailPackage.SendMail(x);
+               MailPackage.SendMail(x);
                 await System.Threading.Tasks.Task.Delay(2000);
 
             }

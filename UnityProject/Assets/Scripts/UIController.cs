@@ -16,6 +16,7 @@ public sealed class UIController : MonoBehaviour
 
     ChannelsController channelsController = null;
     Device device = null;
+    public List<ContactsPackage> peopleList { get; set; }
 
     public GameObject modesVariations;
     public GameObject deviceSearchLabel;
@@ -48,9 +49,10 @@ public sealed class UIController : MonoBehaviour
     public Text T4Resist;
     private double rawT4Resist = 0;
 
-    public string theName;
-    public string theNameFinal;
+    public string thePhone;
+    public string theEmail;
     public GameObject inputField;
+    public GameObject inputField2;
     public GameObject textDisplay;
 
     //private InputField InputField;
@@ -177,31 +179,18 @@ public sealed class UIController : MonoBehaviour
         Title.SetActive(false);
         deviceInfoOutput.SetActive(true);
 
-        ContactsPackage contact = new ContactsPackage();
-        List<ContactsPackage> people = new List<ContactsPackage>();
         
 
-
-        //contact.phone = "9313355335";
-
-        //NameTransfer nameTransfer = new NameTransfer();
-        
-        contact.phone = theNameFinal;
-        people.Add(contact);
+        //DSP Block
         bool detect = true;
-        NetOut.SignalWatch(people,detect);
+        //DSP Block
+
+
+        //Send Messages
+        NetOut.SignalWatch(peopleList,detect);
+
+
         GetDeviceInfo();
-
-        
-        
-        
-        
-
-
-
-
-
-
     }
 
     public void CloseDeviceInfo()
@@ -579,19 +568,40 @@ public sealed class UIController : MonoBehaviour
 
     }
 
-    public void StoreName()
+    public void StoreInfo()
     {
-        theName = inputField.GetComponent<Text>().text;
-        textDisplay.GetComponent<Text>().text = "Welcome " + theName;
-        StoreName2();
+        thePhone = inputField.GetComponent<Text>().text;
+        theEmail = inputField2.GetComponent<Text>().text;
+        textDisplay.GetComponent<Text>().text = "Welcome " + thePhone + ", " + theEmail;
+
+        //Create Contact
+        ContactsPackage contact = new ContactsPackage();
+
+        //Determine if email is entered, must check as MailAddress will crap out unity if invalid
+        if (inputField2.GetComponent<Text>().text == "")
+        {
+            contact.phone = thePhone;
+            contact.nameAddress = new MailAddress("null@hotmail.net", "Auto Sender");
+        }
+        else
+        {
+            contact.phone = thePhone;
+            contact.nameAddress = new MailAddress(theEmail, "Auto Sender");
+        }
+
+        //See if Contacts list valid
+        if (peopleList == null)
+        {
+            peopleList = new List<ContactsPackage>();
+            peopleList.Add(contact);
+        }
+        else
+        {
+            peopleList.Add(contact);
+        }
     }
 
-    public string StoreName2()
-    {
 
-        theNameFinal = inputField.GetComponent<Text>().text;
-        return theNameFinal;
-    }
 
     public async void timeUpdating()
     {
