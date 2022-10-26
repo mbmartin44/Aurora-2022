@@ -12,9 +12,9 @@ public class EegController
 
     public EventHandler<double[]> onEegChanged;
 
-    int windowDuration =2;
+    int windowDuration =4;
     public int plotSize = 0;
-    int SamplingFrequency = 250;
+    //int SamplingFrequency = 250;
     
     public EegController(Device device)
     {
@@ -31,8 +31,8 @@ public class EegController
                         eegChannels.Add(chInfo.Name, eegChannel);
                         signalOffsets.Add(chInfo.Name, 0);
                         
-                        //plotSize = (int)Mathf.Ceil(eegChannel.SamplingFrequency * windowDuration);
-                        plotSize = (int)Mathf.Ceil(SamplingFrequency * windowDuration);
+                        plotSize = (int)Mathf.Ceil(eegChannel.SamplingFrequency * windowDuration);
+                        //plotSize = (int)Mathf.Ceil(SamplingFrequency * windowDuration);
                     }
                 }
             }

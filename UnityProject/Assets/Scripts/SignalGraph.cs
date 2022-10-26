@@ -10,7 +10,9 @@ using UnityEngine.UI;
 class SignalGraph : Graph
 {
     private Queue<double> samplesQueue = new Queue<double>();
-
+    RectTransform labelX;
+    RectTransform labelY;
+    bool labelsInit = false;
     public override void InitGraph(int samplesCount)
     {
         base.InitGraph(samplesCount);
@@ -72,56 +74,44 @@ class SignalGraph : Graph
             lastX = xPosition;
             lastY = yPosition;
 
-
-
-
-
-
         }
 
         //List<RectTransform> temp = new List<RectTransform>();
-
-        int seperatorCount = 10;
-        for (int i = -4; i < seperatorCount; i++)
+        if (!labelsInit)
         {
-            RectTransform labelY = Instantiate(labelTemplateY);
-            labelY.SetParent(container);
-            labelY.gameObject.SetActive(true);
-            float normalizedValue = i * 1f / seperatorCount;
-
-            if (i < 5)
+            int seperatorCount = 10;
+            for (int i = -4; i < seperatorCount; i++)
             {
+                labelY = Instantiate(labelTemplateY);
+                labelY.SetParent(container);
+                labelY.gameObject.SetActive(true);
+                float normalizedValue = i * 1f / seperatorCount;
 
-                labelY.anchoredPosition = new Vector2(-30f, normalizedValue * graphHeight);
-                labelY.GetComponent<Text>().text = Mathf.RoundToInt(normalizedValue * yMax * .001f).ToString();
-
+                if (i < 5)
+                {
+                    labelY.anchoredPosition = new Vector2(-30f, normalizedValue * graphHeight);
+                    labelY.GetComponent<Text>().text = Mathf.RoundToInt(normalizedValue * yMax * .001f).ToString();
+                }
 
             }
 
-        }
-
-        int sepCountX = 21;
-        for (int i = 0; i < sepCountX; i+=2)
-        {
-            RectTransform labelX = Instantiate(labelTemplateX);
-            labelX.SetParent(container);
-            labelX.gameObject.SetActive(true);
-            float test = (container.sizeDelta.x - 120)  / sepCountX;
-
-
-            if (i < 21)
+            int sepCountX = 21;
+            for (int i = 0; i < sepCountX; i += 2)
             {
-                labelX.anchoredPosition = new Vector2(i * test , -30f);
-                labelX.GetComponent<Text>().text = (i*0.1f).ToString();
+                labelX = Instantiate(labelTemplateX);
+                labelX.SetParent(container);
+                labelX.gameObject.SetActive(true);
+                float test = (container.sizeDelta.x - 120) / sepCountX;
+
+                if (i < 21)
+                {
+                    labelX.anchoredPosition = new Vector2(i * test, -30f);
+                    labelX.GetComponent<Text>().text = (i * 0.1f).ToString();
+
+                }
 
             }
-
-
-
-
-
-
-
+            labelsInit = true;
         }
     }
 

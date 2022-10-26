@@ -65,8 +65,9 @@ public sealed class UIController : MonoBehaviour
     public Graph eegT4Graph;
     public Text timeUpdate;
     public bool update;
-
     public Text newTextLLE;
+
+
 
     [Header("== EEG Index UI ==")]
     public GameObject eegIndexOutput;
@@ -75,6 +76,7 @@ public sealed class UIController : MonoBehaviour
     public Text thetaIdx;
     public Text deltaIdx;
     private EegIndexValues indexValues = new EegIndexValues();
+
 
     [Header("== EmotionAnalyzer UI ==")]
     public GameObject emotionsOutput;
@@ -119,7 +121,7 @@ public sealed class UIController : MonoBehaviour
     private double spectrumPowerO2Value = 0;
     private double spectrumPowerT3Value = 0;
     private double spectrumPowerT4Value = 0;
-
+    private int framecount = 0;
 
     private void Awake()
     {
@@ -135,33 +137,33 @@ public sealed class UIController : MonoBehaviour
     {
         devicePowerState.text = string.Format("Power: {0}%", devicePower);
 
-        alphaIdx.text = string.Format("Alpha: {0:F4}", indexValues.AlphaRate);
-        betaIdx.text = string.Format("Beta: {0:F4}", indexValues.BetaRate);
-        thetaIdx.text = string.Format("Theta: {0:F4}", indexValues.ThetaRate);
-        deltaIdx.text = string.Format("Delta: {0:F4}", indexValues.DeltaRate);
+        //alphaIdx.text = string.Format("Alpha: {0:F4}", indexValues.AlphaRate);
+        //betaIdx.text = string.Format("Beta: {0:F4}", indexValues.BetaRate);
+        //thetaIdx.text = string.Format("Theta: {0:F4}", indexValues.ThetaRate);
+        //deltaIdx.text = string.Format("Delta: {0:F4}", indexValues.DeltaRate);
 
-        artefactRateText.text = string.Format("Artefact rate: {0:F2}", artefactRate);
-        calibrationProgressText.text = string.Format("Calibration progress: {0:F2}", calibrationProgress);
-        sourceText.text = string.Format("Signal source: {0}", source.ToString());
-        qualityText.text = string.Format("Data quality: {0}", quality.ToString());
-        deltaRateText.text = string.Format("Delta rate: {0:F2}", deltaRate);
-        thetaRateText.text = string.Format("Theta rate: {0:F2}", thetaRate);
-        alphaRateText.text = string.Format("Alpha rate: {0:F2}", alphaRate);
-        betaRateText.text = string.Format("Beta rate: {0:F2}", betaRate);
-        relaxationRateText.text = string.Format("Relaxation rate: {0:F2}", relaxationRate);
-        concentrationRateText.text = string.Format("Concentration rate: {0:F2}", concentrationRate);
-        meditationProgressText.text = string.Format("Meditation progress: {0:F2}", meditationProgress);
+        //artefactRateText.text = string.Format("Artefact rate: {0:F2}", artefactRate);
+        //calibrationProgressText.text = string.Format("Calibration progress: {0:F2}", calibrationProgress);
+        //sourceText.text = string.Format("Signal source: {0}", source.ToString());
+        //qualityText.text = string.Format("Data quality: {0}", quality.ToString());
+        //deltaRateText.text = string.Format("Delta rate: {0:F2}", deltaRate);
+        //thetaRateText.text = string.Format("Theta rate: {0:F2}", thetaRate);
+        //alphaRateText.text = string.Format("Alpha rate: {0:F2}", alphaRate);
+        //betaRateText.text = string.Format("Beta rate: {0:F2}", betaRate);
+        //relaxationRateText.text = string.Format("Relaxation rate: {0:F2}", relaxationRate);
+        //concentrationRateText.text = string.Format("Concentration rate: {0:F2}", concentrationRate);
+        //meditationProgressText.text = string.Format("Meditation progress: {0:F2}", meditationProgress);
 
 
-        spectrumPowerO1Text.text = string.Format("O1:  {0:F4}", spectrumPowerO1Value);
-        spectrumPowerO2Text.text = string.Format("O2:  {0:F4}", spectrumPowerO2Value);
-        spectrumPowerT3Text.text = string.Format("T3:  {0:F4}", spectrumPowerT3Value);
-        spectrumPowerT4Text.text = string.Format("T4:  {0:F4}", spectrumPowerT4Value);
+        //spectrumPowerO1Text.text = string.Format("O1:  {0:F4}", spectrumPowerO1Value);
+        //spectrumPowerO2Text.text = string.Format("O2:  {0:F4}", spectrumPowerO2Value);
+        //spectrumPowerT3Text.text = string.Format("T3:  {0:F4}", spectrumPowerT3Value);
+        //spectrumPowerT4Text.text = string.Format("T4:  {0:F4}", spectrumPowerT4Value);
 
-        O1Resist.text = string.Format("O1: {0:F2} Om", rawO1Resist);
-        O2Resist.text = string.Format("O2: {0:F2} Om", rawO2Resist);
-        T3Resist.text = string.Format("T3: {0:F2} Om", rawT3Resist);
-        T4Resist.text = string.Format("T4: {0:F2} Om", rawT4Resist);
+        //O1Resist.text = string.Format("O1: {0:F2} Om", rawO1Resist);
+        //O2Resist.text = string.Format("O2: {0:F2} Om", rawO2Resist);
+        //T3Resist.text = string.Format("T3: {0:F2} Om", rawT3Resist);
+        //T4Resist.text = string.Format("T4: {0:F2} Om", rawT4Resist);
 
         //newTextLLE.text = string.Format("LLE: {0:F2} ", 4.0);
         //newTextLLE.GetComponent<Text>().text = "LLE: " + 4.0;
@@ -304,43 +306,67 @@ public sealed class UIController : MonoBehaviour
     private int sampleCountLLE = 0;
     private int LLEWindowSize = 250;
     private double LLEValue = 0;
-
+    private bool[] incrementIndex = { false, false, false, false };
+    private int samplesPlotted = 0;
+    bool initCmd = true;
+    bool lockBool = false;
     public void ShowEEG()
     {
         modesVariations.SetActive(false);
         Title.SetActive(false);
         eegOutput.SetActive(true);
-        update = true;
-        timeUpdating();
+        //update = true;
+        //timeUpdating();
         //newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
-        channelsController.createEeg(device, (channel, samples) =>
-
+        
+        channelsController.createEeg(device, (channel, samples) => 
         {
+            //timeUpdate.text = string.Format("{0}", samples.Length);
             AnyChannel anyChannel = (AnyChannel)channel;
             switch (anyChannel.Info.Name)
             {
                 case "O1":
                     eegO1Graph.UpdateGraph(samples);
+
                     break;
                 case "O2":
                     eegO2Graph.UpdateGraph(samples);
+
                     break;
                 case "T3":
                     eegT3Graph.UpdateGraph(samples);
+
                     break;
                 case "T4":
                     eegT4Graph.UpdateGraph(samples);
+
                     break;
             }
+      
+            //if (samples.Length >= 4000 && lockBool)
+            //{
+            //    lockBool = false;
+            //    framecount += 2;
+            //    
+            //}
+            //
+            //if (!lockBool && samples.Length < 4000)
+            //{
+            //    lockBool = true;
+            //}
+
             //if (sampleCountLLE >= LLEWindowSize)
             //{
-            Rosenstein rosenstein = new Rosenstein();
 
-            rosenstein.SetData1D(samples);
 
-            LLEValue = rosenstein.RunAlgorithm();
 
-            newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
+            //Rosenstein rosenstein = new Rosenstein();
+
+            //rosenstein.SetData1D(samples);
+
+            //LLEValue = rosenstein.RunAlgorithm();
+
+            //newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
 
             //bool isSeizure = rosenstein.IsSeizure();
 
@@ -364,6 +390,7 @@ public sealed class UIController : MonoBehaviour
 
     public void CloseEEG()
     {
+        framecount = 0;
         modesVariations.SetActive(true);
         Title.SetActive(true);
         eegOutput.SetActive(false);
@@ -384,10 +411,14 @@ public sealed class UIController : MonoBehaviour
         modesVariations.SetActive(false);
         Title.SetActive(false);
         eegIndexOutput.SetActive(true);
+
         channelsController.createEegIdx(device, (ids) =>
         {
             indexValues = ids;
+
         });
+
+
     }
 
     public void CloseEegIndex()
@@ -660,6 +691,7 @@ public sealed class UIController : MonoBehaviour
 
     }
 }
+
 
 
 
