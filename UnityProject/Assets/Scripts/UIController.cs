@@ -47,7 +47,7 @@ public sealed class UIController : MonoBehaviour
     private double rawT3Resist = 0;
     public Text T4Resist;
     private double rawT4Resist = 0;
-    public Text LLE;
+
 
     public string thePhone;
     public string theEmail;
@@ -65,6 +65,8 @@ public sealed class UIController : MonoBehaviour
     public Graph eegT4Graph;
     public Text timeUpdate;
     public bool update;
+
+    public Text newTextLLE;
 
     [Header("== EEG Index UI ==")]
     public GameObject eegIndexOutput;
@@ -161,7 +163,8 @@ public sealed class UIController : MonoBehaviour
         T3Resist.text = string.Format("T3: {0:F2} Om", rawT3Resist);
         T4Resist.text = string.Format("T4: {0:F2} Om", rawT4Resist);
 
-        LLE.text = string.Format("LLE: {0:F2} ", LLEValue);
+        //newTextLLE.text = string.Format("LLE: {0:F2} ", 4.0);
+        //newTextLLE.GetComponent<Text>().text = "LLE: " + 4.0;
 
     }
 
@@ -187,7 +190,7 @@ public sealed class UIController : MonoBehaviour
 
 
         //Send Messages
-        NetOut.SignalWatch(peopleList,detect);
+        NetOut.SignalWatch(peopleList, detect);
 
 
         GetDeviceInfo();
@@ -299,7 +302,7 @@ public sealed class UIController : MonoBehaviour
 
     private double[] LLEBuffer;
     private int sampleCountLLE = 0;
-    private int LLEWindowSize = 5000;
+    private int LLEWindowSize = 250;
     private double LLEValue = 0;
 
     public void ShowEEG()
@@ -309,6 +312,7 @@ public sealed class UIController : MonoBehaviour
         eegOutput.SetActive(true);
         update = true;
         timeUpdating();
+        //newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
         channelsController.createEeg(device, (channel, samples) =>
 
         {
@@ -328,26 +332,28 @@ public sealed class UIController : MonoBehaviour
                     eegT4Graph.UpdateGraph(samples);
                     break;
             }
-            if (sampleCountLLE >= LLEWindowSize)
-            {
-                Rosenstein rosenstein = new Rosenstein();
+            //if (sampleCountLLE >= LLEWindowSize)
+            //{
+            Rosenstein rosenstein = new Rosenstein();
 
-                rosenstein.SetData1D(samples);
+            rosenstein.SetData1D(samples);
 
-                LLEValue = rosenstein.RunAlgorithm();
+            LLEValue = rosenstein.RunAlgorithm();
 
-                //bool isSeizure = rosenstein.IsSeizure();
+            newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
 
-                sampleCountLLE = 0;
-            }
-            else
-            {
-                sampleCountLLE += samples.Length;
-                double[] newLLEBuffer = new double[sampleCountLLE];
-                LLEBuffer.CopyTo(newLLEBuffer, 0);
-                samples.CopyTo(newLLEBuffer, LLEBuffer.Length);
-                LLEBuffer = newLLEBuffer;
-            }
+            //bool isSeizure = rosenstein.IsSeizure();
+
+            //sampleCountLLE = 0;
+            //}
+            // else
+            // {
+            //     sampleCountLLE += samples.Length;
+            //     double[] newLLEBuffer = new double[sampleCountLLE];
+            //     LLEBuffer.CopyTo(newLLEBuffer, 0);
+            //     samples.CopyTo(newLLEBuffer, LLEBuffer.Length);
+            //     LLEBuffer = newLLEBuffer;
+            // }
         });
         eegO1Graph.InitGraph(channelsController.GetEegPlotSize());
         eegO2Graph.InitGraph(channelsController.GetEegPlotSize());
@@ -632,7 +638,7 @@ public sealed class UIController : MonoBehaviour
 
     public async void timeUpdating()
     {
-        if(update == true)
+        if (update == true)
         {
             for (int i = 1; i < 1000; i++)
             {
@@ -653,8 +659,10 @@ public sealed class UIController : MonoBehaviour
 
 
     }
-
-
-
 }
+
+
+
+
+
 
