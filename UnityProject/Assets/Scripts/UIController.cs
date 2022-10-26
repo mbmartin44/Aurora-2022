@@ -267,7 +267,7 @@ public sealed class UIController : MonoBehaviour
         deviceConnectionState.text = disconnected ? "Disconnected" : "Connected";
 
         deviceInfoOutput?.SetActive(false);
-        
+
         eegOutput?.SetActive(false);
 
         if (disconnected)
@@ -463,7 +463,7 @@ public sealed class UIController : MonoBehaviour
             }
             //Finally, remove contact
             peopleList.RemoveAt(i - 1);
-            textDisplay.GetComponent<Text>().text = "Conact Number: " + (i).ToString() + " has been removed";
+            textDisplay.GetComponent<Text>().text = "Contact Number: " + (i).ToString() + " has been removed";
         }
         catch(Exception e)
         {

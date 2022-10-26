@@ -17,6 +17,7 @@
  * 01ks - October 17th, 2022 - Name Fix, remove namespace, remove supporting classes
  * 02jl - October 18th, 2022 - SignalWatchSingle Creation Start
  * 03jl - October 19th, 2022 - SignalWatchSingle for non-attachment
+ * 04ks - October 25th, 2022 - SignalWatch with harcoded contacts list added, minor polish
 */
 using System;
 using System.Text;
@@ -30,23 +31,60 @@ using UnityEngine;
 
 public class NetOut : MonoBehaviour
 {
-    //Main Use Function
+    //Main Use Function with attachment
     public static async void SignalWatch(List<ContactsPackage> people, bool detect, Attachment attach)
     {
-        if (detect)
+        try
         {
-            //Send emails and text messages from contacts list
-            foreach (var x in people)
+            if (detect)
             {
-                TextDriver texter = new TextDriver();
-                texter.Send(x);
-                MailPackage.SendMail(x, attach);
-                await System.Threading.Tasks.Task.Delay(2000);
+                //Send emails and text messages from contacts list
+                foreach (var x in people)
+                {
+                    TextDriver texter = new TextDriver();
+                    texter.Send(x);
+                    MailPackage.SendMail(x, attach);
+                    await System.Threading.Tasks.Task.Delay(2000);
+                }
+            }
+            else
+            {
+                return;
             }
         }
-        else
+        catch(Exception e)
         {
-            return;
+            Debug.Log("Error: " + e.ToString());
+        }
+    }
+
+    //04ks
+    //SignalWatch no attachment with hard coded list of contacts, this must be updated manually before compile to work
+    public static async void SignalWatch(bool detect, Attachment attach)
+    {
+        try
+        {
+            List<ContactsPackage> people = new List<ContactsPackage>();
+            //Required Setup Variables (Contacts)
+            var contact1 = new ContactsPackage(new MailAddress("example@hotmail.net", "Auto Sender"), "123456789");
+            people.Add(contact1);
+
+
+
+            if (detect)
+            {
+                foreach (var x in people)
+                {
+                    TextDriver texter = new TextDriver();
+                    texter.Send(x);
+                    MailPackage.SendMail(x, attach);
+                    await System.Threading.Tasks.Task.Delay(2000);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error: " + e.ToString());
         }
     }
 
@@ -72,23 +110,60 @@ public class NetOut : MonoBehaviour
         }
     }
 
+    //Main Use function no attachment
     public static async void SignalWatch(List<ContactsPackage> people, bool detect)
     {
-        if (detect)
+        try
         {
-            //Send emails and text messages from contacts list
-            foreach (var x in people)
+            if (detect)
             {
-                TextDriver texter = new TextDriver();
-                texter.Send(x);
-               MailPackage.SendMail(x);
-                await System.Threading.Tasks.Task.Delay(2000);
-
+                //Send emails and text messages from contacts list
+                foreach (var x in people)
+                {
+                    TextDriver texter = new TextDriver();
+                    texter.Send(x);
+                    MailPackage.SendMail(x);
+                    await System.Threading.Tasks.Task.Delay(2000);
+                }
+            }
+            else
+            {
+                return;
             }
         }
-        else
+        catch(Exception e)
         {
-            return;
+            Debug.Log("Error: " + e.ToString());
+        }
+    }
+
+    //04ks
+    //SignalWatch no attachment with hard coded list of contacts, this must be updated manually before compile to work
+    public static async void SignalWatch(bool detect)
+    {
+        try
+        {
+            List<ContactsPackage> people = new List<ContactsPackage>();
+            //Required Setup Variables (Contacts)
+            var contact1 = new ContactsPackage(new MailAddress("example@hotmail.net", "Auto Sender"), "123456789");
+            people.Add(contact1);
+
+
+
+            if (detect)
+            {
+                foreach (var x in people)
+                {
+                    TextDriver texter = new TextDriver();
+                    texter.Send(x);
+                    MailPackage.SendMail(x);
+                    await System.Threading.Tasks.Task.Delay(2000);
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            Debug.Log("Error: " + e.ToString());
         }
     }
 
