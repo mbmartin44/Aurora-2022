@@ -37,18 +37,10 @@ public sealed class UIController : MonoBehaviour
     public Graph signalT3Graph;
     public Graph signalT4Graph;
 
-    [Header("== Resistance UI ==")]
+    private double[] LLESamps;
+
+    [Header("== Contacts UI ==")]
     public GameObject resistOutput;
-    public Text O1Resist;
-    private double rawO1Resist = 0;
-    public Text O2Resist;
-    private double rawO2Resist = 0;
-    public Text T3Resist;
-    private double rawT3Resist = 0;
-    public Text T4Resist;
-    private double rawT4Resist = 0;
-
-
     public string thePhone;
     public string theEmail;
     public GameObject inputField;
@@ -302,26 +294,19 @@ public sealed class UIController : MonoBehaviour
 
     #region EEG
 
-    private double[] LLEBuffer;
-    private int sampleCountLLE = 0;
-    private int LLEWindowSize = 250;
-    private double LLEValue = 0;
-    private bool[] incrementIndex = { false, false, false, false };
-    private int samplesPlotted = 0;
-    bool initCmd = true;
-    bool lockBool = false;
+    int samplesLLE = 0;
     public void ShowEEG()
     {
         modesVariations.SetActive(false);
         Title.SetActive(false);
         eegOutput.SetActive(true);
-        //update = true;
-        //timeUpdating();
+        update = true;
+        timeUpdating();
         //newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
-        
-        channelsController.createEeg(device, (channel, samples) => 
+
+        channelsController.createEeg(device, (channel, samples) =>
         {
-            //timeUpdate.text = string.Format("{0}", samples.Length);
+
             AnyChannel anyChannel = (AnyChannel)channel;
             switch (anyChannel.Info.Name)
             {
@@ -342,44 +327,7 @@ public sealed class UIController : MonoBehaviour
 
                     break;
             }
-      
-            //if (samples.Length >= 4000 && lockBool)
-            //{
-            //    lockBool = false;
-            //    framecount += 2;
-            //    
-            //}
-            //
-            //if (!lockBool && samples.Length < 4000)
-            //{
-            //    lockBool = true;
-            //}
 
-            //if (sampleCountLLE >= LLEWindowSize)
-            //{
-
-
-
-            //Rosenstein rosenstein = new Rosenstein();
-
-            //rosenstein.SetData1D(samples);
-
-            //LLEValue = rosenstein.RunAlgorithm();
-
-            //newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
-
-            //bool isSeizure = rosenstein.IsSeizure();
-
-            //sampleCountLLE = 0;
-            //}
-            // else
-            // {
-            //     sampleCountLLE += samples.Length;
-            //     double[] newLLEBuffer = new double[sampleCountLLE];
-            //     LLEBuffer.CopyTo(newLLEBuffer, 0);
-            //     samples.CopyTo(newLLEBuffer, LLEBuffer.Length);
-            //     LLEBuffer = newLLEBuffer;
-            // }
         });
         eegO1Graph.InitGraph(channelsController.GetEegPlotSize());
         eegO2Graph.InitGraph(channelsController.GetEegPlotSize());
@@ -538,10 +486,6 @@ public sealed class UIController : MonoBehaviour
                 artefactRate = calibration.ArtifactRate;
                 calibrationProgress = calibration.Progress;
             }
-            else if (state is StateWorking working)
-            {
-
-            }
 
         });
     }
@@ -569,7 +513,6 @@ public sealed class UIController : MonoBehaviour
 
         deviceInfoOutput?.SetActive(false);
         signalOutput?.SetActive(false);
-        resistOutput?.SetActive(false);
         eegOutput?.SetActive(false);
         eegIndexOutput?.SetActive(false);
         spectrumOutput?.SetActive(false);
