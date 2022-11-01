@@ -12,7 +12,7 @@ public class EegController
 
     public EventHandler<double[]> onEegChanged;
 
-    int windowDuration =4;
+    int windowDuration =2;
     public int plotSize = 0;
     //int SamplingFrequency = 250;
     

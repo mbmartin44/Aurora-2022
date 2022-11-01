@@ -1355,7 +1355,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.65021}
   m_AnchorMax: {x: 1, y: 0.721185}
-  m_AnchoredPosition: {x: 200, y: -78}
+  m_AnchoredPosition: {x: -0.000030517578, y: -143}
   m_SizeDelta: {x: -456.27295, y: 0.5548096}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &175628575
@@ -3099,7 +3099,7 @@ GameObject:
   - component: {fileID: 360976231}
   - component: {fileID: 360976230}
   m_Layer: 5
-  m_Name: Resistance
+  m_Name: Contacts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3122,7 +3122,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.74100006}
   m_AnchorMax: {x: 1, y: 0.81200004}
-  m_AnchoredPosition: {x: -207, y: -229.87}
+  m_AnchoredPosition: {x: -0.000030517578, y: -436.04}
   m_SizeDelta: {x: -456.27295, y: 0.5548096}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &360976230
@@ -5305,7 +5305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.06886012}
   m_AnchorMax: {x: 1, y: 0.92826277}
-  m_AnchoredPosition: {x: 1, y: 1.4196777}
+  m_AnchoredPosition: {x: -1, y: 2.1704102}
   m_SizeDelta: {x: -2, y: 2.8398438}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &859288860
@@ -5550,7 +5550,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.9125334}
   m_AnchorMax: {x: 1, y: 0.98467505}
-  m_AnchoredPosition: {x: -207, y: -202.53}
+  m_AnchoredPosition: {x: -0.000030517578, y: -291}
   m_SizeDelta: {x: -456.27295, y: -1.4451904}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &892549685
@@ -5598,17 +5598,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1328855408}
         m_MethodName: ShowDeviceInfo
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: StoreName
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7997,7 +7986,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.554}
   m_AnchorMax: {x: 1, y: 0.6283897}
-  m_AnchoredPosition: {x: 200, y: 398}
+  m_AnchoredPosition: {x: -0.000030517578, y: 313}
   m_SizeDelta: {x: -456.27295, y: -3.4451904}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1363526296
@@ -11418,7 +11407,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.06886012}
-  m_AnchoredPosition: {x: 2.0003662, y: 1280}
+  m_AnchoredPosition: {x: 2.0003967, y: 296.99997}
   m_SizeDelta: {x: 0.0007324219, y: -0.0005493164}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1957541663
@@ -12208,7 +12197,7 @@ GameObject:
   - component: {fileID: 2062447740}
   - component: {fileID: 2062447739}
   m_Layer: 5
-  m_Name: ResistancePanel
+  m_Name: ContactsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
