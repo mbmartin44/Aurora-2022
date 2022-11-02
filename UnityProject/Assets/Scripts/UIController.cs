@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Neuro;
 using Neuro.Native;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Net;
 using System.Net.Mail;
 
 
@@ -394,7 +391,7 @@ public sealed class UIController : MonoBehaviour
             for (framecount = 1; framecount < 21600; framecount++)
             {
                 await System.Threading.Tasks.Task.Delay(2000);
-                if (LLEQueue["O1"].Count > 100 && LLEQueue["O2"].Count > 100 && LLEQueue["T3"].Count > 100 && LLEQueue["T4"].Count > 100)
+                if (LLEQueue["O1"].Count > 1250 && LLEQueue["O2"].Count > 1250 && LLEQueue["T3"].Count > 1250 && LLEQueue["T4"].Count > 1250)
                 {
                     ThreadSafeSetBool(true);
                 }

@@ -76,7 +76,7 @@ class SignalGraph : Graph
 
         }
 
-        
+
         if (!labelsInit)
         {
             int seperatorCount = 10;
@@ -117,6 +117,7 @@ class SignalGraph : Graph
 
 public override void UpdateGraph(double[] newSamples)
     {
+
         for (int i = 0; i < newSamples.Length; i++)
         {
             if (samplesQueue.Count < samplesCount)

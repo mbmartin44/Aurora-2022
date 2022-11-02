@@ -16,8 +16,6 @@ public class Graph : MonoBehaviour
     protected int samplesCount = 0;
     protected List<RectTransform> connections = new List<RectTransform>();
 
-
-
     public virtual void InitGraph(int samplesCount)
     {
         this.samplesCount = samplesCount;
@@ -36,14 +34,12 @@ public class Graph : MonoBehaviour
     {
         GameObject gameObject = new GameObject("connection", typeof(Image));
         gameObject.transform.SetParent(container, false);
-        gameObject.GetComponent<Image>().color = Color.black;
+        gameObject.GetComponent<Image>().color = Color.blue;
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
 
 
         SetConnectionSizes(rectTransform, dotPositionA, dotPositionB);
         return rectTransform;
-
-
     }
 
     public virtual void UpdateGraph(double[] newSamples)

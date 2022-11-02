@@ -9,6 +9,7 @@
  *    The number of points for which a neighborhood with enough points was found
  */
 
+// THIS FILE IS CURRENTLY NOT IN USE (DEPRACATED)!
 
 using System;
 
@@ -213,7 +214,7 @@ public class Kantz
         }
         if ((maxiter + (maxdim - 1) * delay) >= length)
         {
-            Console.WriteLine("Too few points to handle these parameters!\n");
+
             return 0;
         }
 
@@ -252,22 +253,8 @@ public class Kantz
                 Iterate_points(i);
             }
 
-            if (verbosity != 0)
-            {
-                Console.WriteLine("epsilon= {0}\n", epsilon * max);
-            }
-            for (i = mindim - 2; i < maxdim - 1; i++)
-            {
-                Console.WriteLine("#epsilon= {0}  dim= {1}\n", epsilon * max, i + 2);
-                for (j = 0; j <= maxiter; j++)
-                {
-                    if (count[i, j] != 0)
-                    {
-                        Console.WriteLine("{0} {1} {2}\n", j, lyap[i, j] / count[i, j], count[i, j]);
-                    }
-                }
-                Console.WriteLine("\n");
-            }
+
+
         }
         return 0;
     }

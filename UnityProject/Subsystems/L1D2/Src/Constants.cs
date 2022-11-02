@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine;
 
-class Constants
+public class Constants
 {
     // Constants used in the direct Rosenstein (V1)
     public const double IOTA = 10e-15;
@@ -16,5 +15,15 @@ class Constants
     // Constants used in Tisean Algorithms
     public const ulong ULONG_MAX = 0xffffffffUL;
     public const int BOX = 128;
+
+    public enum AlgResult { PositiveResult, NegativeResult, NeedMoreData };
+    public class DiagnosticReport
+    {
+        public double LLE;
+        public double SNR;
+        public double CV;
+        public bool detection;
+    }
+
 }
 
