@@ -151,6 +151,7 @@ QualitySettings:
     customRenderPipeline: {fileID: 0}
     excludedTargetPlatforms:
     - Android
+    - WebGL
   - serializedVersion: 2
     name: Very High
     pixelLightCount: 3

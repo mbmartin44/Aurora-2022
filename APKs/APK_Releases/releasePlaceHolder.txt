@@ -1,1 +1,0 @@
-Add new placeholder for APK_Releases folder
