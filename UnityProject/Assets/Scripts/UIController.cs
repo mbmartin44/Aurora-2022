@@ -28,12 +28,26 @@ public sealed class UIController : MonoBehaviour
     public Text deviceInfoText;
 
 
+
+
     [Header("== Contacts UI ==")]
     public GameObject contactsOutput;
+    public Text O1Resist;
+    private double rawO1Resist = 0;
+    public Text O2Resist;
+    private double rawO2Resist = 0;
+    public Text T3Resist;
+    private double rawT3Resist = 0;
+    public Text T4Resist;
+    private double rawT4Resist = 0;
+
+    public string theName;
     public string thePhone;
     public string theEmail;
     public GameObject inputField;
     public GameObject inputField2;
+    public GameObject inputField3;
+    public GameObject inputField4;
     public GameObject textDisplay;
 
     //private InputField InputField;
@@ -167,7 +181,7 @@ public sealed class UIController : MonoBehaviour
 
         channelsController.createEeg(device, (channel, samples) =>
         {
-
+            //timeUpdate.text = string.Format("{0}", samples.Length);
             AnyChannel anyChannel = (AnyChannel)channel;
             switch (anyChannel.Info.Name)
             {
@@ -253,6 +267,7 @@ public sealed class UIController : MonoBehaviour
         deviceConnectionState.text = disconnected ? "Disconnected" : "Connected";
 
         deviceInfoOutput?.SetActive(false);
+        
         eegOutput?.SetActive(false);
 
         if (disconnected)
@@ -311,9 +326,9 @@ public sealed class UIController : MonoBehaviour
 
     public void StoreInfo()
     {
-        thePhone = inputField.GetComponent<Text>().text;
+        theName = inputField.GetComponent<Text>().text;
         theEmail = inputField2.GetComponent<Text>().text;
-        textDisplay.GetComponent<Text>().text = "Welcome " + thePhone + ", " + theEmail;
+        thePhone = inputField3.GetComponent<Text>().text;
 
         //Create Contact
         ContactsPackage contact = new ContactsPackage();
@@ -322,12 +337,17 @@ public sealed class UIController : MonoBehaviour
         if (inputField2.GetComponent<Text>().text == "")
         {
             contact.phone = thePhone;
-            contact.nameAddress = new MailAddress("null@hotmail.net", "Auto Sender");
+            contact.nameAddress = new MailAddress("null@hotmail.com", theName);
+        }
+        else if (inputField3.GetComponent<Text>().text == "")
+        {
+            contact.phone = "";
+            contact.nameAddress = new MailAddress(theEmail, theName);
         }
         else
         {
             contact.phone = thePhone;
-            contact.nameAddress = new MailAddress(theEmail, "Auto Sender");
+            contact.nameAddress = new MailAddress(theEmail, theName);
         }
 
         //See if Contacts list valid
@@ -340,6 +360,9 @@ public sealed class UIController : MonoBehaviour
         {
             peopleList.Add(contact);
         }
+
+        textDisplay.GetComponent<Text>().text = "Entered: \nName: " + contact.nameAddress.DisplayName + "\nEmail Address: " + contact.nameAddress.Address
+            + "\nPhone Number: " + contact.phone;
     }
     string[] keys = { "O1", "O2", "T3", "T4" };
     public  void RunLLE()
@@ -383,7 +406,73 @@ public sealed class UIController : MonoBehaviour
         ThreadSafeSetBool(false);
     }
 
-    //43200 is 12 hours in seconds. since update every 2 seconds change to 21600
+    public void ListContacts()
+    {
+        try
+        {
+            string temp = "";
+            int i = 1;
+            if (peopleList == null)
+            {
+                //No Contacts to list
+                return;
+            }
+            else
+            {
+                foreach (var x in peopleList)
+                {
+                    temp = temp + i.ToString() + ". Name: " + x.nameAddress.DisplayName + "\n"
+                        + "Email Address: " + x.nameAddress.Address + "\n"
+                        + "Phone Number: " + x.phone + "\n";
+                    i++;
+                }
+                textDisplay.GetComponent<Text>().text = temp;
+            }
+        }
+        catch(Exception e)
+        {
+            Debug.Log("Error: " + e.ToString());
+        }
+    }
+
+    public void RemoveContact()
+    {
+        try
+        {
+            string index = inputField4.GetComponent<Text>().text;
+            int i = 0;
+
+            //BREAK CONDITIONS
+            if (!int.TryParse(index, out i))
+            {
+                //Not an int
+                textDisplay.GetComponent<Text>().text = "Enter a real number";
+                return;
+            }
+            if (peopleList == null)
+            {
+                //Nothing to remove
+                textDisplay.GetComponent<Text>().text = "There are no contacts";
+                return;
+            }
+            if(peopleList.Count < i)
+            {
+                //Invalid index
+                textDisplay.GetComponent<Text>().text = "Invalid contact number";
+                return;
+            }
+            //Finally, remove contact
+            peopleList.RemoveAt(i - 1);
+            textDisplay.GetComponent<Text>().text = "Conact Number: " + (i).ToString() + " has been removed";
+        }
+        catch(Exception e)
+        {
+            Debug.Log("Error: " + e.ToString());
+        }
+    }
+
+
+
     public async void TimeUpdating()
     {
         if (update == true)

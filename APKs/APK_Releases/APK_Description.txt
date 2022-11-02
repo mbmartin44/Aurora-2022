@@ -8,4 +8,7 @@ test_11_01_22_SeizureDisplay_removal
 *Same as above with removal of unneccessary scripts. Spectrum/spectrumpower/resistance/emotions all removed.
 
 Possible_LLE_11_09_22
-*Possible LLE. Using ASYNC
+*Possible LLE. Using ASYNC*Same as above with removal of unneccessary scripts. Spectrum/spectrumpower/resistance/emotions all removed.
+
+Working11_2_22
+*Working version off Keaton Laptop, v2.6.0
