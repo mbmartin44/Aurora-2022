@@ -76,7 +76,7 @@ class SignalGraph : Graph
 
         }
 
-        //List<RectTransform> temp = new List<RectTransform>();
+        
         if (!labelsInit)
         {
             int seperatorCount = 10;

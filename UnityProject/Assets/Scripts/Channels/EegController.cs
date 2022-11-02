@@ -14,7 +14,7 @@ public class EegController
 
     int windowDuration =2;
     public int plotSize = 0;
-    //int SamplingFrequency = 250;
+    
     
     public EegController(Device device)
     {
@@ -32,7 +32,7 @@ public class EegController
                         signalOffsets.Add(chInfo.Name, 0);
                         
                         plotSize = (int)Mathf.Ceil(eegChannel.SamplingFrequency * windowDuration);
-                        //plotSize = (int)Mathf.Ceil(SamplingFrequency * windowDuration);
+                        
                     }
                 }
             }
@@ -42,8 +42,7 @@ public class EegController
 
     private void OnSignalChanged(object sender, int length)
     {
-        //lock (synchObj)
-        //{
+       
             AnyChannel anyChannel = (AnyChannel)sender;
             EegChannel signalChannel = eegChannels[anyChannel.Info.Name];
             int totalLength = signalChannel.TotalLength;
@@ -53,7 +52,7 @@ public class EegController
             signalOffsets[signalChannel.Info.Name] += readLength;
 
             onEegChanged?.Invoke(sender, signalSamples);
-        //}
+        
     }
 
     public void CloseChannel(Device device)

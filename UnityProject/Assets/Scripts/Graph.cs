@@ -10,7 +10,7 @@ public class Graph : MonoBehaviour
     public RectTransform background;
     public RectTransform labelTemplateX;
     public RectTransform labelTemplateY;
-    //public RectTransform DashTemplate;
+    
     
 
     protected int samplesCount = 0;
@@ -23,18 +23,6 @@ public class Graph : MonoBehaviour
         this.samplesCount = samplesCount;
     }
 
-    /*public void InitGraph(int samplesCount)
-    {
-        this.samplesCount = samplesCount;
-
-        for (int i = 0; i < samplesCount; i++)
-        {
-            samplesQueue.Enqueue(0);
-        }
-        ShowGraph(samplesQueue.ToArray());
-    }*/
-
-
     protected virtual void ShowGraph(double[] samples)
     {
         container.sizeDelta = new Vector2(background.rect.width, background.rect.height);
@@ -42,36 +30,6 @@ public class Graph : MonoBehaviour
         
         container.anchoredPosition = new Vector2(container.sizeDelta.x * 0.5f, container.sizeDelta.y * 0.5f);
 
-       
-
-
-        /*float graphHeight = container.sizeDelta.y;
-        float yMax = 10000f;
-        float xSize = container.sizeDelta.x / samplesCount;
-
-        float lastX = -1;
-        float lastY = -1;
-        for (int i = 0; i < samples.Length; i++)
-        {
-            float xPosition = xSize + i * xSize;
-            float yPosition = 0;
-            if (mode == GraphMode.Signal)
-            {
-                yPosition = graphHeight / (yMax * 2.0f) * ((float)samples[i] + yMax);
-            }
-            else
-            {
-                yPosition = (float)samples[i] * graphHeight / yMax;
-            }
-            yPosition = Mathf.Clamp(yPosition, 0, graphHeight);
-
-            if (lastX > -1 && lastY > -1) {
-                connections.Add(CreateConnection(new Vector2(lastX, lastY),
-                    new Vector2(xPosition, yPosition)));
-            }
-            lastX = xPosition;
-            lastY = yPosition;
-        }*/
     }
 
     protected RectTransform CreateConnection(Vector2 dotPositionA, Vector2 dotPositionB)
@@ -88,53 +46,9 @@ public class Graph : MonoBehaviour
         
     }
 
-    /*private void FixedUpdate()
-    {
-        double[] samples = samplesQueue.ToArray();
-
-        float graphHeight = container.sizeDelta.y;
-        float yMax = 10000f;
-        float xSize = container.sizeDelta.x / samplesCount;
-
-        float lastX = -1;
-        float lastY = -1;
-        for (int i = 0; i < samples.Length - 1; i++)
-        {
-            float xPosition = xSize + i * xSize;
-            float yPosition = 0;
-            if (mode == GraphMode.Signal)
-            {
-                yPosition = graphHeight / (yMax * 2.0f) * ((float)samples[i] + yMax);
-            }
-            else
-            {
-                yPosition = (float)samples[i] * graphHeight / yMax;
-            }
-            yPosition = Mathf.Clamp(yPosition, 0, graphHeight);
-
-            if (lastX > -1 && lastY > -1 && i < connections.Count)
-            {
-                UpdateConnection(new Vector2(lastX, lastY), new Vector2(xPosition, yPosition), i);
-            }
-            lastX = xPosition;
-            lastY = yPosition;
-        }
-    }*/
-
     public virtual void UpdateGraph(double[] newSamples)
     {
-        /*for (int i = 0; i < newSamples.Length; i++)
-        {
-            if (samplesQueue.Count < samplesCount)
-            {
-                samplesQueue.Enqueue(newSamples[i]  * 1e6);
-            }
-            else
-            {
-                samplesQueue.Enqueue(newSamples[i] * 1e6);
-                samplesQueue.Dequeue();
-            }
-        }*/
+       
 
     }
 
@@ -172,7 +86,7 @@ public class Graph : MonoBehaviour
 
     public virtual void Close()
     {
-        //samplesQueue.Clear();
+        
         connections.ForEach((connection) => { Destroy(connection.gameObject); });
         connections.Clear();
     }

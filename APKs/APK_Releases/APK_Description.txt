@@ -1,2 +1,8 @@
 WorkingLLE_10_24_22
 *Working LLE no axis labels. No contacts.
+
+test_11_01_22_SeizureDisplay
+*Working frame count. Updated speed of app. Seizure detected visual added. UI controller cleaned.
+
+test_11_01_22_SeizureDisplay_removal
+*Same as above with removal of unneccessary scripts. Spectrum/spectrumpower/resistance/emotions all removed.
