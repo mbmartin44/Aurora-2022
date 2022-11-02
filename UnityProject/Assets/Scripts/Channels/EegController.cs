@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Neuro;
 using Neuro.Native;
@@ -9,16 +8,18 @@ public class EegController
 {
     private Dictionary<string, EegChannel> eegChannels = new Dictionary<string, EegChannel>();
     private Dictionary<string, int> signalOffsets = new Dictionary<string, int>();
-
     public EventHandler<double[]> onEegChanged;
-
-    int windowDuration =2;
+    int windowDuration = 2;
     public int plotSize = 0;
+    public double LLEtest = 0;
+
+
     public double[] signalSamples;
 
 
     public EegController(Device device)
     {
+
         if (DeviceTraits.HasChannelsWithType(device, ChannelType.Signal))
         {
             foreach (ChannelInfo chInfo in device.Channels)
@@ -44,15 +45,14 @@ public class EegController
     private void OnSignalChanged(object sender, int length)
     {
 
-            AnyChannel anyChannel = (AnyChannel)sender;
-            EegChannel signalChannel = eegChannels[anyChannel.Info.Name];
-            int totalLength = signalChannel.TotalLength;
-            int readLength = totalLength - signalOffsets[signalChannel.Info.Name];
-            double[] signalSamples = signalChannel.ReadData(signalOffsets[signalChannel.Info.Name], readLength);
+        AnyChannel anyChannel = (AnyChannel)sender;
+        EegChannel signalChannel = eegChannels[anyChannel.Info.Name];
+        int totalLength = signalChannel.TotalLength;
+        int readLength = totalLength - signalOffsets[signalChannel.Info.Name];
+        double[] signalSamples = signalChannel.ReadData(signalOffsets[signalChannel.Info.Name], readLength).ApplyLPF(true, (int)signalChannel.SamplingFrequency, 2);
+        signalOffsets[signalChannel.Info.Name] += readLength;
 
-            signalOffsets[signalChannel.Info.Name] += readLength;
-
-            onEegChanged?.Invoke(sender, signalSamples);
+        onEegChanged?.Invoke(sender, signalSamples);
 
     }
 

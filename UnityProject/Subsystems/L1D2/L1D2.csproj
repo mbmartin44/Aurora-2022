@@ -19,12 +19,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -44,9 +44,6 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExCSS.Unity">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\ExCSS.Unity.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,92 +52,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.Cecil">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\Unity.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Cecil.Mdb">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\Unity.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Cecil.Pdb">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\Unity.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Cecil.Rocks">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\Unity.Cecil.Rocks.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.CecilTools">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\Unity.CecilTools.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.CompilationPipeline.Common">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\Unity.CompilationPipeline.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Legacy.NRefactory">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\Unity.Legacy.NRefactory.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.SerializationLogic">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\Unity.SerializationLogic.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Graphs">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UnityTestProtocolModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityTestProtocolModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VehiclesModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.VehiclesModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VFXModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.VFXModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VideoModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VRModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.VRModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.WindModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.WindModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.XRModule">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity\Hub\Editor\2019.4.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.XRModule.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Src\Test Interface\Parameter Estimation Tests\FalseNearest.cs" />
-    <Compile Include="Src\Hardware Interface\HRosenstein.cs" />
+    <Compile Include="Src\ExtensionMethods.cs" />
     <Compile Include="Src\Util.cs" />
-    <Compile Include="Src\Kantz.cs" />
-    <Compile Include="Src\VRosenstein.cs" />
-    <Compile Include="Src\Test Interface\File Tests\TRosenstein.cs" />
     <Compile Include="Src\Constants.cs" />
-    <Compile Include="Src\Test Interface\File Tests\FileIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Src\Test Interface\File Tests\FileTestData.cs" />
-    <Compile Include="Src\VAlgorithm.cs" />
     <Compile Include="Src\Rosenstein.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Src\Test Interface\TestMain.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tests Results\Original Example\l1d2_example.c" />
@@ -156,9 +77,19 @@
     <None Include="Tests Results\Test Data\lorenz.dat" />
     <None Include="Tests Results\Test Data\lorenz.l1d2" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MathNet.Filtering">
+      <Version>0.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="MathNet.Numerics">
+      <Version>5.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y $(TargetPath) ..\..\..\..\Assets\
-copy /Y $(TargetDir)\L1D2.pdb ..\..\..\..\Assets\</PostBuildEvent>
+copy /Y $(TargetDir)\MathNet.Filtering.dll ..\..\..\..\Assets\
+copy /Y $(TargetDir)\MathNet.Numerics.dll ..\..\..\..\Assets\
+copy /Y $(TargetDir)\System.ValueTuple.dll ..\..\..\..\Assets\</PostBuildEvent>
   </PropertyGroup>
 </Project>
