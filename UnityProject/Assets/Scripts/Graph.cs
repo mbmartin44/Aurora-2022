@@ -10,13 +10,13 @@ public class Graph : MonoBehaviour
     public RectTransform background;
     public RectTransform labelTemplateX;
     public RectTransform labelTemplateY;
-    
-    
+
+
 
     protected int samplesCount = 0;
     protected List<RectTransform> connections = new List<RectTransform>();
 
-    
+
 
     public virtual void InitGraph(int samplesCount)
     {
@@ -26,8 +26,8 @@ public class Graph : MonoBehaviour
     protected virtual void ShowGraph(double[] samples)
     {
         container.sizeDelta = new Vector2(background.rect.width, background.rect.height);
-        
-        
+
+
         container.anchoredPosition = new Vector2(container.sizeDelta.x * 0.5f, container.sizeDelta.y * 0.5f);
 
     }
@@ -38,17 +38,17 @@ public class Graph : MonoBehaviour
         gameObject.transform.SetParent(container, false);
         gameObject.GetComponent<Image>().color = Color.black;
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-        
+
 
         SetConnectionSizes(rectTransform, dotPositionA, dotPositionB);
         return rectTransform;
-       
-        
+
+
     }
 
     public virtual void UpdateGraph(double[] newSamples)
     {
-       
+
 
     }
 
@@ -64,7 +64,7 @@ public class Graph : MonoBehaviour
         rectTransform.anchorMin = new Vector2(0, 0);
         rectTransform.anchorMax = new Vector2(0, 0);
         rectTransform.sizeDelta = new Vector2(distance, 1f);
-        
+
         rectTransform.anchoredPosition = dotPositionA + dir * distance * .5f;
         rectTransform.localEulerAngles = new Vector3(0, 0, GetAngleFromVectorFloat(dir));
         labelTemplateY = container.Find("labelTemplateY").GetComponent<RectTransform>();
@@ -86,7 +86,7 @@ public class Graph : MonoBehaviour
 
     public virtual void Close()
     {
-        
+
         connections.ForEach((connection) => { Destroy(connection.gameObject); });
         connections.Clear();
     }
