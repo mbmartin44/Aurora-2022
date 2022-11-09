@@ -59,7 +59,7 @@ public sealed class UIController : MonoBehaviour
 
     public double[] qual;
 
-    public Queue<double> LLEQueue = new Queue<double>();
+    public Dictionary<string, Queue<double>> LLEQueue = new Dictionary<string, Queue<double>>();
 
     private void Awake()
     {
@@ -74,9 +74,10 @@ public sealed class UIController : MonoBehaviour
     private void FixedUpdate()
     {
         devicePowerState.text = string.Format("Power: {0}%", devicePower);
-
-
-
+        timeUpdate.text = string.Format("{0}", framecount);
+        newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
+        //Seizure_Notdet.SetActive(true);
+        //Seizure.SetActive(false);
     }
 
     public void SaveDevice(Device device)
@@ -132,12 +133,6 @@ public sealed class UIController : MonoBehaviour
         Title.SetActive(true);
         contactsOutput.SetActive(false);
 
-
-
-
-
-
-
     }
     #endregion
 
@@ -145,15 +140,14 @@ public sealed class UIController : MonoBehaviour
 
     int samplesLLE = 0;
     double LLEValue = 0;
+    int samplesLength = 0;
     public void ShowEEG()
     {
         modesVariations.SetActive(false);
         Title.SetActive(false);
         eegOutput.SetActive(true);
         update = true;
-        timeUpdating();
-        Seizure_Notdet.SetActive(true);
-        Seizure.SetActive(false);
+        TimeUpdating();
 
 
         channelsController.createEeg(device, (channel, samples) =>
@@ -179,19 +173,28 @@ public sealed class UIController : MonoBehaviour
 
                     break;
             }
-
-            for(int i = 1; i < samples.Length; i++)
+            if (!LLEQueue.ContainsKey(anyChannel.Info.Name))
             {
-                LLEQueue.Enqueue(samples[i]);
+                Queue<double> tempQue = new Queue<double>();
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    tempQue.Enqueue(samples[i]);
+                }
+                LLEQueue.Add(anyChannel.Info.Name, tempQue);
             }
+            else
+            {
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    LLEQueue[anyChannel.Info.Name].Enqueue(samples[i]);
+                }
+            }
+            samplesLength += samples.Length;
             //qual = samples;
-            if(test == true)
+            if (test == true)
             {
                 RunLLE();
             }
-
-
-
 
         });
 
@@ -254,9 +257,6 @@ public sealed class UIController : MonoBehaviour
         }
 
     }
-
-
-
 
     private void GetDeviceInfo()
     {
@@ -329,38 +329,62 @@ public sealed class UIController : MonoBehaviour
             peopleList.Add(contact);
         }
     }
-
+    string[] keys = { "O1", "O2", "T3", "T4" };
     public async void RunLLE()
     {
         Rosenstein rosenstein = new Rosenstein();
-        rosenstein.SetData1D(LLEQueue.ToArray());
+        int length = 0;
+        bool stop = false;
+        foreach (var chann in LLEQueue)
+        {
+            length += chann.Value.ToArray().Length;
+        }
+        double[] tempBuff = new double[length];
+        int j = 0, empty = 0;
+
+        for (int i = 0; i < length; ++i)
+        {
+            if (LLEQueue[keys[j % 4]].Count > 0)
+            {
+                tempBuff[i] = LLEQueue[keys[j % 4]].Dequeue();
+                j++;
+            }
+            else
+            {
+                while (LLEQueue[keys[j % 4]].Count == 0 && !stop)
+                {
+                    empty++;
+                    j++;
+                    if (empty == 4)
+                    {
+                        stop = true;
+                        break;
+                    }
+                }
+            }
+        }
+        rosenstein.SetData1D(tempBuff);
         LLEValue = rosenstein.RunAlgorithm();
+        foreach (var chann in LLEQueue)
+        {
+            chann.Value.Clear();
+        }
 
-        newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
-
-        Seizure_Notdet.SetActive(false);
-        Seizure.SetActive(true);
         test = false;
-        await System.Threading.Tasks.Task.Delay(5000);
-        //test = false;
-        //Array.Clear(qual, 0, qual.Length);
-        
+        samplesLength = 0;
     }
-
-
+    int frameCount = 0;
     //43200 is 12 hours in seconds. since update every 2 seconds change to 21600
-    public async void timeUpdating()
+    public async void TimeUpdating()
     {
         if (update == true)
         {
-            for (int i = 1; i < 21600; i++)
+            for (framecount = 1; framecount < 21600; framecount++)
             {
-                timeUpdate.text = string.Format("{0}", i);
                 await System.Threading.Tasks.Task.Delay(2000);
-                if(i % 5 == 0)
+                if (LLEQueue["O1"].Count > 25 && LLEQueue["O2"].Count > 25 && LLEQueue["T3"].Count > 25 && LLEQueue["T4"].Count > 25)
                 {
                     test = true;
-                    
                 }
                 else
                 {
@@ -371,15 +395,11 @@ public sealed class UIController : MonoBehaviour
                     return;
                 }
             }
-
         }
         else
         {
             return;
         }
-
-
-
     }
 }
 

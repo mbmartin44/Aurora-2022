@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 class Util
 {
 
-    public static void Rescale_data(double[] x, ulong l, ref double min, ref double interval)
+    public static void Rescale_data(ref double[] x, ulong l, ref double min, ref double interval)
     {
         int i;
 
@@ -24,11 +24,6 @@ class Util
         {
             for (i = 0; i < (int)l; i++)
                 x[i] = (x[i] - min) / interval;
-        }
-        else
-        {
-            Console.WriteLine("rescale_data: data ranges from %e to %e. It makes\n"
-                + "\t\tno sense to continue. Exiting!\n\n", min, min + (interval));
         }
     }
 
@@ -50,12 +45,6 @@ class Util
             for (i = 0; i < (int)l; i++)
                 x[i, j] = (x[i, j] - min) / interval;
         }
-        else
-        {
-            Console.WriteLine("rescale_data: data ranges from %e to %e. It makes\n"
-                    + "\t\tno sense to continue. Exiting!\n\n", min, min + (interval));
-            return;
-        }
     }
 
 
@@ -75,11 +64,6 @@ class Util
         }
         av /= (double)l;
         var = Math.Sqrt(Math.Abs((var) / (double)l - (av) * (av)));
-        if (var == 0.0)
-        {
-            Console.WriteLine("Variance of the data is zero. Exiting!\n\n");
-            return;
-        }
     }
 }
 

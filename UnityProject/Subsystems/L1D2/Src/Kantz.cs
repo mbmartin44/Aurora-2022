@@ -191,7 +191,7 @@ public class Kantz
         uint i = 0, j = 0, l = 0;
 
         //series = Util.Get_series(infile, &length, exclude, column, verbosity);
-        Util.Rescale_data(series, length, ref min, ref max);
+        Util.Rescale_data(ref series, length, ref min, ref max);
 
         if (eps0set)
         {
