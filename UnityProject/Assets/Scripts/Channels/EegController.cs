@@ -14,6 +14,7 @@ public class EegController
 
     int windowDuration =2;
     public int plotSize = 0;
+    public double[] signalSamples;
     
     
     public EegController(Device device)

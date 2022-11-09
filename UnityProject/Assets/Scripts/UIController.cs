@@ -55,6 +55,7 @@ public sealed class UIController : MonoBehaviour
     public GameObject Seizure_Notdet;
     public int LLEplaceholder = 0;
 
+    public bool test = false;
 
 
     private void Awake()
@@ -148,6 +149,8 @@ public sealed class UIController : MonoBehaviour
         eegOutput.SetActive(true);
         update = true;
         timeUpdating();
+        Seizure_Notdet.SetActive(true);
+        Seizure.SetActive(false);
 
 
         channelsController.createEeg(device, (channel, samples) =>
@@ -175,26 +178,27 @@ public sealed class UIController : MonoBehaviour
             }
             //if (sampleCountLLE >= LLEWindowSize)
             //{
-            Rosenstein rosenstein = new Rosenstein();
+            //Rosenstein rosenstein = new Rosenstein();
 
-            rosenstein.SetData1D(samples);
+            //float test = samples.Length / 2;
 
-            LLEValue = rosenstein.RunAlgorithm();
+            double[] qual = samples;
+            if (test == true)
+            {
+                    Rosenstein rosenstein = new Rosenstein();
+                    rosenstein.SetData1D(qual);
+                    LLEValue = rosenstein.RunAlgorithm();
 
-            newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
+                    newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
 
-            //bool isSeizure = rosenstein.IsSeizure();
+                    Seizure_Notdet.SetActive(false);
+                    Seizure.SetActive(true);
+                    test = false;
+                    Array.Clear(qual, 0, qual.Length);
+                
+            }
+         
 
-            //sampleCountLLE = 0;
-            //}
-            // else
-            // {
-            //     sampleCountLLE += samples.Length;
-            //     double[] newLLEBuffer = new double[sampleCountLLE];
-            //     LLEBuffer.CopyTo(newLLEBuffer, 0);
-            //     samples.CopyTo(newLLEBuffer, LLEBuffer.Length);
-            //     LLEBuffer = newLLEBuffer;
-            // }
 
 
         });
@@ -220,7 +224,7 @@ public sealed class UIController : MonoBehaviour
         update = false;
         Seizure.SetActive(false);
         Seizure_Notdet.SetActive(false);
-        LLEplaceholder = 0;
+        test = false;
 
 
     }
@@ -334,6 +338,18 @@ public sealed class UIController : MonoBehaviour
     }
 
 
+        newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
+
+        Seizure_Notdet.SetActive(false);
+        Seizure.SetActive(true);
+        test = false;
+        await System.Threading.Tasks.Task.Delay(5000);
+        //test = false;
+        //Array.Clear(qual, 0, qual.Length);
+        
+    }
+
+
     //43200 is 12 hours in seconds. since update every 2 seconds change to 21600
     public async void timeUpdating()
     {
@@ -343,6 +359,15 @@ public sealed class UIController : MonoBehaviour
             {
                 timeUpdate.text = string.Format("{0}", i);
                 await System.Threading.Tasks.Task.Delay(2000);
+                if(i % 2 == 0)
+                {
+                    test = true;
+                    
+                }
+                else
+                {
+                    test = false;
+                }
                 if (!update)
                 {
                     return;
