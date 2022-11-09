@@ -11,23 +11,34 @@ public class Rosenstein
     private const int NMAX = 256;
     private const ulong ULONG_MAX = 0xffffffffUL;
     private const int VER_USR1 = 0x2;
-    private bool epsset = false;
+    private const uint dims_ = 2;
+    private const uint delay_ = 1;
+    private const uint steps_ = 10;
     private double[] series, lyap;
     private long[,] box;
     private long[] list;
-    private uint dims_ = 2;
-    private uint delay_ = 1;
-    private uint steps_ = 10;
     private uint mindist_ = 0;
-    private uint verbosity_ = 0xff;
     private const uint nmax_ = NMAX - 1;
     private ulong length_ = 5000;
     private long[] found_;
-    private double eps0 = 1e-3, eps, epsinv;
+    private const double eps0 = 1e-3;
+    private double eps, epsinv;
 
     public Rosenstein()
     {
         box = new long[NMAX, NMAX];
+    }
+
+    public void ClearData()
+    {
+        series = new double[0];
+        length_ = 0;
+        box = new long[NMAX, NMAX];
+        lyap = new double[0];
+        list = new long[0];
+        found_ = new long[0];
+        eps = 0;
+        epsinv = 0;
     }
 
     public void SetData1D(double[] seriesI)
@@ -45,21 +56,6 @@ public class Rosenstein
         ts3.CopyTo(series, ts2.Length);
         ts4.CopyTo(series, ts3.Length);
     }
-
-   /* public Rosenstein(
-        uint dims = 2,
-        uint delay = 1,
-        uint steps = 10,
-        uint mindist = 0)
-    {
-        box = new long[NMAX, NMAX];
-        dims_ = dims;
-        delay_ = delay;
-        steps_ = steps;
-        mindist_ = mindist;
-    }*/
-
-
 
     private void Put_in_boxes()
     {
@@ -162,31 +158,25 @@ public class Rosenstein
 
         if (series == null)
         {
-            //Console.WriteLine("Series data is empty!");
             return 0;
         }
 
-        Util.Rescale_data(series, length_, ref min, ref max);
+        Util.Rescale_data(ref series, length_, ref min, ref max);
 
-        if (epsset)
-        {
-            eps0 /= max;
-        }
-
-        int i;
         lyap = new double[steps_ + 1];
         found_ = new long[steps_ + 1];
-        for (i = 0; i <= steps_; i++)
+        for (int i = 0; i <= steps_; i++)
         {
             lyap[i] = 0.0;
             found_[i] = 0;
         }
         done = new bool[length_];
 
-        for (i = 0; i < (int)length_; i++)
+        for (int i = 0; i < (int)length_; i++)
         {
             done[i] = false;
         }
+
         long maxlength = (long)(length_ - delay_ * (dims_ - 1) - steps_ - 1 - mindist_);
 
         for (eps = eps0; !alldone; eps *= 1.1)
@@ -203,21 +193,12 @@ public class Rosenstein
                 }
                 alldone &= done[n];
             }
-            if ((verbosity_ & VER_USR1) != 0)
-            {
-                //Console.WriteLine("epsilon: {0} already found: {1}\n", eps * max, found_[0]);
-            }
         }
         double[] scaledLLE = new double[steps_ + 1];
-        for (i = 0; i <= steps_; i++)
+        for (int i  = 0; i <= steps_; i++)
         {
             scaledLLE[i] = lyap[i] / found_[i] / 2.0;
-            if (found_[i] != 0)
-            {
-                //Console.WriteLine("{0} {1}\n", i, lyap[i] / found_[i] / 2.0);
-            }
         }
-
-        return scaledLLE.Max();
+        return scaledLLE.Max() == double.NaN ? 0 : scaledLLE.Max();
     }
 }
