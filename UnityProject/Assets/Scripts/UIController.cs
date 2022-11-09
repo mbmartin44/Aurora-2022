@@ -57,6 +57,9 @@ public sealed class UIController : MonoBehaviour
 
     public bool test = false;
 
+    public double[] qual;
+
+    public Queue<double> LLEQueue = new Queue<double>();
 
     private void Awake()
     {
@@ -176,28 +179,17 @@ public sealed class UIController : MonoBehaviour
 
                     break;
             }
-            //if (sampleCountLLE >= LLEWindowSize)
-            //{
-            //Rosenstein rosenstein = new Rosenstein();
 
-            //float test = samples.Length / 2;
-
-            double[] qual = samples;
-            if (test == true)
+            for(int i = 1; i < samples.Length; i++)
             {
-                    Rosenstein rosenstein = new Rosenstein();
-                    rosenstein.SetData1D(qual);
-                    LLEValue = rosenstein.RunAlgorithm();
-
-                    newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
-
-                    Seizure_Notdet.SetActive(false);
-                    Seizure.SetActive(true);
-                    test = false;
-                    Array.Clear(qual, 0, qual.Length);
-                
+                LLEQueue.Enqueue(samples[i]);
             }
-         
+            //qual = samples;
+            if(test == true)
+            {
+                RunLLE();
+            }
+
 
 
 
@@ -212,6 +204,7 @@ public sealed class UIController : MonoBehaviour
 
     public void CloseEEG()
     {
+        test = false;
         framecount = 0;
         modesVariations.SetActive(true);
         Title.SetActive(true);
@@ -224,7 +217,7 @@ public sealed class UIController : MonoBehaviour
         update = false;
         Seizure.SetActive(false);
         Seizure_Notdet.SetActive(false);
-        test = false;
+        //test = false;
 
 
     }
@@ -337,6 +330,11 @@ public sealed class UIController : MonoBehaviour
         }
     }
 
+    public async void RunLLE()
+    {
+        Rosenstein rosenstein = new Rosenstein();
+        rosenstein.SetData1D(LLEQueue.ToArray());
+        LLEValue = rosenstein.RunAlgorithm();
 
         newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
 
@@ -359,7 +357,7 @@ public sealed class UIController : MonoBehaviour
             {
                 timeUpdate.text = string.Format("{0}", i);
                 await System.Threading.Tasks.Task.Delay(2000);
-                if(i % 2 == 0)
+                if(i % 5 == 0)
                 {
                     test = true;
                     
