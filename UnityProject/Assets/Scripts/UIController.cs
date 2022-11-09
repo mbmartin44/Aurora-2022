@@ -325,6 +325,9 @@ public sealed class UIController : MonoBehaviour
 
     }
 
+
+
+    //Contacts Related Functions
     public void StoreInfo()
     {
         theName = inputField.GetComponent<Text>().text;
@@ -475,7 +478,37 @@ public sealed class UIController : MonoBehaviour
         }
     }
 
+    public void SaveContacts()
+    {
+        ContactsList tempList = new ContactsList(peopleList);
+        ContactsIO outFile = new ContactsIO(tempList);
+        outFile.SaveContacts();
+    }
 
+    public void LoadContacts()
+    {
+        ContactsIO inFile = new ContactsIO();
+        if(peopleList == null)
+        {
+            //Initialize
+            peopleList = new List<ContactsPackage>();
+
+            //Load
+            ContactsList tempList = new ContactsList();
+            tempList = inFile.LoadContacts();
+            peopleList = tempList.List;
+        }
+        else
+        {
+            //Remove Anything in list
+            peopleList.Clear();
+
+            //Load
+            ContactsList tempList = new ContactsList();
+            tempList = inFile.LoadContacts();
+            peopleList = tempList.List;
+        }
+    }
 
     public async void TimeUpdating()
     {
