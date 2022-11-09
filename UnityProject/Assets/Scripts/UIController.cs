@@ -54,7 +54,7 @@ public sealed class UIController : MonoBehaviour
     public GameObject Seizure;
     public GameObject Seizure_Notdet;
     public int LLEplaceholder = 0;
-    
+
 
 
     private void Awake()
@@ -71,7 +71,7 @@ public sealed class UIController : MonoBehaviour
     {
         devicePowerState.text = string.Format("Power: {0}%", devicePower);
 
-        
+
 
     }
 
@@ -127,7 +127,7 @@ public sealed class UIController : MonoBehaviour
         modesVariations.SetActive(true);
         Title.SetActive(true);
         contactsOutput.SetActive(false);
-        
+
 
 
 
@@ -140,6 +140,7 @@ public sealed class UIController : MonoBehaviour
     #region EEG
 
     int samplesLLE = 0;
+    double LLEValue = 0;
     public void ShowEEG()
     {
         modesVariations.SetActive(false);
@@ -148,9 +149,6 @@ public sealed class UIController : MonoBehaviour
         update = true;
         timeUpdating();
 
-        
-        
-        //newTextLLE.text = string.Format("LLE: {0:F2} ", );
 
         channelsController.createEeg(device, (channel, samples) =>
         {
@@ -160,35 +158,47 @@ public sealed class UIController : MonoBehaviour
             {
                 case "O1":
                     eegO1Graph.UpdateGraph(samples);
-                    
+
                     break;
                 case "O2":
                     eegO2Graph.UpdateGraph(samples);
-                    
+
                     break;
                 case "T3":
                     eegT3Graph.UpdateGraph(samples);
-                    
+
                     break;
                 case "T4":
                     eegT4Graph.UpdateGraph(samples);
-                    
+
                     break;
             }
-            if (LLEplaceholder > 0)
-            {
-                Seizure.SetActive(true);
-                Seizure_Notdet.SetActive(false);
-            }
-            else
-            {
-                Seizure.SetActive(false);
-                Seizure_Notdet.SetActive(true);
-            }
+            //if (sampleCountLLE >= LLEWindowSize)
+            //{
+            Rosenstein rosenstein = new Rosenstein();
+
+            rosenstein.SetData1D(samples);
+
+            LLEValue = rosenstein.RunAlgorithm();
+
+            newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
+
+            //bool isSeizure = rosenstein.IsSeizure();
+
+            //sampleCountLLE = 0;
+            //}
+            // else
+            // {
+            //     sampleCountLLE += samples.Length;
+            //     double[] newLLEBuffer = new double[sampleCountLLE];
+            //     LLEBuffer.CopyTo(newLLEBuffer, 0);
+            //     samples.CopyTo(newLLEBuffer, LLEBuffer.Length);
+            //     LLEBuffer = newLLEBuffer;
+            // }
 
 
         });
-        
+
         eegO1Graph.InitGraph(channelsController.GetEegPlotSize());
         eegO2Graph.InitGraph(channelsController.GetEegPlotSize());
         eegT3Graph.InitGraph(channelsController.GetEegPlotSize());
@@ -230,8 +240,8 @@ public sealed class UIController : MonoBehaviour
 
         deviceInfoOutput?.SetActive(false);
         eegOutput?.SetActive(false);
-        
-       
+
+
 
         if (disconnected)
         {
