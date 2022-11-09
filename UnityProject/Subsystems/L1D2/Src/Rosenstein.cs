@@ -46,7 +46,7 @@ public class Rosenstein
         ts4.CopyTo(series, ts3.Length);
     }
 
-    public Rosenstein(
+   /* public Rosenstein(
         uint dims = 2,
         uint delay = 1,
         uint steps = 10,
@@ -57,7 +57,7 @@ public class Rosenstein
         delay_ = delay;
         steps_ = steps;
         mindist_ = mindist;
-    }
+    }*/
 
 
 
@@ -162,7 +162,7 @@ public class Rosenstein
 
         if (series == null)
         {
-            Console.WriteLine("Series data is empty!");
+            //Console.WriteLine("Series data is empty!");
             return 0;
         }
 

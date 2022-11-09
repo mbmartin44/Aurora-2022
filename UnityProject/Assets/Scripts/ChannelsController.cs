@@ -33,6 +33,7 @@ public class ChannelsController
         return eegController.plotSize;
     }
 
+
     public void destroyEeg(Device device)
     {
         eegController.CloseChannel(device);
