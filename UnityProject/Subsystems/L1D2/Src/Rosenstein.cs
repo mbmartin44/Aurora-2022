@@ -23,10 +23,11 @@ public class Rosenstein
     private long[] found_;
     private const double eps0 = 1e-3;
     private double eps, epsinv;
-
+    private bool exit = false;
     public Rosenstein()
     {
         box = new long[NMAX, NMAX];
+        exit = false;
     }
 
     public void ClearData()
@@ -57,23 +58,32 @@ public class Rosenstein
         ts4.CopyTo(series, ts3.Length);
     }
 
-    private void Put_in_boxes()
+    private bool Put_in_boxes()
     {
-        int i, j, x, y, del;
+        // Test for correct conditionsfirst
+        int del = (int)(delay_ * (dims_ - 1));
+        if ((int)length_ - del - steps_ <= 0)
+        {
+            return false;
+        }
+        int x, y;
 
-        for (i = 0; i < NMAX; i++)
-            for (j = 0; j < NMAX; j++)
-                box[i, j] = -1;
-
-        del = (int)(delay_ * (dims_ - 1));
+        for (int i = 0; i < NMAX; i++)
+            for (int j = 0; j < NMAX; j++)
+            {
+                {
+                    box[i, j] = -1;
+                }
+            }
         list = new long[(int)length_ - del - steps_];
-        for (i = 0; i < (int)length_ - del - steps_; i++)
+        for (int i = 0; i < (int)length_ - del - steps_; i++)
         {
             x = (int)((int)(series[i] * epsinv) & nmax_);
             y = (int)((int)(series[i + del] * epsinv) & nmax_);
             list[i] = box[x, y];
             box[x, y] = i;
         }
+        return true;
     }
 
     private bool Make_iterate(long act)
@@ -82,7 +92,11 @@ public class Rosenstein
         int x, y, i, j, i1, k, del1 = (int)(dims_ * delay_);
         long element, minelement = -1;
         double dx, mindx = 1.0;
-
+        if (series.Length <= act || series.Length <= act + delay_ * (dims_ - 1))
+        {
+            exit = true;
+            return false;
+        }
         x = (int)((int)(series[act] * epsinv) & nmax_);
         y = (int)((int)(series[act + delay_ * (dims_ - 1)] * epsinv) & nmax_);
         for (i = x - 1; i <= x + 1; i++)
@@ -182,7 +196,10 @@ public class Rosenstein
         for (eps = eps0; !alldone; eps *= 1.1)
         {
             epsinv = 1.0 / eps;
-            Put_in_boxes();
+            if (!Put_in_boxes())
+            {
+                return 0;
+            }
             alldone = true;
             long n;
             for (n = 0; n <= maxlength; n++)
@@ -190,12 +207,17 @@ public class Rosenstein
                 if (!done[n])
                 {
                     done[n] = Make_iterate(n);
+                    if(exit)
+                    {
+                        exit &= false;
+                        return 0.0;
+                    }
                 }
                 alldone &= done[n];
             }
         }
         double[] scaledLLE = new double[steps_ + 1];
-        for (int i  = 0; i <= steps_; i++)
+        for (int i = 0; i <= steps_; i++)
         {
             scaledLLE[i] = lyap[i] / found_[i] / 2.0;
         }

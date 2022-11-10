@@ -96,17 +96,8 @@ public sealed class UIController : MonoBehaviour
 
         LLEplaceholder = 1;
 
-
-
-        //DSP Block
-        bool detect = true;
-        //DSP Block
-
-
         //Send Messages
-        NetOut.SignalWatch(peopleList, detect);
-
-
+        //NetOut.SignalWatch(peopleList, detect);
         GetDeviceInfo();
     }
 
@@ -137,6 +128,34 @@ public sealed class UIController : MonoBehaviour
     #endregion
 
     #region EEG
+    // ****************************** MULTITHREAD SYNCHING
+    object syncObj = new object();
+    bool runLLE = false;
+    void ThreadSafeToggleBool()
+    {
+        lock (syncObj)
+        {
+            runLLE = !runLLE;
+        }
+    }
+    bool ThreadSafeReadBool()
+    {
+        lock (syncObj)
+        {
+            return runLLE;
+        }
+    }
+
+    void ThreadSafeSetBool(bool val)
+    {
+        lock (syncObj)
+        {
+            runLLE = val;
+        }
+        return;
+    }
+
+    //***************************************************
 
     int samplesLLE = 0;
     double LLEValue = 0;
@@ -148,7 +167,6 @@ public sealed class UIController : MonoBehaviour
         eegOutput.SetActive(true);
         update = true;
         TimeUpdating();
-
 
         channelsController.createEeg(device, (channel, samples) =>
         {
@@ -173,31 +191,33 @@ public sealed class UIController : MonoBehaviour
 
                     break;
             }
-            if (!LLEQueue.ContainsKey(anyChannel.Info.Name))
+            lock (LLEQueue)
             {
-                Queue<double> tempQue = new Queue<double>();
-                for (int i = 0; i < samples.Length; i++)
+                samplesLength += samples.Length;
+                if (!LLEQueue.ContainsKey(anyChannel.Info.Name))
                 {
-                    tempQue.Enqueue(samples[i]);
+                    Queue<double> tempQue = new Queue<double>();
+                    for (int i = 0; i < samples.Length; i++)
+                    {
+                        tempQue.Enqueue(samples[i]);
+                    }
+                    LLEQueue.Add(anyChannel.Info.Name, tempQue);
                 }
-                LLEQueue.Add(anyChannel.Info.Name, tempQue);
-            }
-            else
-            {
-                for (int i = 0; i < samples.Length; i++)
+                else
                 {
-                    LLEQueue[anyChannel.Info.Name].Enqueue(samples[i]);
+                    for (int i = 0; i < samples.Length; i++)
+                    {
+                        LLEQueue[anyChannel.Info.Name].Enqueue(samples[i]);
+                    }
+                    if (runLLE)
+                    {
+                        RunLLE();
+                    }
                 }
-            }
-            samplesLength += samples.Length;
-            //qual = samples;
-            if (test == true)
-            {
-                RunLLE();
+
             }
 
         });
-
         eegO1Graph.InitGraph(channelsController.GetEegPlotSize());
         eegO2Graph.InitGraph(channelsController.GetEegPlotSize());
         eegT3Graph.InitGraph(channelsController.GetEegPlotSize());
@@ -207,7 +227,7 @@ public sealed class UIController : MonoBehaviour
 
     public void CloseEEG()
     {
-        test = false;
+        ThreadSafeSetBool(false);
         framecount = 0;
         modesVariations.SetActive(true);
         Title.SetActive(true);
@@ -220,9 +240,6 @@ public sealed class UIController : MonoBehaviour
         update = false;
         Seizure.SetActive(false);
         Seizure_Notdet.SetActive(false);
-        //test = false;
-
-
     }
     #endregion
 
@@ -240,8 +257,6 @@ public sealed class UIController : MonoBehaviour
 
         deviceInfoOutput?.SetActive(false);
         eegOutput?.SetActive(false);
-
-
 
         if (disconnected)
         {
@@ -330,50 +345,47 @@ public sealed class UIController : MonoBehaviour
         }
     }
     string[] keys = { "O1", "O2", "T3", "T4" };
-    public async void RunLLE()
+    public  void RunLLE()
     {
         Rosenstein rosenstein = new Rosenstein();
         int length = 0;
         bool stop = false;
         foreach (var chann in LLEQueue)
         {
-            length += chann.Value.ToArray().Length;
+            length += chann.Value.Count;
         }
         double[] tempBuff = new double[length];
         int j = 0, empty = 0;
-
-        for (int i = 0; i < length; ++i)
+        lock (LLEQueue)
         {
-            if (LLEQueue[keys[j % 4]].Count > 0)
+            for (int i = 0; i < length; ++i)
             {
-                tempBuff[i] = LLEQueue[keys[j % 4]].Dequeue();
-                j++;
-            }
-            else
-            {
-                while (LLEQueue[keys[j % 4]].Count == 0 && !stop)
+                if (LLEQueue[keys[j % 4]].Count > 0)
                 {
-                    empty++;
+                    tempBuff[i] = LLEQueue[keys[j % 4]].Dequeue();
+                    samplesLength--;
                     j++;
-                    if (empty == 4)
+                }
+                else
+                {
+                    while (LLEQueue[keys[j % 4]].Count == 0 && !stop)
                     {
-                        stop = true;
-                        break;
+                        empty++;
+                        j++;
+                        if (empty == 4)
+                        {
+                            stop = true;
+                            break;
+                        }
                     }
                 }
             }
+            rosenstein.SetData1D(tempBuff);
+            LLEValue = rosenstein.RunAlgorithm();
         }
-        rosenstein.SetData1D(tempBuff);
-        LLEValue = rosenstein.RunAlgorithm();
-        foreach (var chann in LLEQueue)
-        {
-            chann.Value.Clear();
-        }
-
-        test = false;
-        samplesLength = 0;
+        ThreadSafeSetBool(false);
     }
-    int frameCount = 0;
+
     //43200 is 12 hours in seconds. since update every 2 seconds change to 21600
     public async void TimeUpdating()
     {
@@ -382,13 +394,9 @@ public sealed class UIController : MonoBehaviour
             for (framecount = 1; framecount < 21600; framecount++)
             {
                 await System.Threading.Tasks.Task.Delay(2000);
-                if (LLEQueue["O1"].Count > 25 && LLEQueue["O2"].Count > 25 && LLEQueue["T3"].Count > 25 && LLEQueue["T4"].Count > 25)
+                if (LLEQueue["O1"].Count > 100 && LLEQueue["O2"].Count > 100 && LLEQueue["T3"].Count > 100 && LLEQueue["T4"].Count > 100)
                 {
-                    test = true;
-                }
-                else
-                {
-                    test = false;
+                    ThreadSafeSetBool(true);
                 }
                 if (!update)
                 {
