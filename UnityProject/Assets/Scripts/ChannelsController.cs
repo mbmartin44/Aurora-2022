@@ -15,8 +15,12 @@ public class ChannelsController
         batteryController.onPowerChanged = onPowerChanged;
     }
 
-    public void destroyBattery() {
-        batteryController.CloseChannel();
+    public void destroyBattery()
+    {
+        if (batteryController != null)
+        {
+            batteryController.CloseChannel();
+        }
     }
     #endregion
 

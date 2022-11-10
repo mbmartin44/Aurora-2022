@@ -158,6 +158,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y $(TargetPath) ..\..\..\..\Assets\</PostBuildEvent>
+    <PostBuildEvent>copy /Y $(TargetPath) ..\..\..\..\Assets\
+copy /Y $(TargetDir)\L1D2.pdb ..\..\..\..\Assets\</PostBuildEvent>
   </PropertyGroup>
 </Project>
