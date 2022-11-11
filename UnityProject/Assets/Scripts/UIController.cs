@@ -29,8 +29,6 @@ public sealed class UIController : MonoBehaviour
     public Text deviceInfoText;
 
 
-
-
     [Header("== Contacts UI ==")]
     public GameObject contactsOutput;
     public Text O1Resist;
@@ -87,9 +85,11 @@ public sealed class UIController : MonoBehaviour
     {
         devicePowerState.text = string.Format("Power: {0}%", devicePower);
         timeUpdate.text = string.Format("{0}", framecount);
-        newTextLLE.text = string.Format("LLE: {0:F2} ", LLEValue);
-        //Seizure_Notdet.SetActive(true);
-        //Seizure.SetActive(false);
+        newTextLLE.text = "";
+        newTextLLE.text += string.Format("*     LLE: {0:F2} \n", output.LLE);
+        newTextLLE.text += string.Format("*     SNR: {0:F2} \n*     ", output.SNR);
+        newTextLLE.text += output.txt;
+        newTextLLE.color = output.color;
     }
 
     public void SaveDevice(Device device)
@@ -366,6 +366,9 @@ public sealed class UIController : MonoBehaviour
             + "\nPhone Number: " + contact.phone;
     }
     string[] keys = { "O1", "O2", "T3", "T4" };
+
+    Rosenstein.Output output = new Rosenstein.Output();
+
     public  void RunLLE()
     {
         Rosenstein rosenstein = new Rosenstein();
@@ -402,7 +405,7 @@ public sealed class UIController : MonoBehaviour
                 }
             }
             rosenstein.SetData1D(tempBuff);
-            LLEValue = rosenstein.RunAlgorithm();
+            output = (Rosenstein.Output)rosenstein.RunAlgorithm();
         }
         ThreadSafeSetBool(false);
     }
