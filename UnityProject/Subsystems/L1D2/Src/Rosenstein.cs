@@ -5,6 +5,7 @@
 
 using System;
 using System.Linq;
+using UnityEngine;
 public class Rosenstein
 {
     private const string WID_STR = "Estimates the maximal Lyapunov exponent; Rosenstein et al.";
@@ -40,6 +41,14 @@ public class Rosenstein
         found_ = new long[0];
         eps = 0;
         epsinv = 0;
+    }
+
+    public struct Output
+    {
+        public double LLE;
+        public double SNR;
+        public string txt;
+        public Color color;
     }
 
     public void SetData1D(double[] seriesI)
@@ -163,7 +172,7 @@ public class Rosenstein
     /// ***  You must AddData() before calling this function!
     /// </summary>
     /// <returns></returns>
-    public double RunAlgorithm()
+    public Output? RunAlgorithm()
     {
 
         bool[] done;
@@ -172,7 +181,7 @@ public class Rosenstein
 
         if (series == null)
         {
-            return 0;
+            return null;
         }
 
         Util.Rescale_data(ref series, length_, ref min, ref max);
@@ -198,7 +207,7 @@ public class Rosenstein
             epsinv = 1.0 / eps;
             if (!Put_in_boxes())
             {
-                return 0;
+                return null;
             }
             alldone = true;
             long n;
@@ -207,10 +216,10 @@ public class Rosenstein
                 if (!done[n])
                 {
                     done[n] = Make_iterate(n);
-                    if(exit)
+                    if (exit)
                     {
                         exit &= false;
-                        return 0.0;
+                        return null;
                     }
                 }
                 alldone &= done[n];
@@ -221,6 +230,11 @@ public class Rosenstein
         {
             scaledLLE[i] = lyap[i] / found_[i] / 2.0;
         }
-        return scaledLLE.Max() == double.NaN ? 0 : scaledLLE.Max();
+        Output output = new Output();
+        output.LLE = scaledLLE.Max() == double.NaN ? 0 : -scaledLLE.Max();
+        output.SNR = series.GetSNR();
+        output.txt = output.LLE > 4 ? "Seizure Detected!" : "Seizure Not Detected.";
+        output.color = output.LLE > 4 ? Color.red : Color.green;
+        return output;
     }
 }
