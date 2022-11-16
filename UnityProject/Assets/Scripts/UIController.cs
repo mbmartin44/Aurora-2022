@@ -14,7 +14,6 @@ public sealed class UIController : MonoBehaviour
     ChannelsController channelsController = null;
     Device device = null;
     public List<ContactsPackage> peopleList;
-
     public GameObject modesVariations;
     public GameObject deviceSearchLabel;
     public GameObject Title;
@@ -40,6 +39,7 @@ public sealed class UIController : MonoBehaviour
     public Text T4Resist;
     private double rawT4Resist = 0;
 
+    public float[] mainColor = { 0f, 0.882353f, 0.2035342f, 1f };
     public string theName;
     public string thePhone;
     public string theEmail;
@@ -48,7 +48,7 @@ public sealed class UIController : MonoBehaviour
     public GameObject inputField3;
     public GameObject inputField4;
     public GameObject textDisplay;
-
+    
     //private InputField InputField;
 
     [Header("== EEG UI ==")]
@@ -281,12 +281,15 @@ public sealed class UIController : MonoBehaviour
                 devicePower = power;
             });
         }
-
+        //Check for Contacts, if so load them
+        if (!disconnected)
+        {
+            LoadContacts();
+        }
     }
 
     private void GetDeviceInfo()
     {
-
         string info = "";
         info += "*Common params*\n";
         info += string.Format("Name: [{0}]\n", device.ReadParam<string>(Neuro.Native.Parameter.Name));
@@ -328,46 +331,66 @@ public sealed class UIController : MonoBehaviour
     //Contacts Related Functions
     public void StoreInfo()
     {
-        theName = inputField.GetComponent<Text>().text;
-        theEmail = inputField2.GetComponent<Text>().text;
-        thePhone = inputField3.GetComponent<Text>().text;
+        try
+        {
+            theName = inputField.GetComponent<Text>().text;
+            theEmail = inputField2.GetComponent<Text>().text;
+            thePhone = inputField3.GetComponent<Text>().text;
 
-        //Create Contact
-        ContactsPackage contact = new ContactsPackage();
+            //Create Contact
+            ContactsPackage contact = new ContactsPackage();
 
-        //Determine if email is entered
-        if (inputField2.GetComponent<Text>().text == "")
-        {
-            contact.phone = thePhone;
-            contact.name = theName;
-            contact.address = "";
-        }
-        else if (inputField3.GetComponent<Text>().text == "")
-        {
-            contact.phone = "";
-            contact.name = theName;
-            contact.address = theEmail;
-        }
-        else
-        {
-            contact.phone = thePhone;
-            contact.name = theName;
-            contact.address = theEmail;
-        }
+            //Determine if email is entered
+            if (inputField.GetComponent<Text>().text == "")
+            {
+                textDisplay.GetComponent<Text>().color = Color.red;
+                textDisplay.GetComponent<Text>().text = "Enter a name";
+                return;
+            }
+            if (inputField2.GetComponent<Text>().text == "")
+            {
+                contact.phone = thePhone;
+                contact.name = theName;
+                contact.address = "";
+            }
+            if (inputField3.GetComponent<Text>().text == "")
+            {
+                contact.phone = "";
+                contact.name = theName;
+                contact.address = theEmail;
+            }
+            if (inputField2.GetComponent<Text>().text == "" && inputField3.GetComponent<Text>().text == "")
+            {
+                textDisplay.GetComponent<Text>().color = Color.red;
+                textDisplay.GetComponent<Text>().text = "Enter a phone number or email";
+                return;
+            }
+            else
+            {
+                contact.phone = thePhone;
+                contact.name = theName;
+                contact.address = theEmail;
+            }
 
-        //See if Contacts list valid
-        if (peopleList == null)
-        {
-            peopleList = new List<ContactsPackage>();
-            peopleList.Add(contact);
+            //See if Contacts list valid
+            if (peopleList == null)
+            {
+                peopleList = new List<ContactsPackage>();
+                peopleList.Add(contact);
+            }
+            else
+            {
+                peopleList.Add(contact);
+            }
+            //Write to File
+            SaveContacts();
+            //List Contacts
+            ListContacts();
         }
-        else
+        catch(Exception e)
         {
-            peopleList.Add(contact);
+            Debug.LogError("Error: " + e.ToString());
         }
-
-        textDisplay.GetComponent<Text>().text = "Entered: \nName: " + contact.name + "\nEmail Address: " + contact.address
-            + "\nPhone Number: " + contact.phone;
     }
     string[] keys = { "O1", "O2", "T3", "T4" };
 
@@ -423,6 +446,7 @@ public sealed class UIController : MonoBehaviour
             if (peopleList == null)
             {
                 //No Contacts to list
+                textDisplay.GetComponent<Text>().color = Color.red;
                 textDisplay.GetComponent<Text>().text = "No Contacts are saved";
                 return;
             }
@@ -430,11 +454,12 @@ public sealed class UIController : MonoBehaviour
             {
                 foreach (var x in peopleList)
                 {
-                    temp = temp + i.ToString() + ". Name: " + x.name + "\n"
-                        + "Email Address: " + x.address + "\n"
-                        + "Phone Number: " + x.phone + "\n";
+                    temp = temp + i.ToString() + ".)  \t\t" + x.name + "\n"
+                        + "    \t\t" + x.address + "\n"
+                        + "    \t\t" + x.phone + "\n\n";
                     i++;
                 }
+                textDisplay.GetComponent<Text>().color = Color.green;
                 textDisplay.GetComponent<Text>().text = temp;
             }
         }
@@ -455,24 +480,32 @@ public sealed class UIController : MonoBehaviour
             if (!int.TryParse(index, out i))
             {
                 //Not an int
+                textDisplay.GetComponent<Text>().color = Color.red;
                 textDisplay.GetComponent<Text>().text = "Enter a real number";
                 return;
             }
             if (peopleList == null)
             {
                 //Nothing to remove
+                textDisplay.GetComponent<Text>().color = Color.red;
                 textDisplay.GetComponent<Text>().text = "There are no contacts";
                 return;
             }
             if(peopleList.Count < i)
             {
                 //Invalid index
+                textDisplay.GetComponent<Text>().color = Color.red;
                 textDisplay.GetComponent<Text>().text = "Invalid contact number";
                 return;
             }
             //Finally, remove contact
             peopleList.RemoveAt(i - 1);
-            textDisplay.GetComponent<Text>().text = "Contact Number: " + (i).ToString() + " has been removed";
+
+
+            //Write to File
+            SaveContacts();
+            //Print New List
+            ListContacts();
         }
         catch(Exception e)
         {
@@ -486,7 +519,6 @@ public sealed class UIController : MonoBehaviour
         tempList.List = peopleList;
         ContactsIO outFile = new ContactsIO(tempList);
         outFile.SaveContacts();
-        textDisplay.GetComponent<Text>().text = "All Loaded Contacts Saved";
     }
 
     public void LoadContacts()
@@ -503,6 +535,7 @@ public sealed class UIController : MonoBehaviour
             if (inFile.status == 1)
             {
                 //No Contacts Saved
+                textDisplay.GetComponent<Text>().color = Color.red;
                 textDisplay.GetComponent<Text>().text = "No Contacts have been saved before";
                 return;
             }
@@ -520,6 +553,7 @@ public sealed class UIController : MonoBehaviour
             if (inFile.status == 1)
             {
                 //No Contacts Saved
+                textDisplay.GetComponent<Text>().color = Color.red;
                 textDisplay.GetComponent<Text>().text = "No Contacts have been saved before";
                 return;
             }

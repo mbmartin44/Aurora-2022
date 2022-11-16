@@ -13,5 +13,5 @@ Possible_LLE_11_09_22
 Working11_2_22
 *Working version off Keaton Laptop, v2.6.0
 
-11-16-22-ContactsFinal-Saving-Importing
-*Working version off Keaton Laptop, Updated Contacts Page with saving / importing features. EEG screen has bug
+11-16-22-ContactsFinal
+*Working version off Keaton Laptop, Updated Contacts Page with saving / importing features
