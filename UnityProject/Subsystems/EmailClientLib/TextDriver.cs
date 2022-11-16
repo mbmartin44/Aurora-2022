@@ -13,6 +13,7 @@
  *  02ks - August 29th, 2022 - Add in MMS support
  *  03ks - August 31st, 2022 - Begin Gateway Array Setup
  *  04ks - October 17th, 2022 - Name Fix
+ *  05ks - November 16th, 2022 - Check for blank phone;
  */
 using System;
 using System.Collections.Generic;
@@ -30,8 +31,14 @@ public class TextDriver : MonoBehaviour
     {
         if (Application.platform == RuntimePlatform.Android)
         {
-            RunAndroidUiThread();
             current = person;
+            //Check for blank phone
+            //05ks
+            if(current.phone == "")
+            {
+                return;
+            }
+            RunAndroidUiThread();
         }
     }
 

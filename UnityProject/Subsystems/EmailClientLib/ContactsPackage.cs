@@ -10,6 +10,7 @@
  *  
  *  Revisions:
  *  01ks - 10/17/2022 - Fix naming, add constructors
+ *  02ks - 11/16/2022 - Remove MailAddress and replace with string equivalents / change defaults. Make Serializable
  */
 using System;
 using System.Collections.Generic;
@@ -17,22 +18,26 @@ using System.Text;
 using System.Net;
 using System.Net.Mail;
 
-
+[System.Serializable]
 public class ContactsPackage
 {
-    public MailAddress nameAddress { get; set; }
-    public string phone { get; set; }
+    public string name;
+    public string phone;
+    public string address;
     
     public ContactsPackage()
     {
-        this.nameAddress = new MailAddress("null@hotmail.net", "Default");
-        this.phone = "0000000000";
+        //02ks
+        this.phone = "";
+        this.name = "Default";
+        this.address = "";
     }
-
-    public ContactsPackage(MailAddress nameAddress, string phone)
+    //02ks
+    public ContactsPackage(string name, string phone, string address)
     {
-        this.nameAddress = nameAddress;
         this.phone = phone;
+        this.name = name;
+        this.address = address;
     }
 }
 

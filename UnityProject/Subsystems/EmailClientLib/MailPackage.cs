@@ -14,6 +14,7 @@
  *  03ks - July 21st, 2022 - Add in attachment support
  *  04ks - August 25th, 2022 - Re-Organization
  *  05ks - October 17th, 2022 - Name Fix and Remove Test Features
+ *  06ks - November 16th, 2022 - Changes to support new ContactsPackage, check for blank email
  */
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,11 @@ class MailPackage
         string body = "This is an automated message from Seizure Detection App that an event has been recorded";
         try
         {
+            //06ks
+            if(too.address == "")
+            {
+                return;
+            }
             using (var smtp = new SmtpClient(host))
             {
                 smtp.Host = host;
@@ -43,8 +49,8 @@ class MailPackage
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new NetworkCredential(fromAddress.Address, fromPassword);
-
-                using (var message = new MailMessage(fromAddress, too.nameAddress))
+                //06ks
+                using (var message = new MailMessage(fromAddress, new MailAddress(too.address, too.name)))
                 {
                     message.Subject = subject;
                     message.Body = body;
@@ -71,6 +77,11 @@ class MailPackage
         string body = "This is an automated message from Seizure Detection App that an event has been recorded";
         try
         {
+            //06ks
+            if (too.address == "")
+            {
+                return;
+            }
             using (var smtp = new SmtpClient(host))
             {
                 smtp.Host = host;
@@ -79,8 +90,8 @@ class MailPackage
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new NetworkCredential(fromAddress.Address, fromPassword);
-
-                using (var message = new MailMessage(fromAddress, too.nameAddress))
+                //06ks
+                using (var message = new MailMessage(fromAddress, new MailAddress(too.address, too.name)))
                 {
                     message.Subject = subject;
                     message.Body = body;
