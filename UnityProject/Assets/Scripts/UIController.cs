@@ -90,6 +90,8 @@ public sealed class UIController : MonoBehaviour
         newTextLLE.text += string.Format("*     SNR: {0:F2} \n*     ", output.SNR);
         newTextLLE.text += output.txt;
         newTextLLE.color = output.color;
+        NetOut.SignalWatch(peopleList, output.detection);
+
     }
 
     public void SaveDevice(Device device)
@@ -396,7 +398,7 @@ public sealed class UIController : MonoBehaviour
 
     Rosenstein.Output output = new Rosenstein.Output();
 
-    public  void RunLLE()
+    public void RunLLE()
     {
         Rosenstein rosenstein = new Rosenstein();
         int length = 0;
@@ -463,7 +465,7 @@ public sealed class UIController : MonoBehaviour
                 textDisplay.GetComponent<Text>().text = temp;
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log("Error: " + e.ToString());
         }
@@ -491,7 +493,7 @@ public sealed class UIController : MonoBehaviour
                 textDisplay.GetComponent<Text>().text = "There are no contacts";
                 return;
             }
-            if(peopleList.Count < i)
+            if (peopleList.Count < i)
             {
                 //Invalid index
                 textDisplay.GetComponent<Text>().color = Color.red;
@@ -507,7 +509,7 @@ public sealed class UIController : MonoBehaviour
             //Print New List
             ListContacts();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log("Error: " + e.ToString());
         }

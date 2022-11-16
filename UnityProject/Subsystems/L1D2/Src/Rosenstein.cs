@@ -49,6 +49,7 @@ public class Rosenstein
         public double SNR;
         public string txt;
         public Color color;
+        public bool detection;
     }
 
     public void SetData1D(double[] seriesI)
@@ -233,7 +234,8 @@ public class Rosenstein
         Output output = new Output();
         output.LLE = scaledLLE.Max() == double.NaN ? 0 : -scaledLLE.Max();
         output.SNR = series.GetSNR();
-        output.txt = output.LLE > 4 ? "Seizure Detected!" : "Seizure Not Detected.";
+        output.detection = output.LLE > 4;
+        output.txt = output.detection ? "Seizure Detected!" : "Seizure Not Detected.";
         output.color = output.LLE > 4 ? Color.red : Color.green;
         return output;
     }
