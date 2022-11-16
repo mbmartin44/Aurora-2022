@@ -13,7 +13,7 @@ public sealed class UIController : MonoBehaviour
 
     ChannelsController channelsController = null;
     Device device = null;
-    public List<ContactsPackage> peopleList { get; set; }
+    public List<ContactsPackage> peopleList;
 
     public GameObject modesVariations;
     public GameObject deviceSearchLabel;
@@ -109,7 +109,7 @@ public sealed class UIController : MonoBehaviour
         LLEplaceholder = 1;
 
         //Send Messages
-        //NetOut.SignalWatch(peopleList, detect);
+        //NetOut.SignalWatch(peopleList, true);
         GetDeviceInfo();
     }
 
@@ -127,15 +127,13 @@ public sealed class UIController : MonoBehaviour
         modesVariations.SetActive(false);
         Title.SetActive(false);
         contactsOutput.SetActive(true);
-
     }
 
-    public void CloseResistance()
+    public void CloseContacts()
     {
         modesVariations.SetActive(true);
         Title.SetActive(true);
         contactsOutput.SetActive(false);
-
     }
     #endregion
 
@@ -337,21 +335,24 @@ public sealed class UIController : MonoBehaviour
         //Create Contact
         ContactsPackage contact = new ContactsPackage();
 
-        //Determine if email is entered, must check as MailAddress will crap out unity if invalid
+        //Determine if email is entered
         if (inputField2.GetComponent<Text>().text == "")
         {
             contact.phone = thePhone;
-            contact.nameAddress = new MailAddress("null@hotmail.com", theName);
+            contact.name = theName;
+            contact.address = "";
         }
         else if (inputField3.GetComponent<Text>().text == "")
         {
             contact.phone = "";
-            contact.nameAddress = new MailAddress(theEmail, theName);
+            contact.name = theName;
+            contact.address = theEmail;
         }
         else
         {
             contact.phone = thePhone;
-            contact.nameAddress = new MailAddress(theEmail, theName);
+            contact.name = theName;
+            contact.address = theEmail;
         }
 
         //See if Contacts list valid
@@ -365,7 +366,7 @@ public sealed class UIController : MonoBehaviour
             peopleList.Add(contact);
         }
 
-        textDisplay.GetComponent<Text>().text = "Entered: \nName: " + contact.nameAddress.DisplayName + "\nEmail Address: " + contact.nameAddress.Address
+        textDisplay.GetComponent<Text>().text = "Entered: \nName: " + contact.name + "\nEmail Address: " + contact.address
             + "\nPhone Number: " + contact.phone;
     }
     string[] keys = { "O1", "O2", "T3", "T4" };
@@ -422,14 +423,15 @@ public sealed class UIController : MonoBehaviour
             if (peopleList == null)
             {
                 //No Contacts to list
+                textDisplay.GetComponent<Text>().text = "No Contacts are saved";
                 return;
             }
             else
             {
                 foreach (var x in peopleList)
                 {
-                    temp = temp + i.ToString() + ". Name: " + x.nameAddress.DisplayName + "\n"
-                        + "Email Address: " + x.nameAddress.Address + "\n"
+                    temp = temp + i.ToString() + ". Name: " + x.name + "\n"
+                        + "Email Address: " + x.address + "\n"
                         + "Phone Number: " + x.phone + "\n";
                     i++;
                 }
@@ -480,9 +482,11 @@ public sealed class UIController : MonoBehaviour
 
     public void SaveContacts()
     {
-        ContactsList tempList = new ContactsList(peopleList);
+        ContactsList tempList = new ContactsList();
+        tempList.List = peopleList;
         ContactsIO outFile = new ContactsIO(tempList);
         outFile.SaveContacts();
+        textDisplay.GetComponent<Text>().text = "All Loaded Contacts Saved";
     }
 
     public void LoadContacts()
@@ -493,20 +497,39 @@ public sealed class UIController : MonoBehaviour
             //Initialize
             peopleList = new List<ContactsPackage>();
 
-            //Load
+            //Attempt Load
             ContactsList tempList = new ContactsList();
             tempList = inFile.LoadContacts();
+            if (inFile.status == 1)
+            {
+                //No Contacts Saved
+                textDisplay.GetComponent<Text>().text = "No Contacts have been saved before";
+                return;
+            }
+            //Import
             peopleList = tempList.List;
+
+            //Show
+            ListContacts();
         }
         else
         {
-            //Remove Anything in list
-            peopleList.Clear();
-
-            //Load
+            //Attempt Load
             ContactsList tempList = new ContactsList();
             tempList = inFile.LoadContacts();
+            if (inFile.status == 1)
+            {
+                //No Contacts Saved
+                textDisplay.GetComponent<Text>().text = "No Contacts have been saved before";
+                return;
+            }
+            //Remove Anything in list
+            peopleList.Clear();
+            //Import
             peopleList = tempList.List;
+
+            //Show
+            ListContacts();
         }
     }
 

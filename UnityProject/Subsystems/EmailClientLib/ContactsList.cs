@@ -18,20 +18,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[Serializable]
+[System.Serializable]
 public class ContactsList
 {
     public List<ContactsPackage> List;
-
-    public ContactsList()
-    {
-        //Dont Use unless loading contacts
-        this.List = new List<ContactsPackage>();
-    }
-    public ContactsList(List<ContactsPackage> input)
-    {
-        this.List = new List<ContactsPackage>();
-        this.List = input;
-    }
 }
 

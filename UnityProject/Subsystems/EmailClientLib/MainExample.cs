@@ -28,10 +28,11 @@ class MainExample
         bool seizure = false;
         //Use of Contacts class
         //New Defined Contacts
-        ContactsPackage person1 = new ContactsPackage(new MailAddress("john@example.com", "John Smith"), "1234567890");
+        ContactsPackage person1 = new ContactsPackage("Auto Sender", "123456789", "example@hotmail.net");
         ContactsPackage person2 = new ContactsPackage();
-        person2.nameAddress = new MailAddress("James Bond", "james@spy.net");
+        person2.name = "James Bond";
         person2.phone = "1234567890";
+        person2.address = "james@spy.net";
 
         //Create List of Contacts
         List<ContactsPackage> people = new List<ContactsPackage>();

@@ -18,6 +18,7 @@
  * 02jl - October 18th, 2022 - SignalWatchSingle Creation Start
  * 03jl - October 19th, 2022 - SignalWatchSingle for non-attachment
  * 04ks - October 25th, 2022 - SignalWatch with harcoded contacts list added, minor polish
+ * 05ks - November 16th, 2022 - Change functions to support new ContactsPackage changes
 */
 using System;
 using System.Text;
@@ -66,7 +67,8 @@ public class NetOut : MonoBehaviour
         {
             List<ContactsPackage> people = new List<ContactsPackage>();
             //Required Setup Variables (Contacts)
-            var contact1 = new ContactsPackage(new MailAddress("example@hotmail.net", "Auto Sender"), "123456789");
+            //05ks
+            var contact1 = new ContactsPackage("Auto Sender", "123456789", "example@hotmail.net");
             people.Add(contact1);
 
 
@@ -145,7 +147,8 @@ public class NetOut : MonoBehaviour
         {
             List<ContactsPackage> people = new List<ContactsPackage>();
             //Required Setup Variables (Contacts)
-            var contact1 = new ContactsPackage(new MailAddress("example@hotmail.net", "Auto Sender"), "123456789");
+            //05ks
+            var contact1 = new ContactsPackage("Auto Sender", "123456789", "example@hotmail.net");
             people.Add(contact1);
 
 
