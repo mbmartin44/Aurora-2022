@@ -5,7 +5,8 @@ APKs.meta
 APKs/
 
 UnityProject.meta
-
+Matlab.meta
+Matlab
 UnityProject/Packages/manifest.json.meta
 UnityProject/Packages/packages-lock.json.meta
 UnityProject/ProjectSettings
