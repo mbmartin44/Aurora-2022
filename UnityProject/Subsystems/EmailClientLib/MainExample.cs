@@ -25,7 +25,7 @@ class MainExample
 {
     void Main() 
     {
-        bool seizure = false;
+        bool detect = false;
         //Use of Contacts class
         //New Defined Contacts
         ContactsPackage person1 = new ContactsPackage("Auto Sender", "123456789", "example@hotmail.net");
@@ -40,25 +40,25 @@ class MainExample
         people.Add(person2);
 
         //Define Attachment
-        //If using attachment, attachment ->MUST<- be valid or it will crash, same thing with a misdefined MailAddress [something@something.something]
+        //If using attachment, attachment ->MUST<- be valid or it will crash
         Attachment attach = new Attachment("Documentation.txt");
 
 
 
 
         //DSP BLOCK
-        //Seizure flag true / false
-        seizure = true;
+        //detect flag true / false
+        detect = true;
         //DSP BLOCK
 
 
 
         //Using NetOut Intermediate Class
         //Call SignalWatchBasic (for attachment support don't use basic)
-        NetOut.SignalWatch(people, seizure);
+        NetOut.SignalWatch(people, detect);
 
         //With Attachments
-        NetOut.SignalWatch(people, seizure, attach);
+        NetOut.SignalWatch(people, detect, attach);
     }
 
 
