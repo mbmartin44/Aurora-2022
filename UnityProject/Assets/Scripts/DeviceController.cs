@@ -6,10 +6,6 @@
 /// This class is responsible for managing the channels.
 /// </summary>
 /// -------------------------------------------------------------------------------------
-/// <remarks>
-///     This script is attached to the UIController object in the scene.
-/// </remarks>
-/// -------------------------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
@@ -26,6 +22,9 @@ using UnityEngine.Android;
 /// <summary>
 /// This class is used to control the BrainBit device.
 /// </summary>
+/// <remarks>
+/// Objects of this class are Unity game objects (MonoBehavior).
+/// </remarks>
 public class DeviceController : MonoBehaviour
 {
     public UIController uiController;
@@ -54,12 +53,17 @@ public class DeviceController : MonoBehaviour
         createDeviceEnumerator();
     }
 
+    /// <summary>
+    /// Create a new BrainBit device enumerator.
+    /// </summary>
     private void createDeviceEnumerator()
     {
+
+        // The device enumerator setup is dependent on the build platform.
 #if UNITY_EDITOR
         deviceEnumerator = new DeviceEnumerator(Neuro.Native.DeviceType.BrainbitAny);
 #elif UNITY_ANDROID
-        // The AndroidJavaClass class is used to call static java methods.
+        // NOTE: The AndroidJavaClass class is used to call static java methods.
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
         AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext");
@@ -187,6 +191,17 @@ public class DeviceController : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// This is the event handler for Device Parameter Changed events.  It will be called
+    /// whenever a parameter on the device changes, and will be called on the thread
+    /// that owns the Device object.
+    ///
+    /// This handler will be called whenever the device state changes.  It will set
+    /// the deviceStateChanged flag, which will cause the UI thread to update the
+    /// state label.
+    /// </summary>
+    /// <param name="sender">The Device object that fired the event.</param>
+    /// <param name="param">The parameter that changed.</param>
     private void OnDeviceParamChanged(object sender, Parameter param)
     {
         if (param == Parameter.State)
@@ -195,12 +210,17 @@ public class DeviceController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called when the object is destroyed.
+    /// </summary>
     private void OnDestroy()
     {
+        // Disconnect the device.
         device.Disconnect();
     }
 
 #if UNITY_ANDROID
+    // Get the JNI environment pointer
     [DllImport("jnihelper-lib")]
     private static extern IntPtr GetJniEnv();
 #endif

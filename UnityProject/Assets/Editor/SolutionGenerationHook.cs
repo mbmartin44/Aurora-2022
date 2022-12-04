@@ -1,8 +1,20 @@
-﻿/// <file> SolutionGenerationHook.cs </file>
+﻿///--------------------------------------------------------------------------------------------------------------
+/// <file>    SolutionGenerationHook.cs                           </file>
+/// <author>  Blake Martin                                       </author>
+/// <date>    Last Edited: 12/03/2022                            </date>
+///--------------------------------------------------------------------------------------------------------------
+/// <summary>
+///     This editor scripting is based on the following github repository:
+///     https://github.com/sailro/UnityExternal/blob/master/UnityProject/Assets/Editor/SolutionGenerationHook.cs
+/// </summary>
+///--------------------------------------------------------------------------------------------------------------
 /// <remarks>
-/// This editor scripting is based on the following github repository:
-/// https://github.com/sailro/UnityExternal/blob/master/UnityProject/Assets/Editor/SolutionGenerationHook.cs
+///     This implementation is based on the original C code written by Rosenstein
+///     and published in the book "An Introduction to Chaotic Dynamical Systems" by Strogatz.
+///     This implementation is based on the C code found in the Tisean package:
+///     https://www.pks.mpg.de/tisean/Tisean_3.0.1/index.html
 /// </remarks>
+///--------------------------------------------------------------------------------------------------------------
 
 using System.Text;
 using System.Text.RegularExpressions;

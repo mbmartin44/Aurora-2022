@@ -27,9 +27,9 @@ public sealed class UIController : MonoBehaviour
 {
 
     #region UI Elements **********************************************************************************************************************
+
     ChannelsController channelsController = null;
     Device device = null;
-    public List<ContactsPackage> peopleList;
     public GameObject modesVariations;
     public GameObject deviceSearchLabel;
     public GameObject Title;
@@ -86,8 +86,6 @@ public sealed class UIController : MonoBehaviour
     public GameObject Seizure_Notdet;
     public int LLEplaceholder = 0;
 
-    #endregion
-
     public bool test = false;
     public double[] qual;
     public Dictionary<string, Queue<double>> LLEQueue = new Dictionary<string, Queue<double>>();
@@ -105,6 +103,8 @@ public sealed class UIController : MonoBehaviour
     {
         modesVariations.SetActive(enabled);
     }
+
+    #endregion
 
     #region Unity Methods ********************************************************************************************************************
     /// <summary>
@@ -173,6 +173,8 @@ public sealed class UIController : MonoBehaviour
     #endregion
 
     #region Contacts *********************************************************************************************************************
+
+    public List<ContactsPackage> peopleList;
 
     /// <summary>
     /// This function is called when the user clicks the "Contacts Page" button to enable the contacts page.
@@ -726,11 +728,5 @@ public sealed class UIController : MonoBehaviour
     }
 
     #endregion
+
 }
-
-
-
-
-
-
-

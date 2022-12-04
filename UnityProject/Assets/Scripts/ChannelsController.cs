@@ -6,10 +6,6 @@
 /// This class is responsible for managing the channels.
 /// </summary>
 /// -------------------------------------------------------------------------------------
-/// <remarks>
-///     This script is attached to the UIController object in the scene.
-/// </remarks>
-/// -------------------------------------------------------------------------------------
 
 using System;
 using Neuro;
@@ -19,7 +15,7 @@ using Neuro;
 /// </summary>
 public class ChannelsController
 {
-    #region Battery
+    #region Battery ****************************************************************************************************************
     Battery batteryController = null;
 
     /// <summary>
@@ -43,8 +39,10 @@ public class ChannelsController
     }
     #endregion
 
-    #region EEG
+    #region EEG ********************************************************************************************************************
+
     EegController eegController = null;
+
     /// <summary>
     /// Creates a new instance of the EEG controller class,
     /// registering the eegChanged callback function.
@@ -71,5 +69,4 @@ public class ChannelsController
         eegController.CloseChannel(device);
     }
     #endregion
-
 }

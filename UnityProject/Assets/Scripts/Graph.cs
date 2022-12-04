@@ -3,7 +3,14 @@
 /// <date>    Last Edited: 12/03/2022                              </date>
 ///--------------------------------------------------------------------------------------
 /// <summary>
-/// This class is used to create a graph.
+/// This class is used as a generic base class from which other graphs derive.
+///<see cref="SignalGraph"/> for an example of a graph that derives from this class.
+/// See also:
+/// -   Unity GameObjects:    https://docs.unity3d.com/Manual/GameObjects.html
+/// -   Unity line renderers: https://docs.unity3d.com/ScriptReference/LineRenderer.html
+/// -   Unity Components:     https://docs.unity3d.com/ScriptReference/Component.html
+/// -   Unity MonoBehaviour:  https://docs.unity3d.com/ScriptReference/MonoBehaviour.html
+/// -   Unity RectTransform:  https://docs.unity3d.com/ScriptReference/RectTransform.html
 /// </summary>
 /// -------------------------------------------------------------------------------------
 
@@ -70,13 +77,20 @@ public class Graph : MonoBehaviour
     /// <summary>
     /// Updates the graph from the new samples.
     /// </summary>
-    /// <param name="newSamples">The new samples.</param>
+    /// <param name="newSamples">The new samples to be plotted</param>
+    /// <remarks>
+    /// This function must be implemented by each individual derived class.
+    /// </remarks>
     public virtual void UpdateGraph(double[] newSamples)
     {
     }
 
-
-    // This function updates the size of a connection, based on the position of its dots.
+    /// <summary>
+    /// This function sets the size of the connection between two dots.
+    /// </summary>
+    /// <param name="rectTransform">The RectTransform of the connection</param>
+    /// <param name="dotPositionA">The position of the first dot</param>
+    /// <param name="dotPositionB">The position of the second dot</param>
     protected void UpdateConnection(Vector2 dotPositionA, Vector2 dotPositionB, int connectionId)
     {
         SetConnectionSizes(connections[connectionId], dotPositionA, dotPositionB);

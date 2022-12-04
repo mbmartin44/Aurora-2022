@@ -1,5 +1,5 @@
 ﻿///--------------------------------------------------------------------------------------
-/// <file>    DeviceController.cs                                </file>
+/// <file>    SignalGraph.cs                                       </file>
 /// <date>    Last Edited: 12/03/2022                              </date>
 ///--------------------------------------------------------------------------------------
 /// <summary>
@@ -14,6 +14,9 @@ using UnityEngine.UI;
 /// <summary>
 /// This class is used to draw the signal graph.
 /// </summary>
+/// <remarks>
+/// This class derives from the Graph class <see cref="Graph"/>.
+/// </remarks>
 class SignalGraph : Graph
 {
     // The samples to be drawn on the graph.
