@@ -1,4 +1,21 @@
-﻿using System;
+﻿///--------------------------------------------------------------------------------------
+/// <file>    UIController.cs                                      </file>
+/// <author>  Reese Meadows                                        </author>
+/// <author>  Keaton Shelton                                       </author>
+/// <author>  Blake Martin                                         </author>
+/// <date>    Last Edited: 12/03/2022                              </date>
+///--------------------------------------------------------------------------------------
+/// <summary>
+///     This is the UI controller for the game. It handles the UI elements and the
+///     functionality of the UI menu, buttons, and nested pages.
+/// </summary>
+/// ---------------------------------------------------------------------------------------
+/// <remarks>
+///     This script is attached to the UIController object in the scene.
+/// </remarks>
+/// -------------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using Neuro;
 using Neuro.Native;
@@ -6,11 +23,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Net.Mail;
 
-
-
 public sealed class UIController : MonoBehaviour
 {
 
+    #region UI Elements **********************************************************************************************************************
     ChannelsController channelsController = null;
     Device device = null;
     public List<ContactsPackage> peopleList;
@@ -18,27 +34,31 @@ public sealed class UIController : MonoBehaviour
     public GameObject deviceSearchLabel;
     public GameObject Title;
 
+    /// <summary>
+    ///The device state UI elements
+    /// </summary>
     [Header("== DeviceState UI ==")]
     public Text deviceConnectionState;
     public Text devicePowerState;
     private int devicePower = 0;
 
+    /// <summary>
+    /// The device connection state.
+    /// </summary>
     [Header("== DeviceInfo UI ==")]
     public GameObject deviceInfoOutput;
     public Text deviceInfoText;
 
 
+    /// <summary>
+    /// These are the Contacts Page UI elements
+    /// </summary>
     [Header("== Contacts UI ==")]
     public GameObject contactsOutput;
     public Text O1Resist;
-    private double rawO1Resist = 0;
     public Text O2Resist;
-    private double rawO2Resist = 0;
     public Text T3Resist;
-    private double rawT3Resist = 0;
     public Text T4Resist;
-    private double rawT4Resist = 0;
-
     public float[] mainColor = { 0f, 0.882353f, 0.2035342f, 1f };
     public string theName;
     public string thePhone;
@@ -48,9 +68,10 @@ public sealed class UIController : MonoBehaviour
     public GameObject inputField3;
     public GameObject inputField4;
     public GameObject textDisplay;
-    
-    //private InputField InputField;
 
+    /// <summary>
+    /// These are the EEG UI elements
+    /// </summary>
     [Header("== EEG UI ==")]
     public GameObject eegOutput;
     public Graph eegO1Graph;
@@ -65,22 +86,47 @@ public sealed class UIController : MonoBehaviour
     public GameObject Seizure_Notdet;
     public int LLEplaceholder = 0;
 
+    #endregion
+
     public bool test = false;
-
     public double[] qual;
-
     public Dictionary<string, Queue<double>> LLEQueue = new Dictionary<string, Queue<double>>();
 
+
+    // LLE variables
+    private int samplesLLE = 0;
+    private double LLEValue = 0;
+    private int samplesLength = 0;
+
+    /// <summary>
+    /// Enables the menu that allows the user to choose between different screens.
+    /// </summary>
+    public void ShowMenu(bool enabled)
+    {
+        modesVariations.SetActive(enabled);
+    }
+
+    #region Unity Methods ********************************************************************************************************************
+    /// <summary>
+    /// Called automatically by UnityEngine when the application starts.
+    /// This is a property of MonoBehaviour objects.
+    /// </summary>
     private void Awake()
     {
         channelsController = new ChannelsController();
     }
 
+    /// <summary>
+    /// This function is called when the Unity game object becomes enabled and active.
+    /// </summary>
     private void Start()
     {
         ShowMenu(false);
     }
 
+    /// <summary>
+    // This method is called every frame by the UnityEngine.
+    /// </summary>
     private void FixedUpdate()
     {
         devicePowerState.text = string.Format("Power: {0}%", devicePower);
@@ -94,27 +140,30 @@ public sealed class UIController : MonoBehaviour
 
     }
 
-    public void SaveDevice(Device device)
-    {
-        this.device = device;
-    }
+    #endregion
 
+    #region DeviceInfo ******************************************************************************************************************
 
-
-    #region DeviceInfo
+    /// <summary>
+    /// This function is called when the user clicks the "Get Device Info" button.
+    /// </summary>
+    /// remarks>
+    /// This method is NOT currently used in the application.
+    /// </remarks>
     public void ShowDeviceInfo()
     {
         modesVariations.SetActive(false);
         Title.SetActive(false);
         deviceInfoOutput.SetActive(true);
-
-        LLEplaceholder = 1;
-
-        //Send Messages
-        //NetOut.SignalWatch(peopleList, true);
         GetDeviceInfo();
     }
 
+    /// <summary>
+    /// This function is called when the user exits the "Get Device Info" page.
+    /// </summary>
+    /// remarks>
+    /// This method is NOT currently used in the application.
+    /// </remarks>
     public void CloseDeviceInfo()
     {
         modesVariations.SetActive(true);
@@ -123,7 +172,11 @@ public sealed class UIController : MonoBehaviour
     }
     #endregion
 
-    #region Contacts
+    #region Contacts *********************************************************************************************************************
+
+    /// <summary>
+    /// This function is called when the user clicks the "Contacts Page" button to enable the contacts page.
+    /// </summary>
     public void ShowContacts()
     {
         modesVariations.SetActive(false);
@@ -131,6 +184,9 @@ public sealed class UIController : MonoBehaviour
         contactsOutput.SetActive(true);
     }
 
+    /// <summary>
+    /// This function is called when the user exits the "Contacts Page" page.
+    /// </summary>
     public void CloseContacts()
     {
         modesVariations.SetActive(true);
@@ -139,39 +195,11 @@ public sealed class UIController : MonoBehaviour
     }
     #endregion
 
-    #region EEG
-    // ****************************** MULTITHREAD SYNCHING
-    object syncObj = new object();
-    bool runLLE = false;
-    void ThreadSafeToggleBool()
-    {
-        lock (syncObj)
-        {
-            runLLE = !runLLE;
-        }
-    }
-    bool ThreadSafeReadBool()
-    {
-        lock (syncObj)
-        {
-            return runLLE;
-        }
-    }
+    #region EEG ***************************************************************************************************************************************
 
-    void ThreadSafeSetBool(bool val)
-    {
-        lock (syncObj)
-        {
-            runLLE = val;
-        }
-        return;
-    }
-
-    //***************************************************
-
-    int samplesLLE = 0;
-    double LLEValue = 0;
-    int samplesLength = 0;
+    /// <summary>
+    /// This method displays the EEG data, and is where the data is added to the LLEQueue.
+    /// </summary>
     public void ShowEEG()
     {
         modesVariations.SetActive(false);
@@ -237,6 +265,10 @@ public sealed class UIController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// This method is called when the user exits the "EEG Page" page.
+    /// Several operational variables are reset to their default values here.
+    /// </summary>
     public void CloseEEG()
     {
         ThreadSafeSetBool(false);
@@ -253,13 +285,16 @@ public sealed class UIController : MonoBehaviour
         Seizure.SetActive(false);
         Seizure_Notdet.SetActive(false);
     }
+
     #endregion
 
-    public void ShowMenu(bool enabled)
-    {
-        modesVariations.SetActive(enabled);
-    }
+    #region Device Methods ********************************************************************************************************************
 
+    /// <summary>
+    /// This function is called when the device's state changes.
+    /// It updates the UI to show the device's connection state, and determines whether the battery should be shown or not.
+    /// </summary>
+    /// <param name="disconnected">A boolean value that is true if the device has disconnected, and false if it has connected.</param>
     public void OnDeviceStateChange(bool disconnected)
     {
         modesVariations?.SetActive(!disconnected);
@@ -290,6 +325,9 @@ public sealed class UIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get the device info
+    /// </summary>
     private void GetDeviceInfo()
     {
         string info = "";
@@ -325,12 +363,24 @@ public sealed class UIController : MonoBehaviour
             info += string.Format("{0}\n", command);
         }
         deviceInfoText.text = info;
-
     }
 
+    /// <summary>
+    /// This function saves the device.
+    /// </summary>
+    /// <param name="device">The device to be saved.</param>
+    public void SaveDevice(Device device)
+    {
+        this.device = device;
+    }
 
+    #endregion
 
-    //Contacts Related Functions
+    #region Contacts UI Methods ********************************************************************************************************************
+
+    /// <summary>
+    /// This function is called when the user saves a new contact.
+    /// </summary>
     public void StoreInfo()
     {
         try
@@ -389,56 +439,16 @@ public sealed class UIController : MonoBehaviour
             //List Contacts
             ListContacts();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.LogError("Error: " + e.ToString());
         }
     }
-    string[] keys = { "O1", "O2", "T3", "T4" };
 
-    Rosenstein.Output output = new Rosenstein.Output();
-
-    public void RunLLE()
-    {
-        Rosenstein rosenstein = new Rosenstein();
-        int length = 0;
-        bool stop = false;
-        foreach (var chann in LLEQueue)
-        {
-            length += chann.Value.Count;
-        }
-        double[] tempBuff = new double[length];
-        int j = 0, empty = 0;
-        lock (LLEQueue)
-        {
-            for (int i = 0; i < length; ++i)
-            {
-                if (LLEQueue[keys[j % 4]].Count > 0)
-                {
-                    tempBuff[i] = LLEQueue[keys[j % 4]].Dequeue();
-                    samplesLength--;
-                    j++;
-                }
-                else
-                {
-                    while (LLEQueue[keys[j % 4]].Count == 0 && !stop)
-                    {
-                        empty++;
-                        j++;
-                        if (empty == 4)
-                        {
-                            stop = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            rosenstein.SetData1D(tempBuff);
-            output = (Rosenstein.Output)rosenstein.RunAlgorithm();
-        }
-        ThreadSafeSetBool(false);
-    }
-
+    /// <summary>
+    /// This function is used to list all the contacts in the list
+    /// and display them in the text display
+    /// </summary>
     public void ListContacts()
     {
         try
@@ -471,6 +481,9 @@ public sealed class UIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This function takes the list of contacts and writes them to a file.
+    /// </summary>
     public void RemoveContact()
     {
         try
@@ -515,6 +528,11 @@ public sealed class UIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Saves the contacts to a file
+    /// </summary>
+    /// <param name="peopleList">The people list.</param>
+    /// <param name="fileName">Name of the file.</param>
     public void SaveContacts()
     {
         ContactsList tempList = new ContactsList();
@@ -523,10 +541,13 @@ public sealed class UIController : MonoBehaviour
         outFile.SaveContacts();
     }
 
+    /// <summary>
+    /// Loads contacts from the saved file
+    /// </summary>
     public void LoadContacts()
     {
         ContactsIO inFile = new ContactsIO();
-        if(peopleList == null)
+        if (peopleList == null)
         {
             //Initialize
             peopleList = new List<ContactsPackage>();
@@ -569,6 +590,118 @@ public sealed class UIController : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region LLE Functions ********************************************************************************************************************
+
+    string[] keys = { "O1", "O2", "T3", "T4" };
+
+    Rosenstein.Output output = new Rosenstein.Output();
+
+    /// <summary>
+    /// RunLLE method is used to run the LLE algorithm on the queue
+    /// </summary>
+    /// <remarks>
+    /// The algorithm is run on the data that is stored in the queue and the output is stored in the output variable.
+    /// </remarks>
+    public void RunLLE()
+    {
+        //initialize rosenstein object
+        Rosenstein rosenstein = new Rosenstein();
+        //initialize a buffer of length equal to the sum of the lengths of all 4 queues
+        int length = 0;
+        bool stop = false;
+        foreach (var chann in LLEQueue)
+        {
+            length += chann.Value.Count;
+        }
+        double[] tempBuff = new double[length];
+        //j is used to keep track of which queue we are reading from
+        int j = 0, empty = 0;
+        //lock the queue to make sure the data is not being modified while we are reading from it
+        lock (LLEQueue)
+        {
+            //iterate through the whole buffer
+            for (int i = 0; i < length; ++i)
+            {
+                //if the current queue has data, add it to the buffer
+                if (LLEQueue[keys[j % 4]].Count > 0)
+                {
+                    tempBuff[i] = LLEQueue[keys[j % 4]].Dequeue();
+                    samplesLength--;
+                    j++;
+                }
+                //if the current queue is empty, look for the next queue that has data
+                else
+                {
+                    //while the current queue is empty and we have not found a queue with data, look for the next queue
+                    while (LLEQueue[keys[j % 4]].Count == 0 && !stop)
+                    {
+                        empty++;
+                        j++;
+                        //if we have looked at all queues and none have data, stop looking and break out of the for loop
+                        if (empty == 4)
+                        {
+                            stop = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            //set the buffer to the rosenstein object
+            rosenstein.SetData1D(tempBuff);
+            //run the rosenstein algorithm
+            output = (Rosenstein.Output)rosenstein.RunAlgorithm();
+        }
+        //set the running variable to false
+        ThreadSafeSetBool(false);
+    }
+
+    #endregion
+
+    #region Thread Synchronization Methods ********************************************************************************************************************
+
+    // synchObject is used to synchronize access to the EEG data between the LLE algorithm and showEEG data method where
+    // it is added to the LLEQueue.
+    object syncObj = new object();
+    bool runLLE = false;
+
+    /// <summary>
+    /// Toggles the runLLE boolean value.
+    /// </summary>
+    void ThreadSafeToggleBool()
+    {
+        lock (syncObj)
+        {
+            runLLE = !runLLE;
+        }
+    }
+
+    /// <summary>
+    /// Returns the current state of the runLLE variable.
+    /// </summary>
+    /// <returns>runLLE</returns>
+    bool ThreadSafeReadBool()
+    {
+        lock (syncObj)
+        {
+            return runLLE;
+        }
+    }
+
+    /// <summary>
+    /// This function sets the value of a boolean variable in a thread safe manner.
+    /// </summary>
+    /// <param name="val">The value to be set</param>
+    void ThreadSafeSetBool(bool val)
+    {
+        lock (syncObj)
+        {
+            runLLE = val;
+        }
+        return;
+    }
+
     public async void TimeUpdating()
     {
         if (update == true)
@@ -591,6 +724,8 @@ public sealed class UIController : MonoBehaviour
             return;
         }
     }
+
+    #endregion
 }
 
 

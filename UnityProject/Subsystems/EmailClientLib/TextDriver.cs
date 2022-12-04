@@ -1,20 +1,14 @@
-﻿/*
- * Author: Keaton Shelton
- * Date: August 25th, 2022
- * Arguments: ContactsPackage
- * Returns: n/a
- *
- * Abstract:
- *      This class contains the various functions and routines
- *  that are needed for the texting client to work.
- *
- *  Revisions:
- *  01ks - August 25th, 2022 - Original
- *  02ks - August 29th, 2022 - Add in MMS support
- *  03ks - August 31st, 2022 - Begin Gateway Array Setup
- *  04ks - October 17th, 2022 - Name Fix
- *  05ks - November 16th, 2022 - Check for blank phone;
- */
+﻿///--------------------------------------------------------------------------------------
+/// <file>    TextDriver.cs                                        </file>
+/// <author>  Keaton Shelton                                       </author>
+/// <date>    Last Edited: 12/03/2022                              </date>
+///--------------------------------------------------------------------------------------
+/// <summary>
+///     This class contains the various functions and routines
+///     that are needed for the texting client to work.
+/// </summary>
+/// -------------------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,11 +16,18 @@ using System.Net;
 using System.Net.Mail;
 using UnityEngine;
 
+/// <summary>
+/// This class contains various functions and routines
+/// that are needed for the texting client to work.
+/// </summary>
 public class TextDriver : MonoBehaviour
 {
     AndroidJavaObject currentActivity;
     ContactsPackage current;
 
+    /// <summary>
+    /// This is the default constructor for the TextDriver class.
+    /// </summary>
     public void Send(ContactsPackage person)
     {
         if (Application.platform == RuntimePlatform.Android)
@@ -34,7 +35,7 @@ public class TextDriver : MonoBehaviour
             current = person;
             //Check for blank phone
             //05ks
-            if(current.phone == "")
+            if (current.phone == "")
             {
                 return;
             }
@@ -42,6 +43,11 @@ public class TextDriver : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Evokes SendProcess(), a method that runs on the main thread of the Android application.
+    /// It is run by RunAndroidUiThread() by calling the currentActivity.Call() method.
+    /// It is used to send a message to the main thread of the application.
+    /// </summary>
     void RunAndroidUiThread()
     {
         AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -49,6 +55,9 @@ public class TextDriver : MonoBehaviour
         currentActivity.Call("runOnUiThread", new AndroidJavaRunnable(SendProcess));
     }
 
+    /// <summary>
+    /// This method is used to send a text message to the contact.
+    /// </summary>
     void SendProcess()
     {
         AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");

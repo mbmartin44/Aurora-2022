@@ -1,21 +1,14 @@
-﻿/*
- * Author: Keaton Shelton
- * Date: August 25th, 2022
- * Arguments: ContactsPackage and Attachment
- * Returns: n/a
- *
- * Abstract:
- *      This class contains the various functions and routines
- *  that are needed for the email client to work.
- *
- *  Revisions:
- *  01ks - July 16th, 2022 - Convert from Python to C#
- *  02ks - July 16th, 2022 - Remove complexity and shift to single sender
- *  03ks - July 21st, 2022 - Add in attachment support
- *  04ks - August 25th, 2022 - Re-Organization
- *  05ks - October 17th, 2022 - Name Fix and Remove Test Features
- *  06ks - November 16th, 2022 - Changes to support new ContactsPackage, check for blank email
- */
+﻿///--------------------------------------------------------------------------------------
+/// <file>    ContactsPackage.cs                                   </file>
+/// <author>  Keaton Shelton                                       </author>
+/// <date>    Last Edited: 12/03/2022                              </date>
+///--------------------------------------------------------------------------------------
+/// <summary>
+///     This class contains the various functions and routines
+///     that are needed for the email client to work.
+/// </summary>
+/// -------------------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,9 +16,17 @@ using System.Net;
 using System.Net.Mail;
 using UnityEngine;
 
+/// <summary>
+/// This class contains various functions and routines
+/// that are needed for the email client to work.
+/// </summary>
 class MailPackage
 {
-    //Email with attachment
+    /// <summary>
+    /// This code is used to send an email with an attachment to a provided email address
+    /// </summary>
+    /// <param name="too">ContactsPackage that contains the email address and name of the recipient</param>
+    /// <param name="attach">Attachment that is to be sent</param>
     public static void SendMail(ContactsPackage too, Attachment attach)
     {
         var fromAddress = new MailAddress("brainanalytics2022@gmail.com", "Seizure App Auto Sender");
@@ -37,7 +38,7 @@ class MailPackage
         try
         {
             //06ks
-            if(too.address == "")
+            if (too.address == "")
             {
                 return;
             }
@@ -66,7 +67,13 @@ class MailPackage
     }
 
 
-    //Email with no attachment
+    /// <summary>
+    /// This function sends an email to the contact that has been selected by the user
+    /// </summary>
+    /// <param name="too">This is the contact object that the user has selected</param>
+    /// <remarks>
+    /// This method does not currently support attachments.
+    /// </remarks>
     public static void SendMail(ContactsPackage too)
     {
         var fromAddress = new MailAddress("brainanalytics2022@gmail.com", "Seizure App Auto Sender");
@@ -104,4 +111,5 @@ class MailPackage
             Debug.LogError("Error: " + e.ToString());
         }
     }
+
 }

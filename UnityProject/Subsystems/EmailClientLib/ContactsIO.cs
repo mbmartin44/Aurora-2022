@@ -1,18 +1,15 @@
-﻿/*
- * Name: Keaton Shelton
- * Date: November 8th, 2022
- * Arguments: A ContactList
- * Returns: A ContactList
- * 
- * Abstract:
- *      This is the IO class for the Contacts list. This
- *      class will serve to save and read in contacts from a 
- *      specified json file.
- * 
- * Revisions:
- * 01ks - November 8th, 2022 - Original
- * 02ks - November 16th, 2022 - Fix issues / Final Revision
- */
+﻿///--------------------------------------------------------------------------------------
+/// <file>    ContactsIO.cs                                        </file>
+/// <author>  Keaton Shelton                                       </author>
+/// <date>    Last Edited: 12/03/2022                              </date>
+///--------------------------------------------------------------------------------------
+/// <summary>
+///  This is the IO class for the Contacts list. This
+///  class will serve to save and read in contacts from a
+///  specified json file.
+/// </summary>
+/// -------------------------------------------------------------------------------------
+
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -21,6 +18,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+/// <summary>
+/// This class is used to read and write contacts to a json file.
+/// </summary>
 public class ContactsIO : MonoBehaviour
 {
     private ContactsList tempList;
@@ -28,7 +28,11 @@ public class ContactsIO : MonoBehaviour
     public string dirPath;
     public string json;
     public int status;
-    
+
+    /// <summary>
+    /// Loads in the list of contacts from the file
+    /// </summary>
+    /// <returns></returns>
     public ContactsIO()
     {
         //Dont Use unless loading in Contacts
@@ -37,6 +41,13 @@ public class ContactsIO : MonoBehaviour
         this.dirPath = Path.Combine(Application.persistentDataPath, "Contacts");
         this.status = 0;
     }
+
+
+    /// <summary>
+    /// This is the constructor for the ContactsIO class. It takes a ContactsList object as an argument,
+    /// and sets the attributes of the class to reflect the data in the ContactsList object.
+    /// </summary>
+    /// <param name="input">The ContactsList object that is used to initialize the class</param>
     public ContactsIO(ContactsList input)
     {
         this.tempList = new ContactsList();
@@ -47,6 +58,11 @@ public class ContactsIO : MonoBehaviour
         this.status = 0;
     }
 
+    /// <summary>
+    /// Code for saving contacts in json format. It checks if the directory exists, if not it creates the directory.
+    /// It then checks if the file exists, if not it creates the file. It then converts the list to json format and writes the json to the file.
+    /// If there is any exception, the status is set to -1 which is an error.
+    /// </summary>
     public void SaveContacts()
     {
         try
@@ -68,13 +84,18 @@ public class ContactsIO : MonoBehaviour
             File.WriteAllText(filePath, json);
             Debug.Log("Contacts Written to contacts.json");
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log("Error: " + e.ToString());
             this.status = -1;
         }
     }
 
+    /// <summary>
+    /// Code for loading contacts from a json file. It checks if the directory exists, if not it creates the directory.
+    /// It then checks if the file exists, if not it creates the file. It then reads the json from the file and converts it to a list.
+    /// If there is any exception, the status is set to -1 which is an error.
+    /// </summary>
     public ContactsList LoadContacts()
     {
         try
@@ -98,7 +119,7 @@ public class ContactsIO : MonoBehaviour
             tempList = JsonUtility.FromJson<ContactsList>(tempString);
             return tempList;
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.LogError("Error: " + e.ToString());
             this.status = -1;

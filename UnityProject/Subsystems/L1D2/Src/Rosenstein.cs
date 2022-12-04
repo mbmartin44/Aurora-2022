@@ -1,17 +1,33 @@
-﻿// Description of the Output:
-// First column: Number of the iteration
-// Second column: Logarithm of the stretching factor
-// https://www.pks.mpg.de/tisean/Tisean_3.0.1/index.html
+﻿///--------------------------------------------------------------------------------------
+/// <file>    Rosenstein.cs                                      </file>
+/// <author>  Blake Martin                                       </author>
+/// <date>    Last Edited: 12/03/2022                            </date>
+///--------------------------------------------------------------------------------------
+/// <summary>
+///     A C# implementation of the Rosenstein algorithm for calculating the
+///     local Lyapunov exponent (LLE) of a time series data set.
+/// </summary>
+/// ---------------------------------------------------------------------------------------
+/// <remarks>
+///     This implementation is based on the original C code written by Rosenstein
+///     and published in the book "An Introduction to Chaotic Dynamical Systems" by Strogatz.
+///     This implementation is based on the C code found in the Tisean package:
+///     https://www.pks.mpg.de/tisean/Tisean_3.0.1/index.html
+/// </remarks>
+/// -------------------------------------------------------------------------------------
 
 using System;
 using System.Linq;
 using UnityEngine;
+
+/// <summary>
+/// A C# implementation of the Rosenstein algorithm for calculating the
+/// local Lyapunov exponent (LLE) of a time series data set.
+/// </summary>
 public class Rosenstein
 {
-    private const string WID_STR = "Estimates the maximal Lyapunov exponent; Rosenstein et al.";
+    // Private members for the Rosenstein algorithm
     private const int NMAX = 256;
-    private const ulong ULONG_MAX = 0xffffffffUL;
-    private const int VER_USR1 = 0x2;
     private const uint dims_ = 2;
     private const uint delay_ = 1;
     private const uint steps_ = 10;
@@ -25,12 +41,19 @@ public class Rosenstein
     private const double eps0 = 1e-3;
     private double eps, epsinv;
     private bool exit = false;
+
+    /// <summary>
+    /// Constructor for the Rosenstein class.
+    /// </summary>
     public Rosenstein()
     {
         box = new long[NMAX, NMAX];
         exit = false;
     }
 
+    /// <summary>
+    /// This function is used to clear the data stored in the class.
+    /// </summary>
     public void ClearData()
     {
         series = new double[0];
@@ -43,6 +66,9 @@ public class Rosenstein
         epsinv = 0;
     }
 
+    /// <summary>
+    /// A packaged output of the Rosenstein algorithm.
+    /// </summary>
     public struct Output
     {
         public double LLE;
@@ -52,32 +78,41 @@ public class Rosenstein
         public bool detection;
     }
 
+    /// <summary>
+    /// This function sets the data for the 1D series.
+    /// </summary>
+    /// <param name="seriesI">Data to be set.</param>
     public void SetData1D(double[] seriesI)
     {
         series = seriesI;
         length_ = (ulong)seriesI.Length;
     }
 
-    public void SetData(double[] ts1, double[] ts2, double[] ts3, double[] ts4)
-    {
-        length_ = (ulong)(ts1.Length + ts2.Length + ts3.Length + ts4.Length);
-        series = new double[length_];
-        ts1.CopyTo(series, 0);
-        ts2.CopyTo(series, ts1.Length);
-        ts3.CopyTo(series, ts2.Length);
-        ts4.CopyTo(series, ts3.Length);
-    }
-
+    /// <summary>
+    /// This method computes the nearest neighbors of each point in the series.
+    /// This is done by creating a box around each point and storing the index of the nearest
+    /// point in that box. The index of the box is computed by multiplying the value of the
+    /// time series by the number of boxes and taking the floor of the result. The nearest neighbor
+    /// is then computed by searching the box for the nearest point.
+    /// </summary>
+    /// <returns>
+    /// Returns true if the nearest neighbor could be computed for each point.
+    /// The method returns false if the number of points in the series is less than
+    /// the length of the box plus the number of steps.
+    /// </returns>
     private bool Put_in_boxes()
     {
-        // Test for correct conditionsfirst
+
+        // Compute the length of the input time series and the size of the box
         int del = (int)(delay_ * (dims_ - 1));
         if ((int)length_ - del - steps_ <= 0)
         {
             return false;
         }
+
         int x, y;
 
+        // Setup the box
         for (int i = 0; i < NMAX; i++)
             for (int j = 0; j < NMAX; j++)
             {
@@ -85,17 +120,30 @@ public class Rosenstein
                     box[i, j] = -1;
                 }
             }
+        // Create a list to store the results
         list = new long[(int)length_ - del - steps_];
+        // Compute the list of nearest neighbors
         for (int i = 0; i < (int)length_ - del - steps_; i++)
         {
+            // Compute the index of the box for the current point
             x = (int)((int)(series[i] * epsinv) & nmax_);
+            // Compute the index of the box for the point del time steps away
             y = (int)((int)(series[i + del] * epsinv) & nmax_);
+            // Store the nearest neighbor for the current points
             list[i] = box[x, y];
+            // Update the box with the current point
             box[x, y] = i;
         }
         return true;
     }
 
+    /// <summary>
+    /// 1. We are looking for the points in the series that are the closest to the point act ('actual'). We are looking in the box (x, y) and its adjacent boxes.
+    /// 2. We also search for the point that is the closest to the point that is act-delay_*(dims_-1) points earlier in the series.
+    /// 3. If we find such a point, we calculate the distance to the point act-delay_*(dims_-1) points earlier in the series.
+    /// 4. If the distance is less than eps, we remember in the found_ array the number of points that are closer than eps to each point in the series.
+    /// 5. We calculate the sum of the logarithms of the distances of the points in the series to the point that is act-delay_*(dims_-1) points earlier in the series.
+    /// </summary>
     private bool Make_iterate(long act)
     {
         bool ok = false;
@@ -170,9 +218,14 @@ public class Rosenstein
 
     /// <summary>
     /// Run the Rosenstein Algorithm.
-    /// ***  You must AddData() before calling this function!
+    /// Calculates the local Lyapunov Exponent for the time series.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>
+    /// Returns the output packet.
+    /// </returns>
+    /// <remarks>
+    /// ***  You must AddData() before calling this function!
+    /// </remarks>
     public Output? RunAlgorithm()
     {
 

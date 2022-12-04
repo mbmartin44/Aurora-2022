@@ -1,25 +1,17 @@
-﻿/*
- * Author(s): Keaton Shelton
- * Date: September 19th, 2022
- * Arguments:
- *  Inputs: A list of contacts and an attachment
- *  Outputs: A sent array of enails and texts
- * Returns: A sent array of emails and/or text messages
- *
- * Abstract:
- *      This class will act as an interface for the various related email
- *    and text functions used in the final deployment of the Unity App.
- *    The primary function will execute the bulk work of the email client and text
- *    client. A small started function will be used to watch for a seizure positive signal
- *    and execute the primary function on a true condition.
- *    
- * Revisions:
- * 01ks - October 17th, 2022 - Name Fix, remove namespace, remove supporting classes
- * 02jl - October 18th, 2022 - SignalWatchSingle Creation Start
- * 03jl - October 19th, 2022 - SignalWatchSingle for non-attachment
- * 04ks - October 25th, 2022 - SignalWatch with harcoded contacts list added, minor polish
- * 05ks - November 16th, 2022 - Change functions to support new ContactsPackage changes
-*/
+﻿///--------------------------------------------------------------------------------------
+/// <file>    NetOut.cs                                            </file>
+/// <author>  Keaton Shelton                                       </author>
+/// <date>    Last Edited: 09/19/2022                              </date>
+///--------------------------------------------------------------------------------------
+/// <summary>
+///    This class will act as an interface for the various related email
+///    and text functions used in the final deployment of the Unity App.
+///    The primary function will execute the bulk work of the email client and text
+///    client. A small started function will be used to watch for a seizure positive signal
+///    and execute the primary function on a true condition.
+/// </summary>
+/// -------------------------------------------------------------------------------------
+
 using System;
 using System.Text;
 using System.Collections;
@@ -28,11 +20,23 @@ using System.Net;
 using System.Net.Mail;
 using UnityEngine;
 
-
-
+/// <summary>
+/// This class will act as an interface for the various related email
+/// and text functions used in the final deployment of the Unity App.
+/// The primary function will execute the bulk work of the email client and text
+/// client. A small started function will be used to watch for a seizure positive signal
+/// and execute the primary function on a true condition.
+/// </summary>
 public class NetOut : MonoBehaviour
 {
-    //Main Use Function with attachment
+
+    /// <summary>
+    /// This function is called when the user presses the "Send" button. It will send the text to the user's contacts in the list.
+    /// </summary>
+    /// <param name="people">A list of contacts</param>
+    /// <param name="detect">A boolean value indicating if the user has pressed the "Send" button</param>
+    /// <param name="attach">An attachment to be sent with the text message</param>
+    /// <summary>
     public static async void SignalWatch(List<ContactsPackage> people, bool detect, Attachment attach)
     {
         try
@@ -53,14 +57,18 @@ public class NetOut : MonoBehaviour
                 return;
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log("Error: " + e.ToString());
         }
     }
 
-    //04ks
-    //SignalWatch no attachment with hard coded list of contacts, this must be updated manually before compile to work
+    /// <summary>
+    /// This is a method that when called, will send a text message and email to a list of people.
+    /// </summary>
+    /// <param name="detect">A boolean that will determine whether or not a message will be sent.</param>
+    /// <param name="attach">The attachment that will be sent with the email.</param>
+    /// <returns>Nothing</returns>
     public static async void SignalWatch(bool detect, Attachment attach)
     {
         try
@@ -90,7 +98,24 @@ public class NetOut : MonoBehaviour
         }
     }
 
-    //02jl
+    /// <summary>
+    /// This method enables the user to send a text message and email
+    /// to an individual in the list of people. It also attaches a file
+    /// to the email message.
+    /// </summary>
+    /// <param name="people"> People is a list of contacts, and is used to
+    ///                       determine which contact to send the message to.
+    /// </param>
+    /// <param name="detect"> Detect is a boolean value that is used to determine
+    ///                       whether or not to send the message. </param>
+    ///
+    /// <param name="attach"> Attach is an attachment that is sent with the message.
+    /// </param>
+    /// <param name="select"> Select is an integer that is used to determine which
+    ///                       contact to send the message to.
+    /// </param>
+    /// <returns> This method returns nothing. </returns>
+    /// <summary>
     public static void SignalWatchSingle(List<ContactsPackage> people, bool detect, Attachment attach, int select)
     {
         try
@@ -112,7 +137,11 @@ public class NetOut : MonoBehaviour
         }
     }
 
-    //Main Use function no attachment
+    /// <summary>
+    /// This function is used to send text messages and emails to the contacts list passed to it. It waits two seconds between sending each message.
+    /// </summary>
+    /// <param name="people">A list of contacts to send messages to.</param>
+    /// <param name="detect">A boolean variable that determines whether to send messages or not. True will send messages.</param>
     public static async void SignalWatch(List<ContactsPackage> people, bool detect)
     {
         try
@@ -133,14 +162,17 @@ public class NetOut : MonoBehaviour
                 return;
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log("Error: " + e.ToString());
         }
     }
 
-    //04ks
-    //SignalWatch no attachment with hard coded list of contacts, this must be updated manually before compile to work
+    /// <summary>
+    /// This code will send a message to the list of people when a detection occurs.
+    /// </summary>
+    /// <param name="detect">bool - detection result</param>
+    /// <returns>void</returns>
     public static async void SignalWatch(bool detect)
     {
         try
@@ -164,13 +196,18 @@ public class NetOut : MonoBehaviour
                 }
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log("Error: " + e.ToString());
         }
     }
 
-    //03jl
+    /// <summary>
+    /// This method is used to send a message to a single contact in the list of people.
+    /// </summary>
+    /// <param name="people">List of people</param>
+    /// <param name="detect">Boolean based on detection result</param>
+    /// <param name="select">The index in the contacts list of the desired recipient</param>
     public static void SignalWatchSingle(List<ContactsPackage> people, bool detect, int select)
     {
         try

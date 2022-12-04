@@ -1,4 +1,17 @@
-﻿using System;
+﻿///--------------------------------------------------------------------------------------
+/// <file>    DeviceController.cs                                </file>
+/// <date>    Last Edited: 12/03/2022                              </date>
+///--------------------------------------------------------------------------------------
+/// <summary>
+/// This class is responsible for managing the channels.
+/// </summary>
+/// -------------------------------------------------------------------------------------
+/// <remarks>
+///     This script is attached to the UIController object in the scene.
+/// </remarks>
+/// -------------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -10,6 +23,9 @@ using UnityEngine;
 using UnityEngine.Android;
 #endif
 
+/// <summary>
+/// This class is used to control the BrainBit device.
+/// </summary>
 public class DeviceController : MonoBehaviour
 {
     public UIController uiController;
@@ -21,15 +37,20 @@ public class DeviceController : MonoBehaviour
 
     bool deviceStateChanged = false;
 
+    /// <summary>
+    /// When the application starts, this function is called.
+    /// </summary>
     void Start()
     {
 #if UNITY_ANDROID
+        // Request permissions for Android 6.0+
         Permission.RequestUserPermission("android.permission.BLUETOOTH");
         Permission.RequestUserPermission("android.permission.BLUETOOTH_ADMIN");
         Permission.RequestUserPermission("android.permission.ACCESS_FINE_LOCATION");
         Permission.RequestUserPermission("android.permission.ACCESS_COARSE_LOCATION");
         Permission.RequestUserPermission("android.permission.ACCESS_BACKGROUND_LOCATION");
 #endif
+        // Create a new instance of the device enumerator class.
         createDeviceEnumerator();
     }
 
@@ -38,6 +59,7 @@ public class DeviceController : MonoBehaviour
 #if UNITY_EDITOR
         deviceEnumerator = new DeviceEnumerator(Neuro.Native.DeviceType.BrainbitAny);
 #elif UNITY_ANDROID
+        // The AndroidJavaClass class is used to call static java methods.
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
         AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext");
@@ -47,6 +69,10 @@ public class DeviceController : MonoBehaviour
         uiController.OnDeviceStateChange(true);
     }
 
+    /// <summary>
+    /// When the device is found, the device enumerator calls this function,
+    /// which in turn calls the UI controller to update the device list.
+    /// </summary>
     private void OnDeviceFound(object sender, System.EventArgs e)
     {
         List<DeviceInfo> deviceList = new List<DeviceInfo>(deviceEnumerator.Devices);
@@ -56,18 +82,25 @@ public class DeviceController : MonoBehaviour
         devicefounded = true;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// The update function is called once per frame.
+    /// </summary>
     void Update()
     {
-        if (devicefounded) {
+        // If the device is not connected, try to connect.
+        if (devicefounded)
+        {
             devicefounded = false;
             ConnectToDevice(deviceInfo);
         }
 
+        // If the device state has changed, update the UI.
         if (deviceStateChanged)
         {
             deviceStateChanged = false;
+            // Get the device state.
             DeviceState state = device.ReadParam<DeviceState>(Parameter.State);
+            // If the device is connected, start the data stream.
             if (state == DeviceState.Connected)
             {
                 Debug.Log("Device connected");
@@ -78,16 +111,22 @@ public class DeviceController : MonoBehaviour
                 Debug.Log("Device disconnected");
                 createDeviceEnumerator();
             }
+            // Update the UI with the connection status.
             uiController.ShowMenu(state == DeviceState.Connected);
             uiController.OnDeviceStateChange(state != DeviceState.Connected);
         }
 
     }
 
+    /// <summary>
+    /// Connect to the device.
+    /// </summary>
     private void ConnectToDevice(DeviceInfo deviceInfo)
     {
+        // Register the device state changed event handler.
         deviceEnumerator.DeviceListChanged -= OnDeviceFound;
 
+        // Special connection parameters for the Brainbit Black device (ignore these for other devices).
         if (deviceInfo.Name.ToLower().Contains("black") && BoundDevice(deviceInfo.Id ?? "") || !deviceInfo.Name.ToLower().Contains("black"))
         {
             device = deviceEnumerator.CreateDevice(deviceInfo);
@@ -96,6 +135,9 @@ public class DeviceController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This method is used to establish a bluetooth connection with the Brainbit headband.
+    /// </summary>
     private bool BoundDevice(string deviceId)
     {
         AndroidJavaClass clsBluetothAdapter = new AndroidJavaClass("android.bluetooth.BluetoothAdapter");
@@ -103,15 +145,19 @@ public class DeviceController : MonoBehaviour
         AndroidJavaObject devBounded = bAdapter.Call<AndroidJavaObject>("getBondedDevices");
         bool ready = false;
         var itr = devBounded.Call<AndroidJavaObject>("iterator");
+
+        // Iterate through the list of paired devices.
         while (itr.Call<bool>("hasNext"))
         {
             var it = itr.Call<AndroidJavaObject>("next");
+            // If the device is found, connect to it.
             if (it.Call<string>("getAddress").Equals(deviceId))
             {
                 ready = true;
                 break;
             }
         }
+        // If the device is not paired, try to pair it.
         if (!ready)
         {
             try
@@ -143,7 +189,8 @@ public class DeviceController : MonoBehaviour
 
     private void OnDeviceParamChanged(object sender, Parameter param)
     {
-        if (param == Parameter.State) {
+        if (param == Parameter.State)
+        {
             deviceStateChanged = true;
         }
     }

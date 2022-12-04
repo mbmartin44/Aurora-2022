@@ -1,16 +1,13 @@
-/*
- * Author(s): Keaton Shelton
- * Date: October 17th, 2022
- * Arguments: List of contacts and attachment
- * 
- *
- * Abstract:
- *     Small program to show the use of the various networking classes,
- *     not meant to be run.
- *    
- * Revisions:
- * 01ks - October 17th, 2022 - Original
-*/
+///--------------------------------------------------------------------------------------
+/// <file>    MainExample.cs                                       </file>
+/// <author>  Keaton Shelton                                       </author>
+/// <date>    Last Edited: 12/03/2022                              </date>
+///--------------------------------------------------------------------------------------
+/// <summary>
+///     This is a small program intended to demonstrate the use of the
+///     various networking classes, and not meant to be used in practice.
+/// </summary>
+/// -------------------------------------------------------------------------------------
 
 using System;
 using System.Text;
@@ -20,10 +17,9 @@ using System.Net;
 using System.Net.Mail;
 using UnityEngine;
 
-
-class MainExample 
+class MainExample
 {
-    void Main() 
+    void Main()
     {
         bool detect = false;
         //Use of Contacts class
@@ -46,12 +42,10 @@ class MainExample
 
 
 
-        //DSP BLOCK
-        //detect flag true / false
+        // This flag is used to determine if the event has been detected
+        // If the event has been detected, the code will send an email / SMS
+        // to the contacts in the list.
         detect = true;
-        //DSP BLOCK
-
-
 
         //Using NetOut Intermediate Class
         //Call SignalWatchBasic (for attachment support don't use basic)

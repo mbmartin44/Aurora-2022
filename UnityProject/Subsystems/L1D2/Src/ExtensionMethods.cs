@@ -1,17 +1,27 @@
-﻿using System;
+﻿/// <file>    ExtensionMethods.cs     </file>
+/// <author>  Blake Martin            </author>
+/// <date>    Last Edited: 12/03/2022 </date>
+/// <summary> Contains extension methods for the L1D2 subsystem. </summary>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Filtering;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.Statistics;
-//using Accord.MachineLearning;
-//using Accord.Statistics.Analysis;
+
+/// <summary>
+/// This class contains extension methods used in the L1D2 library.
+/// </summary>
 public static class ExtensionMethods
 {
+
     #region Subcollection Extension Methods *********************************************************************************
 
-
+    /// <summary>
+    /// This function returns a subcollection of the specified collection.
+    /// </summary>
     public static T[] SubArray<T>(this T[] data, int minIndex, int maxIndex)
     {
         int subArrLength = maxIndex - minIndex;
@@ -20,7 +30,12 @@ public static class ExtensionMethods
         return result;
     }
 
-
+    /// <summary>
+    /// Returns the rest of the array after the given index.
+    /// </summary>
+    /// <param name="data">The array to get the rest of.</param>
+    /// <param name="startIndex">The index to start from.</param>
+    /// <returns>The rest of the array after the given index.</returns>
     public static T[] RestOfArray<T>(this T[] data, int startIndex)
     {
         int subArrLength = data.Length - startIndex;
@@ -29,14 +44,13 @@ public static class ExtensionMethods
         return result;
     }
 
-
     /// <summary>
-    /// Get the subarray of elements 0 - index.
+    /// Returns the subarray of data up to stopIndex (inclusive), or the whole array if stopIndex is greater than the array length.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="data"></param>
-    /// <param name="index"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of the array</typeparam>
+    /// <param name="data">The array to get the subarray from</param>
+    /// <param name="stopIndex">The index to stop at, inclusive</param>
+    /// <returns>The subarray of data up to stopIndex (inclusive), or the whole array if stopIndex is greater than the array length.</returns>
     public static T[] BoundedLengthSubarray<T>(this T[] data, int stopIndex)
     {
         if (stopIndex != 0)
@@ -52,11 +66,11 @@ public static class ExtensionMethods
     }
 
     /// <summary>
-    /// Get the subarray of elements 0 - index.
+    /// Returns the first n elements of a list.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="data"></param>
-    /// <param name="index"></param>
+    /// <typeparam name="T">Type of list</typeparam>
+    /// <param name="data">List to be evaluated</param>
+    /// <param name="index">Number of elements to return</param>
     /// <returns></returns>
     public static List<T> BoundedLengthSublist<T>(this List<T> data, int index)
     {
@@ -80,58 +94,65 @@ public static class ExtensionMethods
 
 
     /// <summary>
-    /// Apply a lowpass filter to the data.
-    /// Custom sampling rate and cutoff are optional.
-    /// true - FIR filter
-    /// false - IIR filter
+    /// Apply a low pass filter to a double array
     /// </summary>
-    /// <param name="data"></param>
-    /// <param name="samplingRate"></param>
-    /// <param name="cutoff"></param>
-    /// <param name="FIR"></param>
-    /// <returns></returns>
+    /// <param name="data">The double array to filter</param>
+    /// <param name="FIR">Whether to use a FIR filter (true) or an IIR filter (false)</param>
+    /// <param name="samplingRate">The sampling rate of the data</param>
+    /// <param name="cutoff">The cutoff frequency of the filter</param>
+    /// <returns>The filtered data</returns>
     public static double[] ApplyLPF(this double[] data, bool FIR = true, int samplingRate = brainbitSamplingRate, double cutoff = defaultCutoffFreq)
     {
+        // Verify that the cutoff frequency is valid
         if (samplingRate <= 0 || cutoff <= 0 || data == null)
         {
             throw new InvalidParameterException();
         }
-
+        // Create the filter
         return FIR ? OnlineFilter.CreateLowpass(ImpulseResponse.Finite, samplingRate, cutoff).ProcessSamples(data)
             : OnlineFilter.CreateLowpass(ImpulseResponse.Infinite, samplingRate, cutoff).ProcessSamples(data);
     }
 
-
+    /// <summary>
+    /// This function takes in an array of doubles and an order, and returns the denoised array
+    /// </summary>
+    /// <param name="data">The array to be denoised</param>
+    /// <param name="order">The order of the denoising filter</param>
+    /// <returns>The denoised array</returns>
     public static double[] Denoise(this double[] data, int order)
     {
-
+        // Verify that the cutoff frequency is valid
+        if (order <= 0 || data == null)
+        {
+            throw new InvalidParameterException();
+        }
+        // Create the filter
         return OnlineFilter.CreateDenoise(order).ProcessSamples(data);
     }
 
     /// <summary>
-    /// Apply FFT to 1-D time-series.
-    /// ** Currently uses Hanning Window
+    /// Gets the real FFT of a given double array of data
     /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
+    /// <param name="data">The data.</param>
+    /// <returns>double array of FFT'd data</returns>
     public static double[] GetRealFFT(this double[] data)
     {
-        // Window the individual channel
-        double[] window = Window.Hann(data.Length);
-        for (int i = 0; i < data.Length; ++i)
+        // Verify that the data is valid
+        if (data == null)
         {
-            data[i] = data[i] * window[i];
+            throw new InvalidParameterException();
         }
-        Fourier.ForwardReal(data, data.Length, FourierOptions.Matlab);
-        return data;
+        // Get the FFT
+        double[] fft = new double[data.Length];
+        Fourier.Forward(data, fft, FourierOptions.NoScaling);
+        return fft;
     }
 
     /// <summary>
-    /// Apply FFT to multi-dimensional time-series.
-    /// ** Currently uses Hanning Window
+    /// Gets the real FFTs of the matrix data
     /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
+    /// <param name="data">The data to get the FFTs of</param>
+    /// <returns>The real FFTs of the data</returns>
     public static double[][] GetRealFFTs(this double[][] data)
     {
 
@@ -150,15 +171,22 @@ public static class ExtensionMethods
     }
 
     /// <summary>
-    /// Return the autocorrelation of the array
+    /// Gets the autocorrelation of the data.
     /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
+    /// <param name="data">The data.</param>
+    /// <returns>The autocorrelation of the data.</returns>
     public static double[] GetAutoCorrelation(this double[] data)
     {
         return Correlation.Auto(data);
     }
 
+    /// <summary>
+    /// Gets the power spectral density of a signal.
+    /// </summary>
+    /// <param name="data">The signal to be analyzed.</param>
+    /// <param name="isTimeSeries">Whether the signal is a time series or not.</param>
+    /// <param name="Fs">The sampling rate of the signal.</param>
+    /// <returns>The power spectral density of the signal.</returns>
     public static double[] GetPSD(this double[] data, bool isTimeSeries, int Fs = brainbitSamplingRate)
     {
         double[] psdx = data.SquareArray().MultArrayByConsts((1 / (Fs * data.Length)));
@@ -166,37 +194,34 @@ public static class ExtensionMethods
     }
 
     /// <summary>
-    /// Returns the estimated to ratio of the signal
+    /// Calculates the signal to noise ratio (SNR) of a signal.
     /// </summary>
-    /// <param name="signal"></param>
-    /// <returns></returns>
+    /// <param name="signal">The signal to calculate the SNR of.</param>
+    /// <returns>The SNR of the signal.</returns>
     public static double GetSNR(this double[] signal)
     {
         return (Statistics.Mean(signal) / Statistics.StandardDeviation(signal));
     }
 
     /// <summary>
-    /// Returns the Coefficient of Variation as a %.
-    /// ** Lower value means better data. **
+    /// Gets the coefficient of variation of a list of doubles.
     /// </summary>
-    /// <param name="signal"></param>
-    /// <returns></returns>
+    /// <param name="signal">The signal.</param>
+    /// <returns>The coefficient of variation of the signal.</returns>
     public static double GetCV(this double[] signal)
     {
         return (100.0 * (Statistics.StandardDeviation(signal) / Statistics.Mean(signal)));
     }
 
-    //public static double[][] PerformICA(this double[][] data)
-    //{
-    //    Accord.Statistics.Analysis.IndependentComponentAnalysis ica;
-    //    double[,] icaDataMat = new double[4, ];
-    //    ica.Separate(data);
-    //}
-
     #endregion
 
     #region Simple Array Mathematics
 
+    /// <summary>
+    /// Squares the array.
+    /// </summary>
+    /// <param name="data">Data.</param>
+    /// <returns>The array.</returns>
     public static double[] SquareArray(this double[] data)
     {
         for (int i = 0; i < data.Length; ++i)
@@ -206,6 +231,12 @@ public static class ExtensionMethods
         return data;
     }
 
+    /// <summary>
+    /// This function is used to multiply a double array by a constant.
+    /// </summary>
+    /// <param name="data">The double array that is to be multiplied by a constant.</param>
+    /// <param name="C">The constant that is to be multiplied to the double array.</param>
+    /// <returns>The double array multiplied by the constant.</returns>
     public static double[] MultArrayByConsts(this double[] data, double C)
     {
         for (int i = 0; i < data.Length; ++i)
@@ -220,9 +251,11 @@ public static class ExtensionMethods
 
 
     /// <summary>
-    /// Find the shortest channel length among the 4 channels contained in the dictionary
+    /// Returns the shortest channel length from a dictionary of channels
     /// </summary>
-    /// <returns></returns>
+    /// <typeparam name="T">Type of data in the channel</typeparam>
+    /// <param name="internalChannelsData">Dictionary of channels to search</param>
+    /// <returns>The shortest channel length</returns>
     public static int FindShortestChannel<T>(this Dictionary<string, List<T>> internalChannelsData)
     {
         int min = -int.MaxValue;
@@ -238,22 +271,4 @@ public static class ExtensionMethods
         }
         return min;
     }
-
-    //public static double[][] PerformICA(this Dictionary<string, List<double>> data)
-    //{
-    //    int shortestChannel = data.FindShortestChannel();
-    //    Accord.Statistics.Analysis.IndependentComponentAnalysis ica;
-    //    double[,] icaDataMat = new double[4, shortestChannel];
-    //
-    //    for(int i = 0; i < 4; ++i)
-    //    {
-    //        for(int j = 0; j < shortestChannel)
-    //        {
-    //
-    //        }
-    //    }
-    //
-    //    ica.Separate(data);
-    //}
-
 }

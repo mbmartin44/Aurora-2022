@@ -1,30 +1,38 @@
-﻿/*
- * Author: Keaton Shelton
- * Date: September 1st, 2022
- * Arguments: n/a
- * Returns: n/a
- * 
- * Abstract:
- *   This class contains the contacts class
- *  that are needed for the email / text client to work.
- *  
- *  Revisions:
- *  01ks - 10/17/2022 - Fix naming, add constructors
- *  02ks - 11/16/2022 - Remove MailAddress and replace with string equivalents / change defaults. Make Serializable
- */
+﻿///--------------------------------------------------------------------------------------
+/// <file>    ContactsPackage.cs                                   </file>
+/// <author>  Keaton Shelton                                       </author>
+/// <date>    Last Edited: 12/03/2022                              </date>
+///--------------------------------------------------------------------------------------
+/// <summary>
+///     This class contains the contacts class
+///     that are needed for the email / text client to work.
+/// </summary>
+/// -------------------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.Net.Mail;
 
+/// <summary>
+/// This class contains the contacts class
+/// that are needed for the email / text client to work.
+/// </summary>
 [System.Serializable]
 public class ContactsPackage
 {
     public string name;
     public string phone;
     public string address;
-    
+
+    /// <summary>
+    /// This is the default constructor for the ContactsPackage class.
+    /// </summary>
+    /// <remarks>
+    /// This constructor initializes the phone, name, and address fields
+    /// with default values.
+    /// </remarks>
     public ContactsPackage()
     {
         //02ks
@@ -32,7 +40,13 @@ public class ContactsPackage
         this.name = "Default";
         this.address = "";
     }
-    //02ks
+
+    /// <summary>
+    /// This is a constructor for the ContactsPackage class. It takes in a name, phone, and address and assigns them to the appropriate variables.
+    /// </summary>
+    /// <param name="name">The name of the contact</param>
+    /// <param name="phone">The phone number of the contact</param>
+    /// <param name="address">The address of the contact</param>
     public ContactsPackage(string name, string phone, string address)
     {
         this.phone = phone;
