@@ -9,6 +9,8 @@ Matlab.meta
 Matlab
 Documentation
 Documentation.meta
+UnityProject/Subsystems/UnityPackage.meta
+UnityProject/Subsystems/UnityPackage
 UnityProject/Packages/manifest.json.meta
 UnityProject/Packages/packages-lock.json.meta
 UnityProject/ProjectSettings

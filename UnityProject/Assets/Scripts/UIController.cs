@@ -9,7 +9,7 @@
 ///     This is the UI controller for the game. It handles the UI elements and the
 ///     functionality of the UI menu, buttons, and nested pages.
 /// </summary>
-/// ---------------------------------------------------------------------------------------
+/// -------------------------------------------------------------------------------------
 /// <remarks>
 ///     This script is attached to the UIController object in the scene.
 /// </remarks>
